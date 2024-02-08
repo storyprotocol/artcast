@@ -1,7 +1,7 @@
 import { Cast } from "@/lib/types/cast.interface";
 
 // @ts-nocheck
-export default function RootFrame({ castInfo, imageSrc }: { castInfo: Cast, imageSrc: string }) {
+export default function CreatedFrame({ previousCastInfo, castInfo, imageSrc }: { previousCastInfo: Cast, castInfo: Cast, imageSrc: string }) {
     return (
         <div
             style={{
@@ -33,7 +33,7 @@ export default function RootFrame({ castInfo, imageSrc }: { castInfo: Cast, imag
             <p style={{
                 margin: '0',
                 fontSize: 32,
-            }}>by @{castInfo.farcaster_id}</p>
+            }}>by @{previousCastInfo.farcaster_id} and YOU!</p>
             <div style={{ display: 'flex', gap: '75px', marginTop: '10px', marginBottom: '5px' }}>
                 <div style={{
                     width: '30px',
@@ -132,17 +132,19 @@ export default function RootFrame({ castInfo, imageSrc }: { castInfo: Cast, imag
                         display: 'flex',
                         flexDirection: 'column'
                     }}>
-                        <span>Keep this art alive by contributing</span>
-                        <span>to this chain of creation.</span>
+                        <span>Your creation is ready! Click</span>
+                        <span>the button below to access your</span>
+                        <span>share link. Share it as a cast</span>
+                        <span>to keep your branch alive.</span>
                     </p>
-                    <p style={{
+                    {/* <p style={{
                         fontSize: 40,
                         display: 'flex',
                         flexDirection: 'column'
                     }}>
                         <span style={{ fontWeight: 'bold' }}>Refresh for stats:</span>
                         <span>- # of derivatives: {castInfo.num_derivatives}</span>
-                    </p>
+                    </p> */}
                 </div>
             </div>
         </div>

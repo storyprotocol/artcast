@@ -1,7 +1,7 @@
 import { Cast } from "@/lib/types/cast.interface";
 
 // @ts-nocheck
-export default function RootFrame({ castInfo, imageSrc }: { castInfo: Cast, imageSrc: string }) {
+export default function DerivativeFrame({ castInfo, imageSrc }: { castInfo: Cast, imageSrc: string }) {
     return (
         <div
             style={{
@@ -132,8 +132,8 @@ export default function RootFrame({ castInfo, imageSrc }: { castInfo: Cast, imag
                         display: 'flex',
                         flexDirection: 'column'
                     }}>
-                        <span>Keep this art alive by contributing</span>
-                        <span>to this chain of creation.</span>
+                        <span>User's prompt:</span>
+                        <span>{castInfo.prompt_input}</span>
                     </p>
                     <p style={{
                         fontSize: 40,
