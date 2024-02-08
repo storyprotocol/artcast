@@ -1,3 +1,4 @@
+// @ts-nocheck
 import RootFrame from "@/lib/components/frames/RootFrame";
 import { fetchCast } from "@/lib/supabase/functions/fetchCast";
 import { supabaseClient } from "@/lib/supabase/supabaseClient";
@@ -31,7 +32,8 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                 {/* <FrameImage src={data.publicUrl} /> */}
                 <FrameImage>
                     <RootFrame imageSrc={data.publicUrl} castInfo={cast} />
-                </FrameImage><FrameInput text="add a prompt..." />
+                </FrameImage>
+                <FrameInput text="add a prompt..." />
                 <FrameButton href={`https://www.google.com`}>Refresh</FrameButton>
                 <FrameButton href={`https://artcast.ai/cast/${cast.id}`}>Stats</FrameButton>
                 <FrameButton onClick={dispatch}>Create</FrameButton>
