@@ -1,20 +1,27 @@
-// @ts-nocheck
+
 import RootFrame from "@/lib/components/frames/RootFrame";
 import { fetchCast } from "@/lib/supabase/functions/fetchCast";
 import { supabaseClient } from "@/lib/supabase/supabaseClient";
-import { FrameContainer, FrameImage, FrameButton, useFramesReducer, getPreviousFrame, NextServerPageProps, FrameInput } from "frames.js/next/server";
+import { FrameContainer, FrameImage, FrameReducer, FrameButton, useFramesReducer, getPreviousFrame, NextServerPageProps, FrameInput } from "frames.js/next/server";
 
-const reducer = (state, action) => {
+type State = {
+    stage: number;
+    total_button_presses: number;
+};
+
+const reducer: FrameReducer<State> = (state, action) => {
     console.log({ state })
     return {
-        stage: state.stage + 1
+        stage: state.stage + 1,
+        total_button_presses: state.total_button_presses + 1
     }
 }
 
 export default async function Home({ params, searchParams }: NextServerPageProps) {
-    const previousFrame = getPreviousFrame(searchParams);
-    const [state, dispatch] = useFramesReducer(reducer, { stage: 0 }, previousFrame);
+    const previousFrame = getPreviousFrame<State>(searchParams);
+    const [state, dispatch] = useFramesReducer<State>(reducer, { stage: 0, total_button_presses: 0 }, previousFrame);
 
+    //@ts-ignore
     const cast = await fetchCast(params.id);
     const { data } = await supabaseClient.storage.from('artcast_images').getPublicUrl(cast.image_path)
 
@@ -26,6 +33,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                 Here is the cast:
                 {/* <RootFrame imageSrc={data.publicUrl} castInfo={cast} /> */}
                 <FrameContainer
+                    pathname={`/cast/${cast.id}`}
                     postUrl="/frames"
                     state={state}
                     previousFrame={previousFrame}
