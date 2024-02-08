@@ -20,24 +20,44 @@ export default async function Home({ params, searchParams }: NextServerPageProps
 
     console.log(state)
 
-    return (
-        <div className="p-4">
-            Here is the cast:
-            {/* <RootFrame imageSrc={data.publicUrl} castInfo={cast} /> */}
-            <FrameContainer
-                postUrl="/frames"
-                state={state}
-                previousFrame={previousFrame}
-            >
-                {/* <FrameImage src={data.publicUrl} /> */}
-                <FrameImage>
-                    <RootFrame imageSrc={data.publicUrl} castInfo={cast} />
-                </FrameImage>
-                <FrameInput text="add a prompt..." />
-                <FrameButton href={`https://www.google.com`}>Refresh</FrameButton>
-                <FrameButton href={`https://artcast.ai/cast/${cast.id}`}>Stats</FrameButton>
-                <FrameButton onClick={dispatch}>Create</FrameButton>
-            </FrameContainer>
-        </div>
-    )
+    if (state.stage == 0) {
+        return (
+            <div className="p-4">
+                Here is the cast:
+                {/* <RootFrame imageSrc={data.publicUrl} castInfo={cast} /> */}
+                <FrameContainer
+                    postUrl="/frames"
+                    state={state}
+                    previousFrame={previousFrame}
+                >
+                    {/* <FrameImage src={data.publicUrl} /> */}
+                    <FrameImage>
+                        <RootFrame imageSrc={data.publicUrl} castInfo={cast} />
+                    </FrameImage>
+                    <FrameInput text="add a prompt..." />
+                    <FrameButton href={`https://www.google.com`}>Refresh</FrameButton>
+                    <FrameButton href={`https://artcast.ai/cast/${cast.id}`}>Stats</FrameButton>
+                    <FrameButton onClick={dispatch}>Create</FrameButton>
+                </FrameContainer>
+            </div>
+        )
+    } else {
+        return (
+            <div className="p-4">
+                :D YAAAAY
+                {/* <RootFrame imageSrc={data.publicUrl} castInfo={cast} /> */}
+                <FrameContainer
+                    postUrl="/frames"
+                    state={state}
+                    previousFrame={previousFrame}
+                >
+                    {/* <FrameImage src={data.publicUrl} /> */}
+                    <FrameImage>
+                        <RootFrame imageSrc={data.publicUrl} castInfo={cast} />
+                    </FrameImage>
+                    <FrameButton href={`https://artcast.ai/cast/${cast.id}`}>Stats</FrameButton>
+                </FrameContainer>
+            </div>
+        )
+    }
 }
