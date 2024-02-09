@@ -153,7 +153,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
             newCastInfo.prompt_input,
             newCastInfo.layer_1_cast_id
         );
-        generateImage(cast.name, cast.image_path as string, state.input_text, createdArtcastId);
+        generateImage(cast.name, cast.image_path as string, state.input_text, createdArtcastId as number);
         state.currentCastId = createdArtcastId as number;
         newCastInfo.id = createdArtcastId as number;
         if (newCastInfo.branch_num == 10) {
