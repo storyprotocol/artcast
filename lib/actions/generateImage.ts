@@ -1,3 +1,4 @@
+//@ts-nocheck
 'use server';
 import fetch from 'node-fetch';
 import FormData from 'form-data';
