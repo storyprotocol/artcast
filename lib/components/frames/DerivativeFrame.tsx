@@ -135,7 +135,7 @@ export default function DerivativeFrame({ castInfo, imageSrc }: { castInfo: Cast
                         flexDirection: 'column',
                         margin: 0
                     }}>
-                        <span>User's prompt:</span>
+                        <span>Users prompt:</span>
                         <span>{castInfo.prompt_input}</span>
                     </p>
                     <p style={{

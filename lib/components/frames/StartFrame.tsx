@@ -54,7 +54,7 @@ export default function StartFrame({ castInfo, imageSrc }: { castInfo: Cast, ima
                         margin: 0
                     }}>
                         <span>This is a game where you do stuff.</span>
-                        <span>Click 'Join' below.</span>
+                        <span>Click Join below.</span>
                     </p>
                 </div>
             </div>
