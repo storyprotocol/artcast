@@ -17,5 +17,5 @@ export async function saveArtCast(formData: FormData) {
         .from('artcast_images')
         .upload(image_path, image);
 
-    return storeCast(name, farcaster_id, image_path, null, 0, null);
+    return storeCast(name, farcaster_id, image_path, undefined, 0, undefined, undefined);
 };

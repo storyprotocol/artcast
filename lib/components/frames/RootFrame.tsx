@@ -5,8 +5,9 @@ export default function RootFrame({ castInfo, imageSrc }: { castInfo: Cast, imag
     return (
         <div
             style={{
-                height: '100%',
-                width: '100%',
+                position: 'relative',
+                height: '600px',
+                width: '1146px',
                 display: 'flex',
                 flexDirection: 'column',
                 backgroundColor: '#fff',
@@ -124,24 +125,27 @@ export default function RootFrame({ castInfo, imageSrc }: { castInfo: Cast, imag
                 <div style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    padding: '20px',
-                    lineHeight: '45px'
+                    padding: '5px 20px',
+                    lineHeight: '45px',
+                    fontSize: '20px',
+                    gap: '20px'
                 }}>
                     <p style={{
-                        fontSize: 40,
                         display: 'flex',
-                        flexDirection: 'column'
+                        flexDirection: 'column',
+                        margin: 0
                     }}>
                         <span>Keep this art alive by contributing</span>
                         <span>to this chain of creation.</span>
                     </p>
                     <p style={{
-                        fontSize: 40,
                         display: 'flex',
-                        flexDirection: 'column'
+                        flexDirection: 'column',
+                        margin: 0
                     }}>
                         <span style={{ fontWeight: 'bold' }}>Refresh for stats:</span>
-                        <span>- # of derivatives: {castInfo.num_derivatives}</span>
+                        <span>- # direct derivatives: {castInfo.num_derivatives}</span>
+                        <span>- # total derivatives: {castInfo.num_total_derivatives}</span>
                     </p>
                 </div>
             </div>
