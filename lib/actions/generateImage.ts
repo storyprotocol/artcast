@@ -5,6 +5,11 @@ import FormData from 'form-data';
 import { supabaseClient } from '../supabase/supabaseClient';
 import pngToJpeg from 'png-to-jpeg';
 
+async function blobToBuffer(blob) {
+    const arrayBuffer = await blob.arrayBuffer();
+    return Buffer.from(arrayBuffer);
+}
+
 function base64ToBlob(base64, mimeType) {
     // Decode Base64 string
     const byteCharacters = atob(base64);
@@ -28,16 +33,13 @@ export async function generateImage(imageName: string, castImagePath: string, pr
         .from('artcast_images')
         .download(castImagePath)
     console.log('downloaded image file', data, error)
-    const arrayBuffer = await data.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-
-    //const blob = new Blob([buffer], { type: 'image/png' }); // JavaScript Blob
+    const downloadedImageBuffer = await blobToBuffer(data);
 
     // NOTE: This example is using a NodeJS FormData library.
     // Browsers should use their native FormData class.
     // React Native apps should also use their native FormData class.
     const formData = new FormData();
-    formData.append('init_image', buffer);
+    formData.append('init_image', downloadedImageBuffer);
     formData.append('init_image_mode', "IMAGE_STRENGTH");
     formData.append('image_strength', 0.35);
     formData.append('steps', 40);
@@ -62,17 +64,12 @@ export async function generateImage(imageName: string, castImagePath: string, pr
         }
     );
 
-    console.log(response)
-    // const thing = await response.blob();
     const thing2 = await response.json()
-    console.log(thing2.artifacts)
-
     let image_path = "id" + Math.random().toString(16).slice(2) + '/' + imageName;
     let imageBlob = base64ToBlob(thing2.artifacts[0].base64, 'image/png');
-    const imageBuffer = await imageBlob.arrayBuffer();
-    const imageBufferThing = Buffer.from(imageBuffer);
-    let final = await pngToJpeg({ quality: 90 })(imageBufferThing);
-    const finalBlob = new Blob([final], { type: 'image/jpeg' }); // JavaScript Blob
+    const imageBuffer = await blobToBuffer(imageBlob);
+    const imageJpeg = await pngToJpeg({ quality: 90 })(imageBuffer);
+    const finalBlob = new Blob([imageJpeg], { type: 'image/jpeg' });
     // upload the image to storage
     await supabaseClient
         .storage
