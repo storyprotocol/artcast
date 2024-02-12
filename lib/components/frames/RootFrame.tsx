@@ -1,7 +1,7 @@
 import { Cast } from "@/lib/types/cast.interface";
 
 // @ts-nocheck
-export default function RootFrame({ castInfo, imageSrc }: { castInfo: Cast, imageSrc: string }) {
+export default function RootFrame({ castInfo, imageSrc, type }: { castInfo: Cast, imageSrc: string, type: 'root' | 'derivative' | 'start' | 'created' }) {
     return (
         <div
             style={{
@@ -11,7 +11,7 @@ export default function RootFrame({ castInfo, imageSrc }: { castInfo: Cast, imag
                 display: 'flex',
                 flexDirection: 'column',
                 backgroundColor: '#fff',
-                padding: '5px 20px',
+                padding: '15px 20px',
                 gap: '10px',
                 lineHeight: '25px'
             }}
@@ -20,7 +20,7 @@ export default function RootFrame({ castInfo, imageSrc }: { castInfo: Cast, imag
                 position: 'absolute',
                 top: 0, right: 0,
                 fontSize: 32,
-                padding: '5px 20px'
+                padding: '15px 20px'
             }}>
                 Artcast #{castInfo.id}
             </p>
@@ -34,7 +34,7 @@ export default function RootFrame({ castInfo, imageSrc }: { castInfo: Cast, imag
             <p style={{
                 margin: '0',
                 fontSize: 32,
-            }}>by @{castInfo.farcaster_id}</p>
+            }}>by @{type == 'created' ? castInfo.parent_cast!.farcaster_id + ' and YOU!' : castInfo.farcaster_id}</p>
             <div style={{ display: 'flex', gap: '75px', marginTop: '10px', marginBottom: '5px' }}>
                 <div style={{
                     width: '30px',
@@ -130,23 +130,54 @@ export default function RootFrame({ castInfo, imageSrc }: { castInfo: Cast, imag
                     fontSize: '40px',
                     gap: '20px'
                 }}>
-                    <p style={{
+                    {type == 'root' ? <p style={{
                         display: 'flex',
                         flexDirection: 'column',
                         margin: 0
                     }}>
                         <span>Keep this art alive by contributing</span>
                         <span>to this chain of creation.</span>
-                    </p>
-                    <p style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        margin: 0
-                    }}>
-                        <span style={{ fontWeight: 'bold' }}>Refresh for stats:</span>
-                        <span>- # direct derivatives: {castInfo.num_derivatives}</span>
-                        <span>- # total derivatives: {castInfo.num_total_derivatives}</span>
-                    </p>
+                    </p> : type == 'derivative' ?
+                        <p style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            margin: 0
+                        }}>
+                            <span>Users prompt:</span>
+                            <span>{castInfo.prompt_input}</span>
+                        </p>
+                        : type == 'start' ? <p style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            margin: 0
+                        }}>
+                            <span>This Artcast was created</span>
+                            <span>at artcast.ai</span>
+                            <span>You can create your own,</span>
+                            <span>or extend this one by </span>
+                            <span>clicking 'Join' below.</span>
+                        </p> : <p style={{
+                            fontSize: 40,
+                            display: 'flex',
+                            flexDirection: 'column'
+                        }}>
+                            <span>Your creation is ready! Click</span>
+                            <span>the button below to access your</span>
+                            <span>share link. Share it as a cast</span>
+                            <span>to keep your branch alive.</span>
+                        </p>
+                    }
+                    {type == 'start' || type == 'created' ? null :
+                        <p style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            margin: 0
+                        }}>
+                            <span style={{ fontWeight: 'bold' }}>Refresh for stats:</span>
+                            <span>- # direct derivatives: <span style={{ backgroundColor: 'lightgrey', padding: '5px', borderRadius: '5px' }}>{castInfo.num_derivatives}</span></span>
+                            <span>- # total derivatives: <span style={{ backgroundColor: 'lightgrey', padding: '5px', borderRadius: '5px' }}>{castInfo.num_total_derivatives}</span></span>
+                        </p>
+                    }
                 </div>
             </div>
         </div>

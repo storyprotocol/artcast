@@ -1,11 +1,8 @@
 
 import { generateImage } from "@/lib/actions/generateImage";
-import CreatedFrame from "@/lib/components/frames/CreatedFrame";
-import DerivativeFrame from "@/lib/components/frames/DerivativeFrame";
 import ErrorFrame from "@/lib/components/frames/ErrorFrame";
 import GeneratingFrame from "@/lib/components/frames/GeneratingFrame";
 import RootFrame from "@/lib/components/frames/RootFrame";
-import StartFrame from "@/lib/components/frames/StartFrame";
 import { fetchCast } from "@/lib/supabase/functions/fetchCast";
 import { lockLayer } from "@/lib/supabase/functions/lockLayer";
 import { storeCast } from "@/lib/supabase/functions/storeCast";
@@ -183,6 +180,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
     if (state.stage == 'start') {
         return (
             <div className="flex min-h-screen flex-col items-center gap-3 p-24">
+                <RootFrame imageSrc={data.publicUrl} castInfo={cast} type='root' /> :
                 <FrameContainer
                     pathname={pathname}
                     postUrl="/frames"
@@ -191,7 +189,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                 >
                     {/* <FrameImage src={data.publicUrl} /> */}
                     <FrameImage>
-                        <StartFrame imageSrc={data.publicUrl} castInfo={cast} />
+                        <RootFrame imageSrc={data.publicUrl} castInfo={cast} type='start' />
                     </FrameImage>
                     <FrameButton onClick={dispatch}>Join</FrameButton>
                 </FrameContainer>
@@ -202,9 +200,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
     if (state.stage == 'view') {
         return (
             <div className="flex min-h-screen flex-col items-center gap-3 p-24">
-                {cast.branch_num == 0 ?
-                    <RootFrame imageSrc={data.publicUrl} castInfo={cast} /> :
-                    <DerivativeFrame imageSrc={data.publicUrl} castInfo={cast} />}
+                <RootFrame imageSrc={data.publicUrl} castInfo={cast} type={cast.branch_num == 0 ? 'root' : 'derivative'} /> :
                 <FrameContainer
                     pathname={pathname}
                     postUrl="/frames"
@@ -212,9 +208,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                     previousFrame={previousFrame}
                 >
                     <FrameImage>
-                        {cast.branch_num == 0 ?
-                            <RootFrame imageSrc={data.publicUrl} castInfo={cast} /> :
-                            <DerivativeFrame imageSrc={data.publicUrl} castInfo={cast} />}
+                        <RootFrame imageSrc={data.publicUrl} castInfo={cast} type={cast.branch_num == 0 ? 'root' : 'derivative'} /> :
                     </FrameImage>
                     {!cast.locked ? <FrameInput text="add a prompt..." /> : null}
                     <FrameButton href={`https://artcast.ai/cast/${cast.id}`}>Stats</FrameButton>
@@ -238,7 +232,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                     >
                         {/* <FrameImage src={data.publicUrl} /> */}
                         <FrameImage>
-                            <CreatedFrame imageSrc={data.publicUrl} previousCastInfo={cast} castInfo={cast} />
+                            <RootFrame imageSrc={data.publicUrl} castInfo={cast} type='created' />
                         </FrameImage>
                         <FrameButton href={`https://artcast.ai/cast/${cast.id}`}>Share as a cast to keep alive.</FrameButton>
                     </FrameContainer>

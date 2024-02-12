@@ -64,9 +64,9 @@ export async function generateImage(imageName: string, castImagePath: string, pr
         }
     );
 
-    const thing2 = await response.json()
+    const result = await response.json()
     let image_path = "id" + Math.random().toString(16).slice(2) + '/' + imageName;
-    let imageBlob = base64ToBlob(thing2.artifacts[0].base64, 'image/png');
+    let imageBlob = base64ToBlob(result.artifacts[0].base64, 'image/png');
     const imageBuffer = await blobToBuffer(imageBlob);
     const imageJpeg = await pngToJpeg({ quality: 90 })(imageBuffer);
     const finalBlob = new Blob([imageJpeg], { type: 'image/jpeg' });
@@ -79,26 +79,4 @@ export async function generateImage(imageName: string, castImagePath: string, pr
     await supabaseClient.from('cast_datas').update({
         image_path
     }).eq('id', createdArtcastId)
-
-    // if (!response.ok) {
-    //     throw new Error(`Non-200 response: ${await response.text()}`)
-    // }
-
-    // const responseJSON = await response.json();
-
-    // console.log({ responseJSON })
-
-    // responseJSON.artifacts.forEach(async (image: any, index: any) => {
-    //     console.log({ image })
-    //     let image_path = "id" + Math.random().toString(16).slice(2) + '/' + imageName;
-    //     // upload the image to storage
-    //     const { data, error } = await supabaseClient
-    //         .storage
-    //         .from('artcast_images')
-    //         .upload(image_path, image);
-    //     console.log('saving generated image to supabase', data, error)
-    //     await supabaseClient.from('cast_datas').update({
-    //         image_path
-    //     }).eq('id', createdArtcastId)
-    // });
 }

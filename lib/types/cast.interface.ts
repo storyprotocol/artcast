@@ -11,4 +11,5 @@ export interface Cast {
     layer_1_cast_id: number | null;
     layer_1_cast: { locked: boolean };
     locked: boolean;
+    parent_cast?: { farcaster_id: string };
 }

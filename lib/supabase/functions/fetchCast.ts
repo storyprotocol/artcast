@@ -2,7 +2,7 @@ import { Cast } from "@/lib/types/cast.interface";
 import { supabaseClient } from "../supabaseClient";
 
 export async function fetchCast(castId: number): Promise<Cast | null> {
-    const { data, error } = await supabaseClient.from('cast_datas').select('*, layer_1_cast:layer_1_cast_id(locked)').eq('id', castId);
+    const { data, error } = await supabaseClient.from('cast_datas').select('*, layer_1_cast:layer_1_cast_id(locked), parent_cast:parent_id(farcaster_id)').eq('id', castId);
     if (!data || !data.length) {
         return null;
     }
