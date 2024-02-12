@@ -125,9 +125,9 @@ export default function RootFrame({ castInfo, imageSrc }: { castInfo: Cast, imag
                 <div style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    padding: '5px 20px',
+                    padding: '20px 20px 5px 20px',
                     lineHeight: '45px',
-                    fontSize: '20px',
+                    fontSize: '40px',
                     gap: '20px'
                 }}>
                     <p style={{
