@@ -1,5 +1,6 @@
 export interface Cast {
     id: number;
+    created_at: string;
     name: string;
     farcaster_id: string;
     image_path: string | null;
@@ -12,4 +13,6 @@ export interface Cast {
     layer_1_cast: { locked: boolean };
     locked: boolean;
     parent_cast?: { farcaster_id: string };
+    latest_prompts: Cast[];
+    version_history: Cast[]
 }

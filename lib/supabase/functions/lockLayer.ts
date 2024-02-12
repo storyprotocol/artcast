@@ -7,6 +7,4 @@ export async function lockLayer(
     const { data } = await supabaseClient.from('cast_datas').update({
         locked: true
     }).eq('id', layer_1_cast_id);
-
-    console.log(data);
 }

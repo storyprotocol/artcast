@@ -1,4 +1,9 @@
-
+import { ClickableButton } from "@/components/ClickableButton";
+import { LatestPrompts } from "@/components/LatestPrompts";
+import { RecentHistory } from "@/components/RecentHistory";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { TypographyH2 } from "@/components/ui/typography";
 import { generateImage } from "@/lib/actions/generateImage";
 import ErrorFrame from "@/lib/components/frames/ErrorFrame";
 import GeneratingFrame from "@/lib/components/frames/GeneratingFrame";
@@ -8,6 +13,7 @@ import { lockLayer } from "@/lib/supabase/functions/lockLayer";
 import { storeCast } from "@/lib/supabase/functions/storeCast";
 import { supabaseClient } from "@/lib/supabase/supabaseClient";
 import { Cast } from "@/lib/types/cast.interface";
+import { convertSupabaseDateToHumanReadable } from "@/lib/utils";
 import { FrameContainer, FrameImage, FrameReducer, FrameButton, useFramesReducer, getPreviousFrame, NextServerPageProps, FrameInput } from "frames.js/next/server";
 
 type Stage = 'start' | 'view' | 'generate' | 'created' | 'error';
@@ -93,9 +99,6 @@ export default async function Home({ params, searchParams }: NextServerPageProps
     //@ts-ignore
     const [state, dispatch] = useFramesReducer<State>(reducer, { currentCastId: params.id, stage: 'start', total_button_presses: 0, input_text: '' }, previousFrame);
 
-    console.log({ state });
-    console.log({ previousFrame });
-
     if (state.stage == 'error') {
         return (
             <div className="p-4">
@@ -126,6 +129,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
 
     if (state.stage == 'generate') {
         let newBranchNum = cast.branch_num + 1
+        //@ts-ignore
         let newCastInfo: Cast = {
             name: cast.name,
             farcaster_id: 'jacobmtucker',
@@ -172,26 +176,6 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                         <GeneratingFrame />
                     </FrameImage>
                     <FrameButton onClick={dispatch}>Refresh</FrameButton>
-                </FrameContainer>
-            </div>
-        )
-    }
-
-    if (state.stage == 'start') {
-        return (
-            <div className="flex min-h-screen flex-col items-center gap-3 p-24">
-                <RootFrame imageSrc={data.publicUrl} castInfo={cast} type='root' /> :
-                <FrameContainer
-                    pathname={pathname}
-                    postUrl="/frames"
-                    state={state}
-                    previousFrame={previousFrame}
-                >
-                    {/* <FrameImage src={data.publicUrl} /> */}
-                    <FrameImage>
-                        <RootFrame imageSrc={data.publicUrl} castInfo={cast} type='start' />
-                    </FrameImage>
-                    <FrameButton onClick={dispatch}>Join</FrameButton>
                 </FrameContainer>
             </div>
         )
@@ -258,5 +242,84 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                 </div>
             )
         }
+    }
+
+    if (state.stage == 'start') {
+        return (
+            <>
+                <div className="p-8 pt-6 flex-1">
+                    <TypographyH2>Dashboard</TypographyH2>
+                    <div className="mt-6">
+                        <div className="mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 space-y-4">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>{cast.name}</CardTitle>
+                                    <CardDescription>
+                                        Artcast #{cast.id} by @{cast.farcaster_id} on {convertSupabaseDateToHumanReadable(cast.created_at)}
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <img className="w-[25%] h-auto" src={data.publicUrl} alt="cast" />
+                                </CardContent>
+                                <CardFooter>
+                                    <ClickableButton castId={cast.id}>Share</ClickableButton>
+                                </CardFooter>
+                            </Card>
+                            <div className="grid gap-4 md:grd-cols-2 lg:grid-cols-4">
+                                <div className="rounded-xl border bg-card text-card-foreground shadow">
+                                    <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
+                                        <h3 className="tracking-tight text-sm font-medium">Latest Prompt</h3>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="2" className="h-4 w-4 text-muted-foreground">
+                                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                        </svg>
+                                    </div>
+                                    <div className="p-6 pt-0">
+                                        <div className="text-2xl font-bold">{cast.latest_prompts.length ? cast.latest_prompts[0].prompt_input : 'None!'}</div>
+                                    </div>
+                                </div>
+                                <div className="rounded-xl border bg-card text-card-foreground shadow">
+                                    <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
+                                        <h3 className="tracking-tight text-sm font-medium">Total Contributions</h3>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="2" className="h-4 w-4 text-muted-foreground">
+                                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                        </svg>
+                                    </div>
+                                    <div className="p-6 pt-0">
+                                        <div className="text-2xl font-bold">{cast.num_total_derivatives}</div>
+                                    </div>
+                                </div>
+                                <div className="rounded-xl border bg-card text-card-foreground shadow">
+                                    <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
+                                        <h3 className="tracking-tight text-sm font-medium">Direct Derivatives</h3>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="2" className="h-4 w-4 text-muted-foreground">
+                                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                        </svg>
+                                    </div>
+                                    <div className="p-6 pt-0">
+                                        <div className="text-2xl font-bold">{cast.num_derivatives}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+                                <RecentHistory versions={cast.version_history}></RecentHistory>
+                                <LatestPrompts versions={cast.latest_prompts}></LatestPrompts>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <FrameContainer
+                    pathname={pathname}
+                    postUrl="/frames"
+                    state={state}
+                    previousFrame={previousFrame}
+                >
+                    {/* <FrameImage src={data.publicUrl} /> */}
+                    <FrameImage>
+                        <RootFrame imageSrc={data.publicUrl} castInfo={cast} type='start' />
+                    </FrameImage>
+                    <FrameButton onClick={dispatch}>Join</FrameButton>
+                </FrameContainer>
+            </>
+        )
     }
 }
