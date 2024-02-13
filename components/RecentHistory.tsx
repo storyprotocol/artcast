@@ -4,7 +4,7 @@ import { convertSupabaseDateToHumanReadable } from "@/lib/utils";
 import { ShareButton } from "./ShareButton";
 import { AuthorLink } from "./AuthorLink";
 
-async function Version({ cast, index }: { cast: Cast, index: number }) {
+async function Version({ cast, index, latest }: { cast: Cast, index: number, latest: boolean }) {
 
     async function getPublicUrl(image_path: string) {
         const { data } = supabaseClient.storage.from('artcast_images').getPublicUrl(image_path as string);
@@ -20,7 +20,7 @@ async function Version({ cast, index }: { cast: Cast, index: number }) {
             </span>
             <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
                 {cast.branch_num == 0 ? <span className="">Original Artcast</span> : <span className="italic">"{cast.prompt_input}"</span>}
-                {index == 0
+                {latest
                     ? <span className="bg-yellow-100 text-yellow-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 ms-3">Latest</span>
                     : null
                 }
@@ -29,7 +29,7 @@ async function Version({ cast, index }: { cast: Cast, index: number }) {
             <p className="block text-sm mb-4 font-normal leading-none text-gray-400 dark:text-gray-500">by <AuthorLink farcasterId={cast.farcaster_id} /></p>
             <div className="flex items-center gap-5">
                 <img className="w-[25%] max-w-[200px] h-auto rounded-full" src={url} alt={`cast ${cast.name}`} />
-                {index == 0 ?
+                {latest ?
                     <ShareButton castId={cast.id}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-3.5 h-3.5 me-2.5">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
@@ -50,7 +50,7 @@ export function RecentHistory({ versions }: { versions: Cast[] }) {
                 <p className="text-sm text-muted-foreground">Below are all the versions of this Artcast up to this point.</p>
             </div>
             <ol className="relative border-s border-gray-200 dark:border-gray-700">
-                {versions.map((version, index) => <Version key={index} index={index} cast={version}></Version>)}
+                {versions.reverse().map((version, index) => <Version key={index} index={index} cast={version} latest={index == versions.length - 1}></Version>)}
             </ol>
         </div>
     )
