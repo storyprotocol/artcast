@@ -20,7 +20,7 @@ async function Version({ cast, index }: { cast: Cast, index: number }) {
                 {cast.branch_num}
             </span>
             <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-                {cast.branch_num == 0 ? <span className="">Original Cast</span> : <span className="italic">"{cast.prompt_input}"</span>}
+                {cast.branch_num == 0 ? <span className="">Original Artcast</span> : <span className="italic">"{cast.prompt_input}"</span>}
                 {index == 0
                     ? <span className="bg-yellow-100 text-yellow-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 ms-3">Latest</span>
                     : null

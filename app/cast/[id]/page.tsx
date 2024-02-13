@@ -132,7 +132,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
         //@ts-ignore
         let newCastInfo: Cast = {
             name: cast.name,
-            farcaster_id: 'jacobmtucker',
+            farcaster_id: 'jacobtucker',
             image_path: null,
             branch_num: newBranchNum,
             num_derivatives: 0,

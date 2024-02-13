@@ -31,7 +31,7 @@ export default function MyForm() {
             </label>
             <br />
             <button type="submit">Submit</button>
-            {submitted ? <p>Cast Url: {castUrl}</p> : null}
+            {submitted ? <p>Artcast Url: {castUrl}</p> : null}
         </form>
     );
 };
