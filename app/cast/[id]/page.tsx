@@ -250,8 +250,8 @@ export default async function Home({ params, searchParams }: NextServerPageProps
 
     if (state.stage == 'start') {
         return (
-            <>
-                <div className="p-8 pt-6 flex-1">
+            <div className="p-4">
+                {/* <div className="p-8 pt-6 flex-1">
                     <TypographyH2>Dashboard</TypographyH2>
                     <div className="mt-6">
                         <div className="mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 space-y-4">
@@ -304,7 +304,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <FrameContainer
                     pathname={pathname}
                     postUrl="/frames"
@@ -317,7 +317,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                     </FrameImage>
                     <FrameButton>Join</FrameButton>
                 </FrameContainer>
-            </>
+            </div>
         )
     }
 }
