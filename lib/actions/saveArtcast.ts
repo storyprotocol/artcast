@@ -6,7 +6,7 @@ import { supabaseClient } from "../supabase/supabaseClient";
 export async function saveArtCast(formData: FormData) {
 
     let name = formData.get('name');
-    let farcaster_id = formData.get('farcaster_id');
+    let farcaster_id = formData.get('username');
     let image = formData.get('image')
 
     let image_path = "id" + Math.random().toString(16).slice(2) + '/' + image.name;

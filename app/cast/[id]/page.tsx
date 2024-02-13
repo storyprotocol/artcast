@@ -27,6 +27,7 @@ type State = {
 };
 
 const reducer: FrameReducer<State> = (state, action) => {
+    console.log(action.postBody)
     // start
     if (state.stage == 'start') {
         return {
@@ -52,7 +53,8 @@ const reducer: FrameReducer<State> = (state, action) => {
             stage: 'generate',
             total_button_presses: state.total_button_presses + 1,
             input_text: action.postBody.untrustedData.inputText,
-            currentCastId: state.currentCastId
+            currentCastId: state.currentCastId,
+            userFid: action.postBody.untrustedData.fid
         }
     }
 
@@ -128,11 +130,14 @@ export default async function Home({ params, searchParams }: NextServerPageProps
     const { data } = supabaseClient.storage.from('artcast_images').getPublicUrl(cast.image_path as string);
 
     if (state.stage == 'generate') {
+        const response = await fetch(`https://fnames.farcaster.xyz/transfers?fid=${state.userFid}`);
+        const result = await response.json();
+        const farcaster_name = result.transfers[0].username;
         let newBranchNum = cast.branch_num + 1
         //@ts-ignore
         let newCastInfo: Cast = {
             name: cast.name,
-            farcaster_id: 'jacobtucker',
+            farcaster_id: farcaster_name,
             image_path: null,
             branch_num: newBranchNum,
             num_derivatives: 0,
@@ -264,7 +269,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                                     <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
                                         <h3 className="tracking-tight text-sm font-medium">Latest Prompt</h3>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" className="h-4 w-4 text-muted-foreground">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
                                         </svg>
                                     </div>
                                     <div className="p-6 pt-0">
@@ -275,7 +280,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                                     <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
                                         <h3 className="tracking-tight text-sm font-medium">Total Remixes</h3>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" className="h-4 w-4 text-muted-foreground">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" />
                                         </svg>
                                     </div>
                                     <div className="p-6 pt-0">
@@ -286,7 +291,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                                     <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
                                         <h3 className="tracking-tight text-sm font-medium">Direct Remixes</h3>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" className="h-4 w-4 text-muted-foreground">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                                         </svg>
                                     </div>
                                     <div className="p-6 pt-0">

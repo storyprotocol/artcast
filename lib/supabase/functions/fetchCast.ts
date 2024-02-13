@@ -24,7 +24,6 @@ export async function fetchCast(castId: number): Promise<Cast | null> {
         latest_prompts: await latestPrompts(castId),
         version_history: versionHistory
     }
-    console.log(ans)
     ans.locked = (ans.branch_num == 1 && ans.locked == true) || (ans.branch_num >= 2 && ans.layer_1_cast.locked == true);
 
     return ans;
