@@ -20,6 +20,11 @@ export default function Home() {
     setCreatedStatus('finished');
   }
 
+  async function shareClick() {
+    // Add your share logic here
+    await navigator.clipboard.writeText(castUrl);
+  }
+
   return (
     <form onSubmit={submit} className="space-y-6 p-10 pb-16">
       <div className="space-y-0.5">
@@ -53,7 +58,7 @@ export default function Home() {
           <Button disabled>
             <CheckIcon className="mr-2 h-4 w-4" />Created
           </Button>
-          <Button onClick={() => navigator.clipboard.writeText(castUrl)} variant="outline">
+          <Button type="button" onClick={shareClick} variant="outline">
             <ArrowTopRightIcon className="mr-2 h-4 w-4" />
             Share
           </Button>
