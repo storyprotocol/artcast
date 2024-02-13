@@ -18,7 +18,7 @@ async function Version({ cast }: { cast: Cast }) {
             </span>
             <div className="ml-4 space-y-1">
                 {cast.prompt_input ? <p className="text-sm font-medium leading-none italic">"{cast.prompt_input}"</p> : null}
-                <p className="text-sm text-muted-foreground">{cast.farcaster_id}</p>
+                <p className="text-sm text-muted-foreground">@{cast.farcaster_id}</p>
             </div>
             <div className="ml-auto text-xs text-muted-foreground">{convertSupabaseDateToHumanReadable(cast.created_at)}</div>
         </div>
