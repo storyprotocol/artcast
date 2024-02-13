@@ -1,8 +1,6 @@
-import { ClickableButton } from "@/components/ClickableButton";
 import { LatestPrompts } from "@/components/LatestPrompts";
 import { RecentHistory } from "@/components/RecentHistory";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { TypographyH2, TypographyH3 } from "@/components/ui/typography";
 import { generateImage } from "@/lib/actions/generateImage";
 import ErrorFrame from "@/lib/components/frames/ErrorFrame";

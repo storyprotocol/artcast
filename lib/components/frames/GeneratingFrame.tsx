@@ -14,7 +14,7 @@ export default function GeneratingFrame(props) {
                 gap: '10px'
             }}
         >
-            <p>Generating your new Artcase. Please wait a few seconds and then press Refresh.</p>
+            <p>Generating your new Artcast. Please wait a few seconds and then press Refresh.</p>
         </div>
 
 
