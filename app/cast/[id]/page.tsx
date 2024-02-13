@@ -256,7 +256,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                     <div className="mt-6">
                         <div className="mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 space-y-4">
                             <div className="flex gap-8 items-center">
-                                <img className="w-[25%] max-w-[300px] h-auto rounded-full" src={data.publicUrl} alt="cast" />
+                                <img className="w-[25%] max-w-[300px] h-auto rounded-md" src={data.publicUrl} alt="cast" />
                                 <div>
                                     <p className="text-sm text-muted-foreground">Artcast #{cast.id} by <AuthorLink farcasterId={cast.farcaster_id} /></p>
                                     <TypographyH3>{cast.name}</TypographyH3>

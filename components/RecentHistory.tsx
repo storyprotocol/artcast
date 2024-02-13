@@ -28,7 +28,7 @@ async function Version({ cast, index, latest }: { cast: Cast, index: number, lat
             <time className="block text-sm mb-1 font-normal leading-none text-gray-400 dark:text-gray-500">Created on {convertSupabaseDateToHumanReadable(cast.created_at)}</time>
             <p className="block text-sm mb-4 font-normal leading-none text-gray-400 dark:text-gray-500">by <AuthorLink farcasterId={cast.farcaster_id} /></p>
             <div className="flex items-center gap-5">
-                <img className="w-[25%] max-w-[200px] h-auto rounded-full" src={url} alt={`cast ${cast.name}`} />
+                <img className="w-[25%] max-w-[200px] h-auto rounded-md" src={url} alt={`cast ${cast.name}`} />
                 {latest ?
                     <ShareButton castId={cast.id}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-3.5 h-3.5 me-2.5">
