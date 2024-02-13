@@ -1,7 +1,6 @@
 import { AuthorLink } from "@/components/AuthorLink";
 import { LatestPrompts } from "@/components/LatestPrompts";
 import { RecentHistory } from "@/components/RecentHistory";
-import { Button } from "@/components/ui/button";
 import { TypographyH2, TypographyH3 } from "@/components/ui/typography";
 import { generateImage } from "@/lib/actions/generateImage";
 import ErrorFrame from "@/lib/components/frames/ErrorFrame";
@@ -14,7 +13,6 @@ import { supabaseClient } from "@/lib/supabase/supabaseClient";
 import { Cast } from "@/lib/types/cast.interface";
 import { convertSupabaseDateToHumanReadable } from "@/lib/utils";
 import { FrameContainer, FrameImage, FrameReducer, FrameButton, useFramesReducer, getPreviousFrame, NextServerPageProps, FrameInput } from "frames.js/next/server";
-import Link from "next/link";
 
 type Stage = 'start' | 'view' | 'generate' | 'created' | 'error';
 
@@ -24,6 +22,7 @@ type State = {
     input_text: string;
     currentCastId: number;
     error?: string;
+    userFid?: number;
 };
 
 const reducer: FrameReducer<State> = (state, action) => {
