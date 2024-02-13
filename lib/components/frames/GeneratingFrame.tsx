@@ -11,8 +11,7 @@ export default function GeneratingFrame(props) {
                 alignItems: 'center',
                 backgroundColor: '#fff',
                 padding: '5px 20px',
-                gap: '10px',
-                lineHeight: '25px',
+                gap: '10px'
             }}
         >
             <p>Generating your new Artcase. Please wait a few seconds and then press Refresh.</p>
