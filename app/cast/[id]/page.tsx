@@ -114,7 +114,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                     <FrameImage>
                         <ErrorFrame error={state.error as string} />
                     </FrameImage>
-                    <FrameButton onClick={dispatch}>Retry</FrameButton>
+                    <FrameButton>Retry</FrameButton>
                 </FrameContainer>
             </div>
         )
@@ -179,7 +179,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                     <FrameImage>
                         <GeneratingFrame />
                     </FrameImage>
-                    <FrameButton onClick={dispatch}>Refresh</FrameButton>
+                    <FrameButton>Refresh</FrameButton>
                 </FrameContainer>
             </div>
         )
@@ -199,8 +199,8 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                         <RootFrame imageSrc={data.publicUrl} castInfo={cast} type={cast.branch_num == 0 ? 'root' : 'derivative'} /> :
                     </FrameImage>
                     {!cast.locked ? <FrameInput text="add a prompt..." /> : null}
-                    <FrameButton href={`https://artcast.ai/cast/${cast.id}`}>Stats</FrameButton>
-                    {!cast.locked ? <FrameButton onClick={dispatch}>Create</FrameButton> : null}
+                    <FrameButton action="link" target={`https://artcast.ai/cast/${cast.id}`}>Stats</FrameButton>
+                    {!cast.locked ? <FrameButton>Create</FrameButton> : null}
                 </FrameContainer>
             </div>
         )
@@ -222,7 +222,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                         <FrameImage>
                             <RootFrame imageSrc={data.publicUrl} castInfo={cast} type='created' />
                         </FrameImage>
-                        <FrameButton href={`https://artcast.ai/cast/${cast.id}`}>Share as a cast to keep alive.</FrameButton>
+                        <FrameButton action="link" target={`https://artcast.ai/cast/${cast.id}`}>Share as a cast to keep alive.</FrameButton>
                     </FrameContainer>
                 </div>
             )
@@ -241,7 +241,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                         <FrameImage>
                             <GeneratingFrame />
                         </FrameImage>
-                        <FrameButton onClick={dispatch}>Refresh</FrameButton>
+                        <FrameButton>Refresh</FrameButton>
                     </FrameContainer>
                 </div>
             )
@@ -315,7 +315,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                     <FrameImage>
                         <RootFrame imageSrc={data.publicUrl} castInfo={cast} type='start' />
                     </FrameImage>
-                    <FrameButton onClick={dispatch}>Join</FrameButton>
+                    <FrameButton>Join</FrameButton>
                 </FrameContainer>
             </>
         )
