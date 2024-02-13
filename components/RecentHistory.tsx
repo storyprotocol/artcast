@@ -33,7 +33,7 @@ export function RecentHistory({ versions }: { versions: Cast[] }) {
             </div>
             <div className="p-6 pt-0">
                 <div className="space-y-8">
-                    {versions.map(version => <Version cast={version}></Version>)}
+                    {versions.map((version, index) => <Version key={index} cast={version}></Version>)}
                 </div>
             </div>
         </div>
