@@ -1,3 +1,4 @@
+import { AuthorLink } from "@/components/AuthorLink";
 import { LatestPrompts } from "@/components/LatestPrompts";
 import { RecentHistory } from "@/components/RecentHistory";
 import { Button } from "@/components/ui/button";
@@ -253,7 +254,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                             <div className="flex gap-8 items-center">
                                 <img className="w-[25%] max-w-[300px] h-auto rounded-full" src={data.publicUrl} alt="cast" />
                                 <div>
-                                    <p className="text-sm text-muted-foreground">Artcast #{cast.id} by <Button asChild variant={'link'} className="p-0 m-0"><Link style={{ height: 0 }} href={`https://warpcast.com/${cast.farcaster_id}`} target="_blank">@{cast.farcaster_id}</Link></Button></p>
+                                    <p className="text-sm text-muted-foreground">Artcast #{cast.id} by <AuthorLink farcasterId={cast.farcaster_id} /></p>
                                     <TypographyH3>{cast.name}</TypographyH3>
                                     <p className="text-sm text-muted-foreground">Created on {convertSupabaseDateToHumanReadable(cast.created_at)}</p>
                                 </div>
