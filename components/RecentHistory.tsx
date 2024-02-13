@@ -31,7 +31,7 @@ async function Version({ cast, index, latest }: { cast: Cast, index: number, lat
                 <img className="w-[25%] max-w-[200px] h-auto rounded-md" src={url} alt={`cast ${cast.name}`} />
                 {latest ?
                     <ShareButton castId={cast.id}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-3.5 h-3.5 me-2.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-3.5 h-3.5 me-2.5">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
                         </svg>Share
                     </ShareButton>
