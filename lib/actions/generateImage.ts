@@ -107,7 +107,7 @@ export async function generateImage(imageName: string, castImagePath: string, pr
     console.log('downloaded image file', data, error)
     const downloadedImageBuffer = await blobToBuffer(data);
 
-    const result = await maskImage(downloadedImageBuffer, prompt);
+    const result = await modifyImage(downloadedImageBuffer, prompt);
     let image_path = "id" + Math.random().toString(16).slice(2) + '/' + imageName;
     let imageBlob = base64ToBlob(result.artifacts[0].base64, 'image/png');
     const imageBuffer = await blobToBuffer(imageBlob);
