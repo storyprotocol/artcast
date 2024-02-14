@@ -25,7 +25,6 @@ type State = {
 };
 
 const reducer: FrameReducer<State> = (state, action) => {
-    console.log(action.postBody)
     // start
     if (state.stage == 'start') {
         return {
@@ -114,7 +113,6 @@ export default async function Home({ params, searchParams }: NextServerPageProps
 
     //@ts-ignore
     const cast = await fetchCast(state.currentCastId, state.stage);
-    console.log({ cast })
     if (!cast) {
         throw new Error('Could not find Cast.')
     }
@@ -253,6 +251,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                                     <p className="text-sm text-muted-foreground">Artcast #{cast.id} by <AuthorLink farcasterId={cast.farcaster_id} /></p>
                                     <TypographyH3>{cast.name}</TypographyH3>
                                     <p className="text-sm text-muted-foreground">Created on {convertSupabaseDateToHumanReadable(cast.created_at)}</p>
+                                    <p className="text-sm text-muted-foreground flex gap-1 items-center">Registered on <img src="/story-protocol.png" alt="story protocol logo" className="h-[10px]" /></p>
                                 </div>
                             </div>
                             <div className="grid gap-4 md:grd-cols-2 lg:grid-cols-4">

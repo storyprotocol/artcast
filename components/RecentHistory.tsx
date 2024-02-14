@@ -26,7 +26,8 @@ async function Version({ cast, index, latest }: { cast: Cast, index: number, lat
                 }
             </h3>
             <time className="block text-sm mb-1 font-normal leading-none text-gray-400 dark:text-gray-500">Created on {convertSupabaseDateToHumanReadable(cast.created_at)}</time>
-            <p className="block text-sm mb-4 font-normal leading-none text-gray-400 dark:text-gray-500">by <AuthorLink farcasterId={cast.farcaster_id} /></p>
+            <p className="block text-sm mb-1 font-normal leading-none text-gray-400 dark:text-gray-500">by <AuthorLink farcasterId={cast.farcaster_id} /></p>
+            <p className="block text-sm mb-4 font-normal leading-none text-gray-400 dark:text-gray-500 flex gap-1 items-center">Registered on <img src="/story-protocol.png" alt="story protocol logo" className="h-[10px]" /></p>
             <div className="flex items-center gap-5">
                 <img className="w-[25%] max-w-[200px] h-auto rounded-md" src={url} alt={`cast ${cast.name}`} />
                 {latest ?

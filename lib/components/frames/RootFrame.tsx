@@ -25,6 +25,10 @@ export default function RootFrame({ castInfo, imageSrc, type }: { castInfo: Cast
             }}>
                 Artcast #{castInfo.id}
             </p>
+            <div style={{ display: 'flex', flexDirection: 'column', bottom: 0, right: 0, position: 'absolute', padding: '15px 20px' }}>
+                <p style={{ fontSize: 32, margin: 0, marginBottom: '5px' }}>Registered on</p>
+                <img src="https://i.imgur.com/AeNInz0.png" alt="story protocol logo" style={{ height: '20px' }} />
+            </div>
             <div style={{ display: 'flex' }}>
                 <p style={{
                     marginBottom: '0px',
@@ -150,13 +154,18 @@ export default function RootFrame({ castInfo, imageSrc, type }: { castInfo: Cast
                         : type == 'start' ? <p style={{
                             display: 'flex',
                             flexDirection: 'column',
-                            margin: 0
+                            margin: 0,
+                            gap: '25px'
                         }}>
-                            <span>This Artcast was created</span>
-                            <span>at artcast.ai</span>
-                            <span>You can create your own,</span>
-                            <span>or extend this one by </span>
-                            <span>clicking 'Join' below.</span>
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                <span>This Artcast was created</span>
+                                <span>using artcast.ai</span>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                <span>You can create your own,</span>
+                                <span>or extend this one by </span>
+                                <span>clicking 'Join' below.</span>
+                            </div>
                         </p> : <p style={{
                             fontSize: 40,
                             display: 'flex',

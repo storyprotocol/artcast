@@ -109,7 +109,6 @@ export async function generateImage(castName: string, castImagePath: string, pro
     const downloadedImageBuffer = await blobToBuffer(data);
 
     const result = await modifyImage(downloadedImageBuffer, prompt);
-    console.log(result);
     let image_path = getSupabaseImagePath(castName, createdArtcastId);
     let imageBlob = base64ToBlob(result.artifacts[0].base64, 'image/png');
     const imageBuffer = await blobToBuffer(imageBlob);
