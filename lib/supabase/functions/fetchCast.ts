@@ -1,16 +1,12 @@
 import { Cast } from "@/lib/types/cast.interface";
 import { supabaseClient } from "../supabaseClient";
-import { latestPrompts } from "./latestPrompts";
 
 export async function fetchCast(castId: number, stage: string): Promise<Cast | null> {
-    const { data, error } = await supabaseClient.from('cast_datas').select('*, layer_1_cast:layer_1_cast_id(locked), parent_cast:parent_id(farcaster_id)').eq('id', castId);
-    if (!data || !data.length) {
-        return null;
-    }
+    let castCall = supabaseClient.from('cast_datas').select('*, layer_1_cast:layer_1_cast_id(locked), parent_cast:parent_id(farcaster_id)').eq('id', castId);
+    let countsCall = supabaseClient.from('cast_counts').select('*').eq('id', castId);
+    let [{ data }, { data: td }] = await Promise.all([castCall, countsCall]);
 
-    const { data: td } = await supabaseClient.from('cast_counts').select('*').eq('id', castId);
-
-    if (!td || !td.length) {
+    if (!data || !data.length || !td || !td.length) {
         return null;
     }
 
@@ -25,9 +21,11 @@ export async function fetchCast(castId: number, stage: string): Promise<Cast | n
         return ans;
     }
 
-    ans['latest_prompts'] = await latestPrompts(castId);
-    const { data: versionHistory } = await supabaseClient.rpc('fetchbranch', { leaf_id: castId })
-    ans['version_history'] = versionHistory;
+    let lpCall = supabaseClient.from('cast_datas').select('*').eq('parent_id', castId).order('id', { ascending: false }).limit(10);
+    let vhCall = supabaseClient.rpc('fetchbranch', { leaf_id: castId });
+    let [{ data: latest_prompts }, { data: version_history }] = await Promise.all([lpCall, vhCall]);
+    ans['latest_prompts'] = latest_prompts;
+    ans['version_history'] = version_history;
 
     return ans;
 }
