@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 export default function Home() {
   const [castUrl, setCastUrl] = useState('');
   const [createdStatus, setCreatedStatus] = useState('not started');
+  const [error, setError] = useState('');
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -24,6 +25,28 @@ export default function Home() {
     // Add your share logic here
     await navigator.clipboard.writeText(castUrl);
   }
+
+  const handleFileChange = (event) => {
+    setError('');
+    const fileInput = event.target;
+    const file = fileInput.files[0];
+
+    if (file) {
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+
+      img.onload = () => {
+        const width = img.width;
+        const height = img.height;
+
+        if (width < 320 || height < 320 || width > 1536 || height > 1536) {
+          // You can reset the input or show an error message here
+          fileInput.value = ''; // Reset the input to clear the selected file
+          setError('Your image dimensions must be greater than 320 and less than 1536.')
+        }
+      };
+    }
+  };
 
   return (
     <form onSubmit={submit} className="space-y-6 p-10 pb-16">
@@ -49,7 +72,10 @@ export default function Home() {
       <div className="space-y-2">
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="image">Art</Label>
-          <Input id="image" name="image" type="file" accept="image/png, image/jpeg" />
+          <Input id="image" name="image" type="file" accept="image/png, image/jpeg" onChange={handleFileChange} />
+          {error ? <p id=":r4:-form-item-description" className="text-[0.8rem] text-muted-foreground text-red-400">
+            {error}
+          </p> : null}
         </div>
       </div>
 
