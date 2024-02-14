@@ -18,8 +18,7 @@ type Stage = 'start' | 'view' | 'generate' | 'created' | 'error';
 
 type State = {
     stage: Stage;
-    total_button_presses: number;
-    input_text: string;
+    inputText: string;
     currentCastId: number;
     error?: string;
     userFid?: number;
@@ -31,8 +30,7 @@ const reducer: FrameReducer<State> = (state, action) => {
     if (state.stage == 'start') {
         return {
             stage: 'view',
-            total_button_presses: state.total_button_presses + 1,
-            input_text: '',
+            inputText: '',
             currentCastId: state.currentCastId
         }
     }
@@ -42,16 +40,14 @@ const reducer: FrameReducer<State> = (state, action) => {
         if (!action.postBody.untrustedData.inputText) {
             return {
                 stage: 'error',
-                total_button_presses: state.total_button_presses + 1,
-                input_text: '',
+                inputText: '',
                 error: 'You need to specify a prompt to continue.',
                 currentCastId: state.currentCastId
             }
         }
         return {
             stage: 'generate',
-            total_button_presses: state.total_button_presses + 1,
-            input_text: action.postBody.untrustedData.inputText,
+            inputText: action.postBody.untrustedData.inputText,
             currentCastId: state.currentCastId,
             userFid: action.postBody.untrustedData.fid
         }
@@ -60,8 +56,7 @@ const reducer: FrameReducer<State> = (state, action) => {
     if (state.stage == 'created') {
         return {
             stage: 'created',
-            total_button_presses: state.total_button_presses + 1,
-            input_text: '',
+            inputText: '',
             currentCastId: state.currentCastId
         }
     }
@@ -69,8 +64,7 @@ const reducer: FrameReducer<State> = (state, action) => {
     if (state.stage == 'generate') {
         return {
             stage: 'created',
-            total_button_presses: state.total_button_presses + 1,
-            input_text: '',
+            inputText: '',
             currentCastId: state.currentCastId
         }
     }
@@ -78,16 +72,14 @@ const reducer: FrameReducer<State> = (state, action) => {
     if (state.stage == 'error') {
         return {
             stage: 'view',
-            total_button_presses: state.total_button_presses + 1,
-            input_text: '',
+            inputText: '',
             currentCastId: state.currentCastId
         }
     }
 
     return {
         stage: 'view',
-        total_button_presses: state.total_button_presses + 1,
-        input_text: '',
+        inputText: '',
         currentCastId: state.currentCastId
     }
 }
@@ -98,7 +90,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
     //@ts-ignore
     let pathname = `/cast/${params.id}`;
     //@ts-ignore
-    const [state, dispatch] = useFramesReducer<State>(reducer, { currentCastId: params.id, stage: 'start', total_button_presses: 0, input_text: '' }, previousFrame);
+    const [state, dispatch] = useFramesReducer<State>(reducer, { currentCastId: params.id, stage: 'start', inputText: '' }, previousFrame);
 
     if (state.stage == 'error') {
         return (
@@ -142,7 +134,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
             num_derivatives: 0,
             num_total_derivatives: 0,
             parent_id: state.currentCastId,
-            prompt_input: state.input_text,
+            prompt_input: state.inputText,
             // will get replaced
             id: 0,
             layer_1_cast_id: newBranchNum == 2 ? cast.id : newBranchNum > 2 ? cast.layer_1_cast_id : null,
@@ -158,7 +150,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
             newCastInfo.prompt_input,
             newCastInfo.layer_1_cast_id
         );
-        generateImage(cast.name, cast.image_path as string, state.input_text, createdArtcastId as number);
+        generateImage(cast.name, cast.image_path as string, state.inputText, createdArtcastId as number);
         state.currentCastId = createdArtcastId as number;
         newCastInfo.id = createdArtcastId as number;
         if (newCastInfo.branch_num == 10) {
