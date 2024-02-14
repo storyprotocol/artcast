@@ -191,7 +191,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                         <RootFrame imageSrc={data.publicUrl} castInfo={cast} type={cast.branch_num == 0 ? 'root' : 'derivative'} /> :
                     </FrameImage>
                     {!cast.locked ? <FrameInput text="add a prompt..." /> : null}
-                    <FrameButton action="link" target={`https://artcast.ai/cast/${cast.id}`}>Stats</FrameButton>
+                    <FrameButton action="link" target={`${process.env.NEXT_PUBLIC_BASE_URL}/cast/${cast.id}`}>Stats</FrameButton>
                     {!cast.locked ? <FrameButton>Create</FrameButton> : null}
                 </FrameContainer>
             </div>
@@ -214,7 +214,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                         <FrameImage>
                             <RootFrame imageSrc={data.publicUrl} castInfo={cast} type='created' />
                         </FrameImage>
-                        <FrameButton action="link" target={`https://artcast.ai/cast/${cast.id}`}>Share as a cast to keep alive.</FrameButton>
+                        <FrameButton action="link" target={`${process.env.NEXT_PUBLIC_BASE_URL}/cast/${cast.id}`}>Share as a cast to keep alive.</FrameButton>
                     </FrameContainer>
                 </div>
             )

@@ -16,7 +16,7 @@ export default function Home() {
     setCreatedStatus('pending');
     const formData = new FormData(event.currentTarget);
     const generatedCastId = await saveArtCast(formData);
-    const castUrl = 'artcast.ai/cast/' + generatedCastId;
+    const castUrl = process.env.NEXT_PUBLIC_BASE_URL + '/cast/' + generatedCastId;
     setCastUrl(castUrl);
     setCreatedStatus('finished');
   }
