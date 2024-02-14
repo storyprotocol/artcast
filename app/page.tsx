@@ -39,10 +39,20 @@ export default function Home() {
         const width = img.width;
         const height = img.height;
 
-        if (width < 320 || height < 320 || width > 1536 || height > 1536) {
+        if (
+          !((width == 1024 && height == 1024) ||
+            (width == 1152 && height == 896) ||
+            (width == 1216 && height == 832) ||
+            (width == 1344 && height == 768) ||
+            (width == 1536 && height == 640) ||
+            (width == 640 && height == 1536) ||
+            (width == 768 && height == 1344) ||
+            (width == 832 && height == 1216) ||
+            (width == 896 && height == 1152))
+        ) {
           // You can reset the input or show an error message here
           fileInput.value = ''; // Reset the input to clear the selected file
-          setError('Your image dimensions must be greater than 320 and less than 1536.')
+          setError('Please upload a 1024x1024 image.')
         }
       };
     }
@@ -73,9 +83,9 @@ export default function Home() {
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="image">Art</Label>
           <Input id="image" name="image" type="file" accept="image/png, image/jpeg" onChange={handleFileChange} />
-          {error ? <p id=":r4:-form-item-description" className="text-[0.8rem] text-muted-foreground text-red-400">
-            {error}
-          </p> : null}
+          <p id=":r4:-form-item-description" className="text-[0.8rem] text-muted-foreground">
+            {error ? <span className="text-red-400">{error}</span> : '1024x1024 image.'}
+          </p>
         </div>
       </div>
 
