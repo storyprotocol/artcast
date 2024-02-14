@@ -4,6 +4,7 @@ import fetch from 'node-fetch';
 import FormData from 'form-data';
 import { supabaseClient } from '../supabase/supabaseClient';
 import pngToJpeg from 'png-to-jpeg';
+import { getSupabaseImagePath } from '../utils';
 
 async function blobToBuffer(blob) {
     const arrayBuffer = await blob.arrayBuffer();
@@ -34,8 +35,8 @@ async function modifyImage(downloadedImageBuffer, prompt) {
     const formData = new FormData();
     formData.append('init_image', downloadedImageBuffer);
     formData.append('init_image_mode', "IMAGE_STRENGTH");
-    formData.append('image_strength', 0.35);
-    formData.append('steps', 40);
+    formData.append('image_strength', 0.40);
+    formData.append('steps', 30);
     formData.append('seed', 0);
     formData.append('cfg_scale', 30);
     formData.append('samples', 1);
@@ -99,7 +100,7 @@ async function maskImage(downloadedImageBuffer, prompt) {
     return result;
 }
 
-export async function generateImage(imageName: string, castImagePath: string, prompt: string, createdArtcastId: number) {
+export async function generateImage(castName: string, castImagePath: string, prompt: string, createdArtcastId: number) {
     const { data, error } = await supabaseClient
         .storage
         .from('artcast_images')
@@ -108,7 +109,8 @@ export async function generateImage(imageName: string, castImagePath: string, pr
     const downloadedImageBuffer = await blobToBuffer(data);
 
     const result = await modifyImage(downloadedImageBuffer, prompt);
-    let image_path = "id" + Math.random().toString(16).slice(2) + '/' + imageName;
+    console.log(result);
+    let image_path = getSupabaseImagePath(castName, createdArtcastId);
     let imageBlob = base64ToBlob(result.artifacts[0].base64, 'image/png');
     const imageBuffer = await blobToBuffer(imageBlob);
     const imageJpeg = await pngToJpeg({ quality: 90 })(imageBuffer);

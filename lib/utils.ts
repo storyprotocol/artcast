@@ -12,3 +12,7 @@ export function convertSupabaseDateToHumanReadable(date: string) {
   const formattedDate = new Intl.DateTimeFormat('en-US', options).format(parsedDate);
   return formattedDate;
 }
+
+export function getSupabaseImagePath(castName: string, castId: number) {
+  return castName + '/' + castId;
+}

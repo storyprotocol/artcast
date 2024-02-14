@@ -2,6 +2,7 @@
 'use server';
 import { storeCast } from "../supabase/functions/storeCast";
 import { supabaseClient } from "../supabase/supabaseClient";
+import { getSupabaseImagePath } from "../utils";
 
 export async function saveArtCast(formData: FormData) {
 
@@ -9,7 +10,11 @@ export async function saveArtCast(formData: FormData) {
     let farcaster_id = formData.get('username');
     let image = formData.get('image')
 
-    let image_path = "id" + Math.random().toString(16).slice(2) + '/' + image.name;
+    let createdArtcastId = await storeCast(name, farcaster_id, null, undefined, 0, undefined, undefined);
+    let image_path = getSupabaseImagePath(name, createdArtcastId);
+    await supabaseClient.from('cast_datas').update({
+        image_path
+    }).eq('id', createdArtcastId);
 
     // upload the image to storage
     const { data } = await supabaseClient
@@ -17,5 +22,5 @@ export async function saveArtCast(formData: FormData) {
         .from('artcast_images')
         .upload(image_path, image);
 
-    return storeCast(name, farcaster_id, image_path, undefined, 0, undefined, undefined);
+    return createdArtcastId;
 };
