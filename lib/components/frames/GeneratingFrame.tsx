@@ -14,7 +14,7 @@ export default function GeneratingFrame(props) {
             }}
         >
             <p>Generating your new Artcast...</p>
-            <div>
+            <div style={{ display: 'flex' }}>
                 <p>Please wait ~10 seconds and</p>
                 <p>then press the 'Refresh' button.</p>
             </div>
