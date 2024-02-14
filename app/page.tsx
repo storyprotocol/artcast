@@ -26,7 +26,7 @@ export default function Home() {
     await navigator.clipboard.writeText(castUrl);
   }
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: any) => {
     setError('');
     const fileInput = event.target;
     const file = fileInput.files[0];
