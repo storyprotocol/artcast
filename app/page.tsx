@@ -61,7 +61,7 @@ export default function Home() {
         <Label htmlFor="name">Name</Label>
         <Input id="name" name="name" type="text" placeholder="A Green Lizard" />
         <p id=":r4:-form-item-description" className="text-[0.8rem] text-muted-foreground">
-          Your farcaster username.
+          The name of your Artcast.
         </p>
       </div>
       <div className="space-y-2">
@@ -76,7 +76,7 @@ export default function Home() {
           <Label htmlFor="image">Art</Label>
           <Input id="image" name="image" type="file" accept="image/png, image/jpeg" onChange={handleFileChange} />
           <p id=":r4:-form-item-description" className="text-[0.8rem] text-muted-foreground">
-            {error ? <span className="text-red-400">{error}</span> : 'Preferred image dimensions: 1024x1024.'}
+            {error ? <span className="text-red-400">{error}</span> : 'A square image (preferred: 1024x1024).'}
           </p>
         </div>
       </div>
