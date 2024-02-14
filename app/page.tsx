@@ -46,6 +46,13 @@ export default function Home() {
           fileInput.value = ''; // Reset the input to clear the selected file
           setError('Please upload a square image (preferably 1024x1024).')
         }
+
+        const fileSizeInKB = file.size / 1024;
+        if (fileSizeInKB > 100) {
+          // You can reset the input or show an error message here
+          fileInput.value = ''; // Reset the input to clear the selected file
+          setError('Please upload an image less than 100 KB.')
+        }
       };
     }
   };
@@ -76,7 +83,7 @@ export default function Home() {
           <Label htmlFor="image">Art</Label>
           <Input id="image" name="image" type="file" accept="image/png, image/jpeg" onChange={handleFileChange} />
           <p id=":r4:-form-item-description" className="text-[0.8rem] text-muted-foreground">
-            {error ? <span className="text-red-400">{error}</span> : 'A square image (preferred: 1024x1024).'}
+            {error ? <span className="text-red-400">{error}</span> : 'A square image (preferred: 1024x1024) less than 100 KB.'}
           </p>
         </div>
       </div>

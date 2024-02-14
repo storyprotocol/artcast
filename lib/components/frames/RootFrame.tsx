@@ -24,7 +24,7 @@ export default function RootFrame({ castInfo, imageSrc, type }: { castInfo: Cast
             }}>
                 Artcast #{castInfo.id}
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', bottom: 0, right: 0, position: 'absolute', padding: '15px 20px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', bottom: 0, left: 0, position: 'absolute', padding: '15px 20px' }}>
                 <p style={{ fontSize: 32, margin: 0, marginBottom: '5px' }}>Registered on</p>
                 <img src="https://i.imgur.com/AeNInz0.png" alt="story protocol logo" style={{ height: '20px' }} />
             </div>
@@ -125,7 +125,7 @@ export default function RootFrame({ castInfo, imageSrc, type }: { castInfo: Cast
                 display: 'flex',
                 gap: '20px'
             }}>
-                <img src={imageSrc} width="400px" />
+                <img src={imageSrc} width="325px" />
                 <div style={{
                     display: 'flex',
                     flexDirection: 'column',

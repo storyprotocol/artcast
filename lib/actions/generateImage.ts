@@ -5,6 +5,7 @@ import FormData from 'form-data';
 import { supabaseClient } from '../supabase/supabaseClient';
 import pngToJpeg from 'png-to-jpeg';
 import { getSupabaseImagePath } from '../utils';
+import sharp from 'sharp';
 
 async function blobToBuffer(blob) {
     const arrayBuffer = await blob.arrayBuffer();
@@ -110,10 +111,12 @@ export async function generateImage(castName: string, castImagePath: string, pro
 
     const result = await modifyImage(downloadedImageBuffer, prompt);
     let image_path = getSupabaseImagePath(castName, createdArtcastId);
-    let imageBlob = base64ToBlob(result.artifacts[0].base64, 'image/png');
+    let imageBlob = base64ToBlob(result.artifacts[0].base64, 'image/jpeg');
     const imageBuffer = await blobToBuffer(imageBlob);
-    const imageJpeg = await pngToJpeg({ quality: 90 })(imageBuffer);
-    const finalBlob = new Blob([imageJpeg], { type: 'image/jpeg' });
+    const consenscedImageBuffer = await sharp(imageBuffer)
+        .jpeg({ quality: 10 }) // Adjust the quality value as needed (between 0 and 100)
+        .toBuffer();
+    const finalBlob = new Blob([consenscedImageBuffer], { type: 'image/jpeg' });
     // upload the image to storage
     await supabaseClient
         .storage

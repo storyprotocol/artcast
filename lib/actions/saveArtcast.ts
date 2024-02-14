@@ -17,6 +17,8 @@ export async function saveArtCast(formData: FormData) {
     // Resize the image to 1024x1024 using sharp
     const resizedImageBuffer = await sharp(imageBuffer)
         .resize(1024, 1024)
+        .toFormat('jpeg') // You can choose the desired format (jpeg, png, webp, etc.)
+        .jpeg({ quality: 10 }) // Adjust the quality value as needed (between 0 and 100)
         .toBuffer();
 
     let createdArtcastId = await storeCast(name, farcaster_id, null, undefined, 0, undefined, undefined);
@@ -30,7 +32,7 @@ export async function saveArtCast(formData: FormData) {
         .storage
         .from('artcast_images')
         .upload(image_path, resizedImageBuffer, {
-            contentType: image.type, // Change the content type as needed
+            contentType: 'image/jpeg', // Change the content type as needed
         });
 
     return createdArtcastId;
