@@ -10,6 +10,7 @@ export default function Home() {
   const [castUrl, setCastUrl] = useState('');
   const [createdStatus, setCreatedStatus] = useState('not started');
   const [error, setError] = useState('');
+  const [copied, setCopied] = useState(false);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -24,6 +25,7 @@ export default function Home() {
   async function shareClick() {
     // Add your share logic here
     await navigator.clipboard.writeText(castUrl);
+    setCopied(true);
   }
 
   const handleFileChange = (event: any) => {
@@ -80,7 +82,7 @@ export default function Home() {
       </div>
 
       {createdStatus === 'finished'
-        ? <div className="flex gap-2">
+        ? <div className="flex gap-2 items-center">
           <Button disabled>
             <CheckIcon className="mr-2 h-4 w-4" />Created
           </Button>
@@ -88,6 +90,7 @@ export default function Home() {
             <ArrowTopRightIcon className="mr-2 h-4 w-4" />
             Share
           </Button>
+          {copied ? <p className="text-[0.8rem] text-muted-foreground">Copied!</p> : null}
         </div>
         : createdStatus === 'pending'
           ? <Button disabled>
