@@ -121,7 +121,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
     }
 
     //@ts-ignore
-    const cast = await fetchCast(state.currentCastId);
+    const cast = await fetchCast(state.currentCastId, state.stage);
     console.log({ cast })
     if (!cast) {
         throw new Error('Could not find Cast.')
