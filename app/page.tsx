@@ -42,7 +42,7 @@ export default function Home() {
         if (width / height != 1) {
           // You can reset the input or show an error message here
           fileInput.value = ''; // Reset the input to clear the selected file
-          setError('Please upload a square image (ex. 400x400).')
+          setError('Please upload a square image (preferably 1024x1024).')
         }
       };
     }
@@ -74,7 +74,7 @@ export default function Home() {
           <Label htmlFor="image">Art</Label>
           <Input id="image" name="image" type="file" accept="image/png, image/jpeg" onChange={handleFileChange} />
           <p id=":r4:-form-item-description" className="text-[0.8rem] text-muted-foreground">
-            {error ? <span className="text-red-400">{error}</span> : 'Square image (ex. 400x400).'}
+            {error ? <span className="text-red-400">{error}</span> : 'Preferred image dimensions: 1024x1024.'}
           </p>
         </div>
       </div>
