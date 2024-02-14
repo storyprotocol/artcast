@@ -13,7 +13,8 @@ export default function RootFrame({ castInfo, imageSrc, type }: { castInfo: Cast
                 backgroundColor: '#fff',
                 padding: '15px 20px',
                 gap: '10px',
-                lineHeight: '25px'
+                lineHeight: '25px',
+                aspectRatio: 'auto 1.91'
             }}
         >
             <p style={{
