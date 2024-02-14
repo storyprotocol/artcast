@@ -39,20 +39,10 @@ export default function Home() {
         const width = img.width;
         const height = img.height;
 
-        if (
-          !((width == 1024 && height == 1024) ||
-            (width == 1152 && height == 896) ||
-            (width == 1216 && height == 832) ||
-            (width == 1344 && height == 768) ||
-            (width == 1536 && height == 640) ||
-            (width == 640 && height == 1536) ||
-            (width == 768 && height == 1344) ||
-            (width == 832 && height == 1216) ||
-            (width == 896 && height == 1152))
-        ) {
+        if (width / height != 1) {
           // You can reset the input or show an error message here
           fileInput.value = ''; // Reset the input to clear the selected file
-          setError('Please upload a 1024x1024 image.')
+          setError('Please upload a square image (ex. 400x400).')
         }
       };
     }
@@ -84,7 +74,7 @@ export default function Home() {
           <Label htmlFor="image">Art</Label>
           <Input id="image" name="image" type="file" accept="image/png, image/jpeg" onChange={handleFileChange} />
           <p id=":r4:-form-item-description" className="text-[0.8rem] text-muted-foreground">
-            {error ? <span className="text-red-400">{error}</span> : '1024x1024 image.'}
+            {error ? <span className="text-red-400">{error}</span> : 'Square image (ex. 400x400).'}
           </p>
         </div>
       </div>
