@@ -10,11 +10,14 @@ export default function GeneratingFrame(props) {
                 justifyContent: 'center',
                 alignItems: 'center',
                 backgroundColor: '#fff',
-                padding: '5px 20px',
                 gap: '10px'
             }}
         >
-            <p>Generating your new Artcast. Please wait a few seconds and then press Refresh.</p>
+            <p>Generating your new Artcast...</p>
+            <div>
+                <p>Please wait ~10 seconds and</p>
+                <p>then press the 'Refresh' button.</p>
+            </div>
         </div>
 
 
