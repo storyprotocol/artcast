@@ -129,5 +129,9 @@ export async function generateImage(castName: string, castImagePath: string, pro
 
     const { data: publicUrlData } = supabaseClient.storage.from('artcast_images').getPublicUrl(image_path);
     console.log('sending register func...')
+    const response2 = await fetch(`https://fnames.farcaster.xyz/transfers?fid=${1}`);
+    const result2: any = await response2.json();
+    const farcaster_name = result2.transfers[0].username;
+    console.log('ip', farcaster_name);
     registerOnStory(farcasterName, castName, prompt, createdArtcastId, publicUrlData.publicUrl);
 }

@@ -37,12 +37,17 @@ export async function registerOnStory(farcasterName: string, castName: string, c
 
     console.log('registering on sp alpha...')
 
+    const response2 = await fetch(`https://fnames.farcaster.xyz/transfers?fid=${1}`);
+    const result2 = await response2.json();
+    const farcaster_name = result2.transfers[0].username;
+    console.log(farcaster_name);
+
     try {
-        console.log("calling to magma")
-        const response2 = await fetch(`https://fnames.farcaster.xyz/transfers?fid=${1}`);
-        const result2 = await response2.json();
-        const farcaster_name = result2.transfers[0].username;
-        console.log(farcaster_name);
+        // console.log("calling to magma")
+        // const response2 = await fetch(`https://fnames.farcaster.xyz/transfers?fid=${1}`);
+        // const result2 = await response2.json();
+        // const farcaster_name = result2.transfers[0].username;
+        // console.log(farcaster_name);
         // const response = await fetch("https://magma.demo.storyprotocol.net/registration/artwork", requestOptions);
         // if (!response.ok) {
         //     throw new Error(`HTTP error! Status: ${response.status}`);
