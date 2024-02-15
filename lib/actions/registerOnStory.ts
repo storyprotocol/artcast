@@ -41,6 +41,9 @@ export async function registerOnStory(farcasterName: string, castName: string, c
     try {
         console.log("calling to magma")
         const response = await fetch("https://magma.demo.storyprotocol.net/registration/artwork", requestOptions);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
         console.log("anything here...")
         console.log(response);
         const result = await response.json();
