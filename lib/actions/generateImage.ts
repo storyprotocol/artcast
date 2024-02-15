@@ -128,5 +128,6 @@ export async function generateImage(castName: string, castImagePath: string, pro
     }).eq('id', createdArtcastId)
 
     const { data: publicUrlData } = supabaseClient.storage.from('artcast_images').getPublicUrl(image_path);
+    console.log('sending register func...')
     registerOnStory(farcasterName, castName, prompt, createdArtcastId, publicUrlData.publicUrl);
 }

@@ -36,6 +36,8 @@ export async function registerOnStory(farcasterName: string, castName: string, c
         body: raw
     };
 
+    console.log('registering on sp alpha...')
+
     const response = await fetch("https://magma.demo.storyprotocol.net/registration/artwork", requestOptions);
     const result = await response.json();
     console.log(response);
