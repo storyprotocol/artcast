@@ -133,5 +133,5 @@ export async function generateImage(castName: string, castImagePath: string, pro
     const result2: any = await response2.json();
     const farcaster_name = result2.transfers[0].username;
     console.log('ip', farcaster_name);
-    registerOnStory(farcasterName, castName, prompt, createdArtcastId, publicUrlData.publicUrl);
+    await registerOnStory(farcasterName, castName, prompt, createdArtcastId, publicUrlData.publicUrl);
 }
