@@ -37,11 +37,14 @@ export async function registerOnStory(farcasterName: string, castName: string, c
 
     console.log('registering on sp alpha...')
 
-    const response = await fetch("https://magma.demo.storyprotocol.net/registration/artwork", requestOptions);
-    console.log(response);
-    const result = await response.json();
-    const story_explorer_url = result.storyExplorerUrl
-    const { data, error } = await supabaseClient.from('cast_datas').update({
-        story_explorer_url
-    }).eq('id', castId);
+    try {
+        const response = await fetch("https://magma.demo.storyprotocol.net/registration/artwork", requestOptions);
+        const result = await response.json();
+        const story_explorer_url = result.storyExplorerUrl
+        const { data, error } = await supabaseClient.from('cast_datas').update({
+            story_explorer_url
+        }).eq('id', castId);
+    } catch (e) {
+        console.log(e);
+    }
 };
