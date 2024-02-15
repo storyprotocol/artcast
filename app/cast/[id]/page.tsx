@@ -269,7 +269,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                                 </div>
                                 <div className="rounded-xl border bg-card text-card-foreground shadow">
                                     <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-                                        <h3 className="tracking-tight text-sm font-medium">Total Remixes</h3>
+                                        <h3 className="tracking-tight text-sm font-medium">Total Descendants</h3>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-4 w-4 text-muted-foreground">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" />
                                         </svg>
@@ -280,7 +280,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                                 </div>
                                 <div className="rounded-xl border bg-card text-card-foreground shadow">
                                     <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-                                        <h3 className="tracking-tight text-sm font-medium">Direct Remixes</h3>
+                                        <h3 className="tracking-tight text-sm font-medium">Direct Children</h3>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-4 w-4 text-muted-foreground">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                                         </svg>
@@ -294,7 +294,10 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                                 <RecentHistory versions={cast.version_history}></RecentHistory>
                                 <LatestPrompts versions={cast.latest_prompts}></LatestPrompts>
                             </div>
-                            <RemixBox cast={cast} />
+                            <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+                                <RemixBox cast={cast} />
+                                <img src="/helpful-diagram.png" alt="helpful diagram" />
+                            </div>
                         </div>
                     </div>
                 </div>

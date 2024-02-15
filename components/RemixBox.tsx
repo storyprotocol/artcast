@@ -68,8 +68,8 @@ export function RemixBox({ cast }: { cast: Cast }) {
     return (
         <form onSubmit={submit} className="rounded-xl border bg-card text-card-foreground shadow p-10">
             <div className="flex flex-col space-y-1.5 mb-5">
-                <h3 className="font-semibold leading-none tracking-tight">Remix</h3>
-                <p className="text-sm text-muted-foreground">Create a remix of this Artcast directly from the dashboard.</p>
+                <h3 className="font-semibold leading-none tracking-tight">Create Child</h3>
+                <p className="text-sm text-muted-foreground">Create a direct child of this Artcast directly from the dashboard.</p>
             </div>
             <div className="space-y-2 mb-5">
                 <Label htmlFor="username">Username</Label>

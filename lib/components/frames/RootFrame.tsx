@@ -183,8 +183,8 @@ export default function RootFrame({ castInfo, imageSrc, type }: { castInfo: Cast
                             margin: 0
                         }}>
                             <span style={{ fontWeight: 'bold' }}>Refresh for stats:</span>
-                            <span>- # direct remixes: <span style={{ backgroundColor: 'lightgrey', padding: '5px', borderRadius: '5px' }}>{castInfo.num_derivatives}</span></span>
-                            <span>- # total remixes: <span style={{ backgroundColor: 'lightgrey', padding: '5px', borderRadius: '5px' }}>{castInfo.num_total_derivatives}</span></span>
+                            <span>- direct children: <span style={{ backgroundColor: 'lightgrey', padding: '5px', borderRadius: '5px' }}>{castInfo.num_derivatives}</span></span>
+                            <span>- total descendants: <span style={{ backgroundColor: 'lightgrey', padding: '5px', borderRadius: '5px' }}>{castInfo.num_total_derivatives}</span></span>
                         </p>
                     }
                 </div>
