@@ -36,7 +36,7 @@ async function modifyImage(downloadedImageBuffer, prompt) {
     const formData = new FormData();
     formData.append('init_image', downloadedImageBuffer);
     formData.append('init_image_mode', "IMAGE_STRENGTH");
-    formData.append('image_strength', 0.40);
+    formData.append('image_strength', 0.35);
     formData.append('steps', 30);
     formData.append('seed', 0);
     formData.append('cfg_scale', 30);

@@ -1,6 +1,7 @@
 import { AuthorLink } from "@/components/AuthorLink";
 import { LatestPrompts } from "@/components/LatestPrompts";
 import { RecentHistory } from "@/components/RecentHistory";
+import { RemixBox } from "@/components/RemixBox";
 import { TypographyH2, TypographyH3 } from "@/components/ui/typography";
 import { generateImage } from "@/lib/actions/generateImage";
 import ErrorFrame from "@/lib/components/frames/ErrorFrame";
@@ -293,6 +294,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                                 <RecentHistory versions={cast.version_history}></RecentHistory>
                                 <LatestPrompts versions={cast.latest_prompts}></LatestPrompts>
                             </div>
+                            <RemixBox cast={cast} />
                         </div>
                     </div>
                 </div>
