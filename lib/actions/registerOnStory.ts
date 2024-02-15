@@ -37,30 +37,10 @@ export async function registerOnStory(farcasterName: string, castName: string, c
 
     console.log('registering on sp alpha...')
 
-    const response2 = await fetch(`https://fnames.farcaster.xyz/transfers?fid=${1}`);
-    const result2 = await response2.json();
-    const farcaster_name = result2.transfers[0].username;
-    console.log(farcaster_name);
-
-    try {
-        // console.log("calling to magma")
-        // const response2 = await fetch(`https://fnames.farcaster.xyz/transfers?fid=${1}`);
-        // const result2 = await response2.json();
-        // const farcaster_name = result2.transfers[0].username;
-        // console.log(farcaster_name);
-        // const response = await fetch("https://magma.demo.storyprotocol.net/registration/artwork", requestOptions);
-        // if (!response.ok) {
-        //     throw new Error(`HTTP error! Status: ${response.status}`);
-        // }
-        // console.log("anything here...")
-        // console.log(response);
-        // const result = await response.json();
-        // console.log(result)
-        // const story_explorer_url = result.storyExplorerUrl
-        // const { data, error } = await supabaseClient.from('cast_datas').update({
-        //     story_explorer_url
-        // }).eq('id', castId);
-    } catch (e) {
-        console.log(e);
-    }
+    const response = await fetch("https://magma.demo.storyprotocol.net/registration/artwork", requestOptions);
+    const result = await response.json();
+    const story_explorer_url = result.storyExplorerUrl
+    const { data, error } = await supabaseClient.from('cast_datas').update({
+        story_explorer_url
+    }).eq('id', castId);
 };
