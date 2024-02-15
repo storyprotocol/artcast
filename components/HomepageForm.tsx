@@ -100,10 +100,14 @@ export function HomepageForm() {
                     {copied ? <p className="text-[0.8rem] text-muted-foreground">Copied!</p> : null}
                 </div>
                 : createdStatus === 'pending'
-                    ? <Button disabled>
-                        <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-                        Creating...
-                    </Button>
+                    ? <div>
+                        <Button disabled>
+                            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                            Creating...
+                        </Button>
+                        <p className="text-[0.8rem] text-muted-foreground">Creating & registering your Artcast on Story Protocol...</p>
+                        <p className="text-[0.8rem] text-muted-foreground">This may take up to a minute.</p>
+                    </div>
                     : <Button type="submit">Create</Button>
             }
         </form>

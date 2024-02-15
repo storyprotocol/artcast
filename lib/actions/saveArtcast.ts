@@ -39,6 +39,6 @@ export async function saveArtCast(formData: FormData) {
 
     const { data: publicUrlData } = supabaseClient.storage.from('artcast_images').getPublicUrl(image_path);
 
-    registerOnStory(farcaster_id, name, null, createdArtcastId, publicUrlData.publicUrl);
+    await registerOnStory(farcaster_id, name, null, createdArtcastId, publicUrlData.publicUrl);
     return createdArtcastId;
 };
