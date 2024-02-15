@@ -14,5 +14,6 @@ export interface Cast {
     locked: boolean;
     parent_cast?: { farcaster_id: string };
     latest_prompts: Cast[];
-    version_history: Cast[]
+    version_history: Cast[];
+    story_explorer_url: string | null;
 }

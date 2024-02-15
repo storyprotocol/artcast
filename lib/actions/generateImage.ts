@@ -1,18 +1,17 @@
-//@ts-nocheck
 'use server';
 import fetch from 'node-fetch';
 import FormData from 'form-data';
 import { supabaseClient } from '../supabase/supabaseClient';
-import pngToJpeg from 'png-to-jpeg';
 import { getSupabaseImagePath } from '../utils';
 import sharp from 'sharp';
+import { registerOnStory } from './registerOnStory';
 
-async function blobToBuffer(blob) {
+async function blobToBuffer(blob: any) {
     const arrayBuffer = await blob.arrayBuffer();
     return Buffer.from(arrayBuffer);
 }
 
-function base64ToBlob(base64, mimeType) {
+function base64ToBlob(base64: any, mimeType: any) {
     // Decode Base64 string
     const byteCharacters = atob(base64);
 
@@ -29,7 +28,7 @@ function base64ToBlob(base64, mimeType) {
     return new Blob([byteArray], { type: mimeType });
 }
 
-async function modifyImage(downloadedImageBuffer, prompt) {
+async function modifyImage(downloadedImageBuffer: any, prompt: any) {
     // NOTE: This example is using a NodeJS FormData library.
     // Browsers should use their native FormData class.
     // React Native apps should also use their native FormData class.
@@ -63,7 +62,7 @@ async function modifyImage(downloadedImageBuffer, prompt) {
     return result;
 }
 
-async function maskImage(downloadedImageBuffer, prompt) {
+async function maskImage(downloadedImageBuffer: any, prompt: any) {
     // NOTE: This example is using a NodeJS FormData library.
     // Browsers should use their native FormData class.
     // React Native apps should also use their native FormData class.
@@ -101,7 +100,7 @@ async function maskImage(downloadedImageBuffer, prompt) {
     return result;
 }
 
-export async function generateImage(castName: string, castImagePath: string, prompt: string, createdArtcastId: number) {
+export async function generateImage(castName: string, castImagePath: string, prompt: string, createdArtcastId: number, farcasterName: string) {
     const { data, error } = await supabaseClient
         .storage
         .from('artcast_images')
@@ -111,6 +110,7 @@ export async function generateImage(castName: string, castImagePath: string, pro
 
     const result = await modifyImage(downloadedImageBuffer, prompt);
     let image_path = getSupabaseImagePath(castName, createdArtcastId);
+    //@ts-ignore
     let imageBlob = base64ToBlob(result.artifacts[0].base64, 'image/jpeg');
     const imageBuffer = await blobToBuffer(imageBlob);
     const consenscedImageBuffer = await sharp(imageBuffer)
@@ -126,4 +126,7 @@ export async function generateImage(castName: string, castImagePath: string, pro
     await supabaseClient.from('cast_datas').update({
         image_path
     }).eq('id', createdArtcastId)
+
+    const { data: publicUrlData } = supabaseClient.storage.from('artcast_images').getPublicUrl(image_path);
+    registerOnStory(farcasterName, castName, prompt, createdArtcastId, publicUrlData.publicUrl);
 }

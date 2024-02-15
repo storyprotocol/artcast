@@ -1,6 +1,7 @@
 import { AuthorLink } from "@/components/AuthorLink";
 import { LatestPrompts } from "@/components/LatestPrompts";
 import { RecentHistory } from "@/components/RecentHistory";
+import { RegisteredOnStory } from "@/components/RegisteredOnStory";
 import { RemixBox } from "@/components/RemixBox";
 import { TypographyH2, TypographyH3 } from "@/components/ui/typography";
 import { generateImage } from "@/lib/actions/generateImage";
@@ -149,7 +150,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
             newCastInfo.prompt_input,
             newCastInfo.layer_1_cast_id
         );
-        generateImage(cast.name, cast.image_path as string, state.inputText, createdArtcastId as number);
+        generateImage(cast.name, cast.image_path as string, state.inputText, createdArtcastId as number, farcaster_name);
         state.currentCastId = createdArtcastId as number;
         newCastInfo.id = createdArtcastId as number;
         if (newCastInfo.branch_num == 10) {
@@ -252,7 +253,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                                     <p className="text-sm text-muted-foreground">Artcast #{cast.id} by <AuthorLink farcasterId={cast.farcaster_id} /></p>
                                     <TypographyH3>{cast.name}</TypographyH3>
                                     <p className="text-sm text-muted-foreground">Created on {convertSupabaseDateToHumanReadable(cast.created_at)}</p>
-                                    <p className="text-sm text-muted-foreground flex gap-1 items-center">Registered on <img src="/story-protocol.png" alt="story protocol logo" className="h-[10px]" /></p>
+                                    <RegisteredOnStory storyExplorerUrl={cast.story_explorer_url} />
                                 </div>
                             </div>
                             <div className="grid gap-4 md:grd-cols-2 lg:grid-cols-4">

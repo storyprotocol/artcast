@@ -50,7 +50,7 @@ export function RemixBox({ cast }: { cast: Cast }) {
             newCastInfo.prompt_input,
             newCastInfo.layer_1_cast_id
         );
-        await generateImage(cast.name, cast.image_path as string, inputPrompt, createdArtcastId as number);
+        await generateImage(cast.name, cast.image_path as string, inputPrompt, createdArtcastId as number, username);
         if (newCastInfo.branch_num == 10) {
             await lockLayer(newCastInfo.layer_1_cast_id as number);
         }
