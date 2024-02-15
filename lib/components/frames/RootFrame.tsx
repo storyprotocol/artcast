@@ -158,12 +158,12 @@ export default function RootFrame({ castInfo, imageSrc, type }: { castInfo: Cast
                         }}>
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                 <span>This Artcast was created</span>
-                                <span>using artcast.ai</span>
+                                <span>by @{castInfo.farcaster_id}.</span>
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                <span>You can create your own,</span>
-                                <span>or extend this one by </span>
-                                <span>clicking 'Join' below.</span>
+                                <span>Join to remix this</span>
+                                <span>art on-chain with</span>
+                                <span>Story Protocol.</span>
                             </div>
                         </p> : <p style={{
                             fontSize: 40,

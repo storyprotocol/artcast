@@ -168,7 +168,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                 >
                     {/* <FrameImage src={data.publicUrl} /> */}
                     <FrameImage>
-                        <GeneratingFrame />
+                        <GeneratingFrame castId={cast.id} />
                     </FrameImage>
                     <FrameButton>Refresh</FrameButton>
                 </FrameContainer>
@@ -230,7 +230,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                     >
                         {/* <FrameImage src={data.publicUrl} /> */}
                         <FrameImage>
-                            <GeneratingFrame />
+                            <GeneratingFrame castId={cast.parent_id} />
                         </FrameImage>
                         <FrameButton>Refresh</FrameButton>
                     </FrameContainer>

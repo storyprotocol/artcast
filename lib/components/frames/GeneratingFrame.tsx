@@ -1,5 +1,5 @@
 // @ts-nocheck
-export default function GeneratingFrame(props) {
+export default function GeneratingFrame({ castId }: { castId: number }) {
     return (
         <div
             style={{
@@ -13,7 +13,7 @@ export default function GeneratingFrame(props) {
                 gap: '10px'
             }}
         >
-            <p>Generating your new Artcast...</p>
+            <p>Remixing Artcast #{castId}...</p>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <span>Please wait ~10 seconds and</span>
                 <span>then press the 'Refresh' button.</span>
