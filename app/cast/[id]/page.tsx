@@ -230,7 +230,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                     >
                         {/* <FrameImage src={data.publicUrl} /> */}
                         <FrameImage>
-                            <GeneratingFrame castId={cast.parent_id} />
+                            <GeneratingFrame castId={cast.parent_id as number} />
                         </FrameImage>
                         <FrameButton>Refresh</FrameButton>
                     </FrameContainer>

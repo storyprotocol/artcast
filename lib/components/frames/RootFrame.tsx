@@ -134,47 +134,38 @@ export default function RootFrame({ castInfo, imageSrc, type }: { castInfo: Cast
                     fontSize: '40px',
                     gap: '20px'
                 }}>
-                    {type == 'root' ? <p style={{
+                    {type == 'root' || type == 'derivative' ? <p style={{
                         display: 'flex',
                         flexDirection: 'column',
                         margin: 0
                     }}>
                         <span>Keep this art alive by contributing</span>
                         <span>to this chain of creation.</span>
-                    </p> : type == 'derivative' ?
-                        <p style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            margin: 0
-                        }}>
-                            <span>Users prompt:</span>
-                            <span>{castInfo.prompt_input}</span>
-                        </p>
-                        : type == 'start' ? <p style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            margin: 0,
-                            gap: '25px'
-                        }}>
-                            <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                <span>This Artcast was created</span>
-                                <span>by @{castInfo.farcaster_id}.</span>
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                <span>Join to remix this</span>
-                                <span>art on-chain with</span>
-                                <span>Story Protocol.</span>
-                            </div>
-                        </p> : <p style={{
-                            fontSize: 40,
-                            display: 'flex',
-                            flexDirection: 'column'
-                        }}>
-                            <span>Your creation is ready! Click</span>
-                            <span>the button below to access your</span>
-                            <span>share link. Share it as a cast</span>
-                            <span>to keep your branch alive.</span>
-                        </p>
+                    </p> : type == 'start' ? <p style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        margin: 0,
+                        gap: '25px'
+                    }}>
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <span>This Artcast was created</span>
+                            <span>by @{castInfo.farcaster_id}.</span>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <span>Join to remix this</span>
+                            <span>art on-chain with</span>
+                            <span>Story Protocol.</span>
+                        </div>
+                    </p> : <p style={{
+                        fontSize: 40,
+                        display: 'flex',
+                        flexDirection: 'column'
+                    }}>
+                        <span>Your creation is ready! Click</span>
+                        <span>the button below to access your</span>
+                        <span>share link. Share it as a cast</span>
+                        <span>to keep your branch alive.</span>
+                    </p>
                     }
                     {type == 'start' || type == 'created' ? null :
                         <p style={{
