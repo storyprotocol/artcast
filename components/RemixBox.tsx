@@ -80,7 +80,7 @@ export function RemixBox({ cast }: { cast: Cast }) {
             </div>
             <div className="space-y-2 mb-5">
                 <Label htmlFor="prompt">Input Text</Label>
-                <Input id="prompt" name="prompt" type="text" placeholder="A blue black and red snake" />
+                <Input id="prompt" name="prompt" type="text" placeholder="A shiba dog..." />
             </div>
             {createdStatus === 'finished'
                 ? <div className="flex gap-2 items-center">

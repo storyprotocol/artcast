@@ -37,7 +37,7 @@ export function HomepageForm() {
             <div data-orientation="horizontal" role="none" className="shrink-0 bg-border h-[1px] w-full my-6"></div>
             <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" name="name" type="text" placeholder="A Green Lizard" />
+                <Input id="name" name="name" type="text" placeholder="Shiba" />
                 <p id=":r4:-form-item-description" className="text-[0.8rem] text-muted-foreground">
                     The name of your Artcast.
                 </p>
@@ -51,7 +51,7 @@ export function HomepageForm() {
             </div>
             <div className="space-y-2">
                 <Label htmlFor="prompt">Prompt</Label>
-                <Input id="prompt" name="prompt" type="text" placeholder="A yellow lizard..." />
+                <Input id="prompt" name="prompt" type="text" placeholder="A shiba dog..." />
                 <p id=":r4:-form-item-description" className="text-[0.8rem] text-muted-foreground">
                     Your prompt.
                 </p>
