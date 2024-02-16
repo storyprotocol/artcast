@@ -38,6 +38,7 @@ export async function generateMetadata(
     return {
         title: `${cast.name} | Artcast ${cast.id}`,
         description: `Created by @${cast.farcaster_id} using prompt: ${cast.prompt_input}`,
+        //@ts-ignore
         openGraph: { card: "summary_large_image", site: "artcast.ai", creator: cast.farcaster_id, images: data.publicUrl }
     }
 }
