@@ -17,6 +17,28 @@ import { Cast } from "@/lib/types/cast.interface";
 import { convertSupabaseDateToHumanReadable } from "@/lib/utils";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { FrameContainer, FrameImage, FrameReducer, FrameButton, useFramesReducer, getPreviousFrame, NextServerPageProps, FrameInput } from "frames.js/next/server";
+import type { Metadata, ResolvingMetadata } from "next";
+
+export async function generateMetadata(
+    { params, searchParams }: NextServerPageProps,
+    parent: ResolvingMetadata
+): Promise<Metadata> {
+    // read route params
+    //@ts-ignore
+    const id = params.id
+    const cast = await fetchCast(id, 'view');
+    if (!cast) {
+        return {
+            title: 'Artcast',
+            description: 'Create your own collaborative AI-generated story, registered on Story Protocol, and share it on Farcaster below.'
+        }
+    }
+
+    return {
+        title: `${cast.name} | Artcast ${cast.id}`,
+        description: `Created by @${cast.farcaster_id} using prompt: ${cast.prompt_input}`
+    }
+}
 
 type Stage = 'start' | 'view' | 'generate' | 'created' | 'error';
 

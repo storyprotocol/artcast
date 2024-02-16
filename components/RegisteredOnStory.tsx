@@ -9,7 +9,7 @@ export async function RegisteredOnStory({ storyExplorerUrl }: { storyExplorerUrl
     }
     return (
         <Button asChild variant={'link'} className="p-0 m-0">
-            <Link style={{ height: 0 }} href={storyExplorerUrl} target="_blank">
+            <Link className="p-0 m-0" style={{ lineHeight: 'inherit', textDecoration: 'none' }} href={storyExplorerUrl} target="_blank">
                 <p className="text-[8px] text-muted-foreground inline-flex gap-1 items-center border py-1 px-2 rounded my-2">Registered on <img src="/story-protocol.png" alt="story protocol logo" className="h-[8px]" /></p>
             </Link>
         </Button>
