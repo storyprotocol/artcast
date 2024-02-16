@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowTopRightIcon, CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { handleGenerateImage } from "@/lib/functions/handleGenerateImage";
+import { storeCast } from "@/lib/supabase/functions/storeCast";
 
 export function HomepageForm() {
     const [castUrl, setCastUrl] = useState('');
@@ -16,8 +18,12 @@ export function HomepageForm() {
         event.preventDefault();
         setCreatedStatus('pending');
         const formData = new FormData(event.currentTarget);
-        const generatedCastId = await saveArtCast(formData);
-        const castUrl = process.env.NEXT_PUBLIC_BASE_URL + '/cast/' + generatedCastId;
+        let name = formData.get('name') as string;
+        let farcaster_id = formData.get('username') as string;
+        let prompt = formData.get('prompt') as string;
+        let createdArtcastId = await storeCast(name, farcaster_id, null, null, 0, prompt, null) as number;
+        await handleGenerateImage(name, [prompt], createdArtcastId, farcaster_id);
+        const castUrl = process.env.NEXT_PUBLIC_BASE_URL + '/cast/' + createdArtcastId;
         setCastUrl(castUrl);
         setCreatedStatus('finished');
     }
