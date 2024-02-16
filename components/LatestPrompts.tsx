@@ -32,8 +32,8 @@ export function LatestPrompts({ versions }: { versions: Cast[] }) {
     return (
         <div className="rounded-xl border bg-card text-card-foreground shadow">
             <div className="flex flex-col space-y-1.5 p-6">
-                <h3 className="font-semibold leading-none tracking-tight">Direct Children</h3>
-                <p className="text-sm text-muted-foreground">{versions.length == 0 ? 'Nobody has remixed this Artcast yet.' : 'Below are all of the remixes of this Artcast.'}</p>
+                <h3 className="font-semibold leading-none tracking-tight">Direct Remixes</h3>
+                <p className="text-sm text-muted-foreground">{versions.length == 0 ? 'Nobody has remixed this Artcast yet.' : 'Below are all of the direct remixes of this Artcast.'}</p>
             </div>
             <div className="p-6 pt-0">
                 <div className="space-y-8">
