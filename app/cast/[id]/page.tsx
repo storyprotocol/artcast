@@ -276,7 +276,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                                     </div>
                                     <div className="p-6 pt-0">
                                         {/* <div className="text-2xl font-bold">{cast.latest_prompts.length ? cast.latest_prompts[0].prompt_input : 'None!'}</div> */}
-                                        <div className="text-2xl font-bold">{cast.prompt_input ? cast.prompt_input : 'None!'}</div>
+                                        <div className="text-lg leading-tight italic font-semibold">{cast.prompt_input ? cast.prompt_input : 'None!'}</div>
                                     </div>
                                 </div>
                                 <div className="rounded-xl border bg-card text-card-foreground shadow">
