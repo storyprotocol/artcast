@@ -1,17 +1,16 @@
 'use client';
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowTopRightIcon, CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { handleGenerateImage } from "@/lib/functions/handleGenerateImage";
 import { storeCast } from "@/lib/supabase/functions/storeCast";
+import { useRouter } from 'next/navigation';
 
 export function HomepageForm() {
-    const [castUrl, setCastUrl] = useState('');
+    const router = useRouter();
     const [createdStatus, setCreatedStatus] = useState('not started');
-    const [error, setError] = useState('');
-    const [copied, setCopied] = useState(false);
 
     async function submit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -22,15 +21,8 @@ export function HomepageForm() {
         let prompt = formData.get('prompt') as string;
         let createdArtcastId = await storeCast(name, farcaster_id, null, null, 0, prompt, null) as number;
         await handleGenerateImage(name, [prompt], createdArtcastId, farcaster_id);
-        const castUrl = process.env.NEXT_PUBLIC_BASE_URL + '/cast/' + createdArtcastId;
-        setCastUrl(castUrl);
         setCreatedStatus('finished');
-    }
-
-    async function shareClick() {
-        // Add your share logic here
-        await navigator.clipboard.writeText(castUrl);
-        setCopied(true);
+        router.push(`/cast/${createdArtcastId}`);
     }
 
     return (
@@ -67,11 +59,7 @@ export function HomepageForm() {
                     <Button disabled>
                         <CheckIcon className="mr-2 h-4 w-4" />Created
                     </Button>
-                    <Button type="button" onClick={shareClick} variant="outline">
-                        <ArrowTopRightIcon className="mr-2 h-4 w-4" />
-                        Share
-                    </Button>
-                    {copied ? <p className="text-[0.8rem] text-muted-foreground">Copied!</p> : null}
+                    <p className="text-[0.8rem] text-muted-foreground">Redirecting now...</p>
                 </div>
                 : createdStatus === 'pending'
                     ? <div>

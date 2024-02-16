@@ -3,16 +3,16 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { ArrowTopRightIcon, CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { Cast } from "@/lib/types/cast.interface";
 import { storeCast } from "@/lib/supabase/functions/storeCast";
 import { lockLayer } from "@/lib/supabase/functions/lockLayer";
 import { handleGenerateImage } from "@/lib/functions/handleGenerateImage";
+import { useRouter } from "next/navigation";
 
 export function RemixBox({ cast }: { cast: Cast }) {
-    const [castUrl, setCastUrl] = useState('');
+    const router = useRouter();
     const [createdStatus, setCreatedStatus] = useState('not started');
-    const [copied, setCopied] = useState(false);
 
     async function submit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -54,15 +54,8 @@ export function RemixBox({ cast }: { cast: Cast }) {
         if (newCastInfo.branch_num == 10) {
             await lockLayer(newCastInfo.layer_1_cast_id as number);
         }
-        const castUrl = process.env.NEXT_PUBLIC_BASE_URL + '/cast/' + createdArtcastId;
-        setCastUrl(castUrl);
         setCreatedStatus('finished');
-    }
-
-    async function shareClick() {
-        // Add your share logic here
-        await navigator.clipboard.writeText(castUrl);
-        setCopied(true);
+        router.push(`/cast/${createdArtcastId}`);
     }
 
     return (
@@ -87,11 +80,7 @@ export function RemixBox({ cast }: { cast: Cast }) {
                     <Button disabled>
                         <CheckIcon className="mr-2 h-4 w-4" />Created
                     </Button>
-                    <Button type="button" onClick={shareClick} variant="outline">
-                        <ArrowTopRightIcon className="mr-2 h-4 w-4" />
-                        Share
-                    </Button>
-                    {copied ? <p className="text-[0.8rem] text-muted-foreground">Copied!</p> : null}
+                    <p className="text-[0.8rem] text-muted-foreground">Redirecting now...</p>
                 </div>
                 : createdStatus === 'pending'
                     ? <div>
