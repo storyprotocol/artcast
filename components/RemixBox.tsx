@@ -68,12 +68,12 @@ export function RemixBox({ cast }: { cast: Cast }) {
     return (
         <form onSubmit={submit} className="rounded-xl border bg-card text-card-foreground shadow p-10">
             <div className="flex flex-col space-y-1.5 mb-5">
-                <h3 className="font-semibold leading-none tracking-tight">Create Child</h3>
-                <p className="text-sm text-muted-foreground">Create a direct child of this Artcast directly from the dashboard.</p>
+                <h3 className="font-semibold leading-none tracking-tight">Create Remix</h3>
+                <p className="text-sm text-muted-foreground">Continue this Artcast&apos;s storyline by creating a remix.</p>
             </div>
             <div className="space-y-2 mb-5">
                 <Label htmlFor="username">Username</Label>
-                <Input id="username" name="username" type="text" placeholder="jacobtucker" />
+                <Input id="username" name="username" type="text" placeholder="dwr.eth" />
                 <p id=":r4:-form-item-description" className="text-[0.8rem] text-muted-foreground">
                     Your farcaster username.
                 </p>

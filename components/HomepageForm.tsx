@@ -29,7 +29,7 @@ export function HomepageForm() {
     }
 
     return (
-        <form onSubmit={submit} className="space-y-6 p-10 pb-16">
+        <form onSubmit={submit} className="space-y-6 p-10 pb-16 max-w-lg mx-auto">
             <div className="space-y-0.5">
                 <h2 className="text-2xl font-bold tracking-tight">Create Artcast</h2>
                 <p className="text-muted-foreground">Create your own Artcast and share it on Farcaster below.</p>
@@ -44,7 +44,7 @@ export function HomepageForm() {
             </div>
             <div className="space-y-2">
                 <Label htmlFor="username">Username</Label>
-                <Input id="username" name="username" type="text" placeholder="jacobtucker" />
+                <Input id="username" name="username" type="text" placeholder="dwr.eth" />
                 <p id=":r4:-form-item-description" className="text-[0.8rem] text-muted-foreground">
                     Your farcaster username.
                 </p>
