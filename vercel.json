@@ -1,5 +1,7 @@
 {
     "functions": {
-        "maxDuration": 30
+        "lib/actions/generateImage.ts": {
+            "maxDuration": 30
+        }
     }
 }
