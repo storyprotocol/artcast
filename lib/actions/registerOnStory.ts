@@ -1,14 +1,14 @@
 'use server';
 import { supabaseClient } from "../supabase/supabaseClient";
 
-export async function registerOnStory(farcasterName: string, castName: string, castPrompt: string | null, castId: number, imageUrl: string) {
+export async function registerOnStory(farcasterName: string, castName: string, castDescription: string, castId: number, imageUrl: string) {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     const raw = JSON.stringify({
         "registrarId": farcasterName,
         "artworkName": `Artcast ${castId}: ${castName}`,
-        "description": castPrompt ? castPrompt : 'A new Artcast.',
+        "description": castDescription,
         "authors": [
             {
                 "name": farcasterName,
