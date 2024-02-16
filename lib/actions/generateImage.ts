@@ -1,4 +1,5 @@
 'use server';
+export const maxDuration = 30; // This function can run for a maximum of 5 seconds
 import fetch from 'node-fetch';
 import FormData from 'form-data';
 import { supabaseClient } from '../supabase/supabaseClient';
@@ -158,6 +159,6 @@ export async function generateImage(castName: string, prompts: string[], created
         image_path
     }).eq('id', createdArtcastId)
 
-    // const { data: publicUrlData } = supabaseClient.storage.from('artcast_images').getPublicUrl(image_path);
-    // await registerOnStory(farcasterName, castName, prompts.join(';'), createdArtcastId, publicUrlData.publicUrl);
+    const { data: publicUrlData } = supabaseClient.storage.from('artcast_images').getPublicUrl(image_path);
+    await registerOnStory(farcasterName, castName, prompts.join(';'), createdArtcastId, publicUrlData.publicUrl);
 }
