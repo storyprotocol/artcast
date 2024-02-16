@@ -104,7 +104,6 @@ async function textToImage(prompts: string[]) {
     let text_prompts = prompts.map((ele, index) => {
         return { "text": ele, "weight": 1 }
     })
-    console.log(text_prompts)
     const body = {
         steps: 40,
         width: 1024,
@@ -114,8 +113,6 @@ async function textToImage(prompts: string[]) {
         samples: 1,
         text_prompts
     };
-
-    console.log(body)
 
     const response = await fetch(
         "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image",
