@@ -16,7 +16,7 @@ export async function registerOnStory(farcasterName: string, castName: string, c
             }
         ],
         "licenseParam": {
-            "isCommercial": true
+            "isCommercial": false
         },
         "mediaUrl": imageUrl,
         "origin": "Artcast",
