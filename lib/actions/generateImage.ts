@@ -101,7 +101,7 @@ async function maskImage(downloadedImageBuffer: any, prompt: any) {
 }
 
 async function textToImage(prompts: string[]) {
-    let text_prompts = prompts.map(ele => {
+    let text_prompts = prompts.map((ele, index) => {
         return { "text": ele, "weight": 1 }
     })
     console.log(text_prompts)
@@ -110,7 +110,7 @@ async function textToImage(prompts: string[]) {
         width: 1024,
         height: 1024,
         seed: 0,
-        cfg_scale: 5,
+        cfg_scale: 35,
         samples: 1,
         text_prompts
     };
