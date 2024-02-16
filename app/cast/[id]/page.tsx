@@ -33,10 +33,12 @@ export async function generateMetadata(
             description: 'Create your own collaborative AI-generated story, registered on Story Protocol, and share it on Farcaster below.'
         }
     }
+    const { data } = supabaseClient.storage.from('artcast_images').getPublicUrl(cast.image_path as string);
 
     return {
         title: `${cast.name} | Artcast ${cast.id}`,
-        description: `Created by @${cast.farcaster_id} using prompt: ${cast.prompt_input}`
+        description: `Created by @${cast.farcaster_id} using prompt: ${cast.prompt_input}`,
+        openGraph: { card: "summary_large_image", site: "artcast.ai", creator: cast.farcaster_id, images: data.publicUrl }
     }
 }
 
