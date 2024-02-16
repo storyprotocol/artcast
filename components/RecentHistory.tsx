@@ -1,18 +1,22 @@
-import { supabaseClient } from "@/lib/supabase/supabaseClient";
 import { Cast } from "@/lib/types/cast.interface"
 import { convertSupabaseDateToHumanReadable } from "@/lib/utils";
 import { ShareButton } from "./ShareButton";
 import { AuthorLink } from "./AuthorLink";
 import { RegisteredOnStory } from "./RegisteredOnStory";
+import { getArtcastImage } from "@/lib/actions/getArtcastImage";
+import { useEffect, useState } from "react";
 
-async function Version({ cast, index, latest }: { cast: Cast, index: number, latest: boolean }) {
+function Version({ cast, index, latest }: { cast: Cast, index: number, latest: boolean }) {
+    const [image, setImage] = useState('');
 
-    async function getPublicUrl(image_path: string) {
-        const { data } = supabaseClient.storage.from('artcast_images').getPublicUrl(image_path as string);
-        return data.publicUrl;
+    async function loadData(imagePath: string) {
+        let url = await getArtcastImage(cast.image_path as string);
+        setImage(url);
     }
 
-    let url = await getPublicUrl(cast.image_path as string)
+    useEffect(() => {
+        loadData(cast.image_path as string)
+    }, [])
 
     return (
         <li className="mb-10 ms-6">
@@ -29,7 +33,7 @@ async function Version({ cast, index, latest }: { cast: Cast, index: number, lat
             <p className="block text-sm font-normal leading-none text-gray-400 dark:text-gray-500">by <AuthorLink farcasterId={cast.farcaster_id} /> <time className="text-xs font-normal leading-none text-gray-400 dark:text-gray-500">on {convertSupabaseDateToHumanReadable(cast.created_at)}</time> </p>
             <RegisteredOnStory storyExplorerUrl={cast.story_explorer_url} />
             <div className="flex items-center gap-5">
-                <img className="w-[25%] max-w-[200px] h-auto rounded-md" src={url} alt={`cast ${cast.name}`} />
+                {image ? <img className="w-[25%] max-w-[200px] h-auto rounded-md" src={image} alt={`cast ${cast.name}`} /> : null}
                 {
                     <ShareButton castId={cast.id}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-3.5 h-3.5 me-2.5">

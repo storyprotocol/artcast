@@ -5,6 +5,7 @@ import { supabaseClient } from '../supabase/supabaseClient';
 import { getSupabaseImagePath } from '../utils';
 import sharp from 'sharp';
 import { registerOnStory } from './registerOnStory';
+import { getArtcastImage } from './getArtcastImage';
 
 async function blobToBuffer(blob: any) {
     const arrayBuffer = await blob.arrayBuffer();
@@ -155,6 +156,6 @@ export async function generateImage(castName: string, prompts: string[], created
         image_path
     }).eq('id', createdArtcastId)
 
-    const { data: publicUrlData } = supabaseClient.storage.from('artcast_images').getPublicUrl(image_path);
-    await registerOnStory(farcasterName, castName, prompts.join(';'), createdArtcastId, publicUrlData.publicUrl);
+    const imageUrl = await getArtcastImage(image_path);
+    await registerOnStory(farcasterName, castName, prompts.join(';'), createdArtcastId, imageUrl);
 }

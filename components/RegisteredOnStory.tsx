@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 
-export async function RegisteredOnStory({ storyExplorerUrl }: { storyExplorerUrl: string | null }) {
+export function RegisteredOnStory({ storyExplorerUrl }: { storyExplorerUrl: string | null }) {
     if (!storyExplorerUrl) {
         return (
             <p className="text-[8px] text-muted-foreground inline-flex gap-1 items-center border py-1 px-2 rounded my-2">Registered on <br /><img src="/story-protocol.png" alt="story protocol logo" className="h-[8px]" /></p>

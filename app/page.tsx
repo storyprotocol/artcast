@@ -28,8 +28,5 @@ export default function Home({ params, searchParams }: NextServerPageProps) {
       </FrameContainer>
       <HomepageForm />
     </>
-
   );
 }
-
-

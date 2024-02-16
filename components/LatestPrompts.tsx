@@ -1,22 +1,26 @@
-import { supabaseClient } from "@/lib/supabase/supabaseClient";
 import { Cast } from "@/lib/types/cast.interface"
 import { convertSupabaseDateToHumanReadable } from "@/lib/utils";
 import { AuthorLink } from "./AuthorLink";
+import { getArtcastImage } from "@/lib/actions/getArtcastImage";
+import { useEffect, useState } from "react";
 
-async function Version({ cast }: { cast: Cast }) {
+function Version({ cast }: { cast: Cast }) {
+    const [image, setImage] = useState('');
 
-    async function getPublicUrl(image_path: string) {
-        const { data } = supabaseClient.storage.from('artcast_images').getPublicUrl(image_path as string);
-        return data.publicUrl;
+    async function loadData(imagePath: string) {
+        let url = await getArtcastImage(cast.image_path as string);
+        setImage(url);
     }
 
-    let url = await getPublicUrl(cast.image_path as string);
+    useEffect(() => {
+        loadData(cast.image_path as string)
+    }, [])
 
     return (
         <a href={`/cast/${cast.id}`}>
             <div className="flex items-center">
                 <span className="relative flex shrink-0 overflow-hidden rounded-md h-9 w-9">
-                    <img className="aspect-square h-full w-full" alt="Avatar" src={url} />
+                    {image ? <img className="aspect-square h-full w-full" alt="Avatar" src={image} /> : null}
                 </span>
                 <div className="ml-4 space-y-1">
                     {cast.prompt_input ? <p className="text-sm leading-none italic">"{cast.prompt_input}"</p> : null}
