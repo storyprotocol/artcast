@@ -19,29 +19,29 @@ import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { FrameContainer, FrameImage, FrameReducer, FrameButton, useFramesReducer, getPreviousFrame, NextServerPageProps, FrameInput } from "frames.js/next/server";
 import type { Metadata, ResolvingMetadata } from "next";
 
-export async function generateMetadata(
-    { params, searchParams }: NextServerPageProps,
-    parent: ResolvingMetadata
-): Promise<Metadata> {
-    // read route params
-    //@ts-ignore
-    const id = params.id
-    const cast = await fetchCast(id, 'view');
-    if (!cast) {
-        return {
-            title: 'Artcast',
-            description: 'Create your own collaborative AI-generated story, registered on Story Protocol, and share it on Farcaster below.'
-        }
-    }
-    const { data } = supabaseClient.storage.from('artcast_images').getPublicUrl(cast.image_path as string);
+// export async function generateMetadata(
+//     { params, searchParams }: NextServerPageProps,
+//     parent: ResolvingMetadata
+// ): Promise<Metadata> {
+//     // read route params
+//     //@ts-ignore
+//     const id = params.id
+//     const cast = await fetchCast(id, 'view');
+//     if (!cast) {
+//         return {
+//             title: 'Artcast',
+//             description: 'Create your own collaborative AI-generated story, registered on Story Protocol, and share it on Farcaster below.'
+//         }
+//     }
+//     const { data } = supabaseClient.storage.from('artcast_images').getPublicUrl(cast.image_path as string);
 
-    return {
-        title: `${cast.name} | Artcast ${cast.id}`,
-        description: `Created by @${cast.farcaster_id} using prompt: ${cast.prompt_input}`,
-        //@ts-ignore
-        openGraph: { card: "summary_large_image", site: "artcast.ai", creator: cast.farcaster_id, images: data.publicUrl }
-    }
-}
+//     return {
+//         title: `${cast.name} | Artcast ${cast.id}`,
+//         description: `Created by @${cast.farcaster_id} using prompt: ${cast.prompt_input}`,
+//         //@ts-ignore
+//         openGraph: { card: "summary_large_image", site: "artcast.ai", creator: cast.farcaster_id, images: data.publicUrl }
+//     }
+// }
 
 type Stage = 'start' | 'view' | 'generate' | 'created' | 'error';
 
