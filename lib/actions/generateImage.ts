@@ -100,16 +100,46 @@ async function maskImage(downloadedImageBuffer: any, prompt: any) {
     return result;
 }
 
-export async function generateImage(castName: string, castImagePath: string, prompt: string, createdArtcastId: number, farcasterName: string) {
-    const { data, error } = await supabaseClient
-        .storage
-        .from('artcast_images')
-        .download(castImagePath)
-    console.log('downloaded image file', data, error)
-    const downloadedImageBuffer = await blobToBuffer(data);
+async function textToImage(prompts: string[]) {
+    let text_prompts = prompts.map((ele, index) => {
+        return { "text": ele, "weight": 1 }
+    })
+    console.log(text_prompts)
+    const body = {
+        steps: 40,
+        width: 1024,
+        height: 1024,
+        seed: 0,
+        cfg_scale: 35,
+        samples: 1,
+        text_prompts
+    };
 
-    const result = await modifyImage(downloadedImageBuffer, prompt);
-    let image_path = getSupabaseImagePath(castName, createdArtcastId);
+    console.log(body)
+
+    const response = await fetch(
+        "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image",
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${process.env.STABILITY_API_KEY}`,
+            },
+            method: "POST",
+            body: JSON.stringify(body),
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(`Non-200 response: ${await response.text()}`)
+    }
+
+    const result = await response.json();
+    return result;
+}
+
+export async function generateImage(castName: string, prompts: string[], createdArtcastId: number, farcasterName: string) {
+    const result = await textToImage(prompts);
     //@ts-ignore
     let imageBlob = base64ToBlob(result.artifacts[0].base64, 'image/jpeg');
     const imageBuffer = await blobToBuffer(imageBlob);
@@ -118,6 +148,7 @@ export async function generateImage(castName: string, castImagePath: string, pro
         .toBuffer();
     const finalBlob = new Blob([consenscedImageBuffer], { type: 'image/jpeg' });
     // upload the image to storage
+    let image_path = getSupabaseImagePath(castName, createdArtcastId);
     await supabaseClient
         .storage
         .from('artcast_images')
@@ -128,5 +159,5 @@ export async function generateImage(castName: string, castImagePath: string, pro
     }).eq('id', createdArtcastId)
 
     const { data: publicUrlData } = supabaseClient.storage.from('artcast_images').getPublicUrl(image_path);
-    await registerOnStory(farcasterName, castName, prompt, createdArtcastId, publicUrlData.publicUrl);
+    await registerOnStory(farcasterName, castName, prompts.join(';'), createdArtcastId, publicUrlData.publicUrl);
 }

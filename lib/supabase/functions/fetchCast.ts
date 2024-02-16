@@ -17,7 +17,7 @@ export async function fetchCast(castId: number, stage: string): Promise<Cast | n
         num_total_derivatives: td[0].number_of_children
     }
     ans.locked = (ans.branch_num == 1 && ans.locked == true) || (ans.branch_num >= 2 && ans.layer_1_cast.locked == true);
-    if (stage !== 'start') {
+    if (stage !== 'start' && stage !== 'generate') {
         return ans;
     }
 

@@ -139,7 +139,7 @@ export default function RootFrame({ castInfo, imageSrc, type }: { castInfo: Cast
                         flexDirection: 'column',
                         margin: 0
                     }}>
-                        <span>Keep this art alive by contributing</span>
+                        <span>Keep this story alive by contributing</span>
                         <span>to this chain of creation.</span>
                     </p> : type == 'start' ? <p style={{
                         display: 'flex',
@@ -152,9 +152,9 @@ export default function RootFrame({ castInfo, imageSrc, type }: { castInfo: Cast
                             <span>by @{castInfo.farcaster_id}.</span>
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <span>Join to remix this</span>
-                            <span>art on-chain with</span>
-                            <span>Story Protocol.</span>
+                            <span>Join to remix this story using</span>
+                            <span>AI and register it on-chain</span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>with <img src="https://i.imgur.com/AeNInz0.png" alt="story protocol logo" style={{ height: '25px' }} /></div>
                         </div>
                     </p> : <p style={{
                         fontSize: 40,

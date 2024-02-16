@@ -150,7 +150,8 @@ export default async function Home({ params, searchParams }: NextServerPageProps
             newCastInfo.prompt_input,
             newCastInfo.layer_1_cast_id
         );
-        generateImage(cast.name, cast.image_path as string, state.inputText, createdArtcastId as number, farcaster_name);
+        let pastPrompts: string[] = cast.version_history.map(ele => ele.prompt_input as string).filter(ele => !!ele).concat(state.inputText);
+        generateImage(cast.name, pastPrompts, createdArtcastId as number, farcaster_name);
         state.currentCastId = createdArtcastId as number;
         newCastInfo.id = createdArtcastId as number;
         if (newCastInfo.branch_num == 10) {
@@ -190,7 +191,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                     <FrameImage>
                         <RootFrame imageSrc={data.publicUrl} castInfo={cast} type={cast.branch_num == 0 ? 'root' : 'derivative'} /> :
                     </FrameImage>
-                    {!cast.locked ? <FrameInput text="add a prompt..." /> : null}
+                    {!cast.locked ? <FrameInput text="add an additional prompt..." /> : null}
                     <FrameButton action="link" target={`${process.env.NEXT_PUBLIC_BASE_URL}/cast/${cast.id}`}>Stats</FrameButton>
                     {!cast.locked ? <FrameButton>Create</FrameButton> : null}
                 </FrameContainer>
