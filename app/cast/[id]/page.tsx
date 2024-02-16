@@ -5,10 +5,10 @@ import { RegisteredOnStory } from "@/components/RegisteredOnStory";
 import { RemixBox } from "@/components/RemixBox";
 import { ShareButton } from "@/components/ShareButton";
 import { TypographyH2, TypographyH3 } from "@/components/ui/typography";
-import { generateImage } from "@/lib/actions/generateImage";
 import ErrorFrame from "@/lib/components/frames/ErrorFrame";
 import GeneratingFrame from "@/lib/components/frames/GeneratingFrame";
 import RootFrame from "@/lib/components/frames/RootFrame";
+import { handleGenerateImage } from "@/lib/functions/handleGenerateImage";
 import { fetchCast } from "@/lib/supabase/functions/fetchCast";
 import { lockLayer } from "@/lib/supabase/functions/lockLayer";
 import { storeCast } from "@/lib/supabase/functions/storeCast";
@@ -153,7 +153,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
             newCastInfo.layer_1_cast_id
         );
         let pastPrompts: string[] = cast.version_history.map(ele => ele.prompt_input as string).filter(ele => !!ele).concat(state.inputText);
-        generateImage(cast.name, pastPrompts, createdArtcastId as number, farcaster_name);
+        handleGenerateImage(cast.name, pastPrompts, createdArtcastId as number, farcaster_name);
         state.currentCastId = createdArtcastId as number;
         newCastInfo.id = createdArtcastId as number;
         if (newCastInfo.branch_num == 10) {
@@ -256,13 +256,13 @@ export default async function Home({ params, searchParams }: NextServerPageProps
                                     <TypographyH3>{cast.name}</TypographyH3>
                                     <p className="text-sm text-muted-foreground">Artcast #{cast.id} by <AuthorLink farcasterId={cast.farcaster_id} /></p>
                                     <p className="text-sm text-muted-foreground">Created on {convertSupabaseDateToHumanReadable(cast.created_at)}</p>
-                                                                        
+
                                     <RegisteredOnStory storyExplorerUrl={cast.story_explorer_url} />
 
-                                    <br/>
+                                    <br />
 
                                     <ShareButton castId={cast.id}>
-                                      <ArrowTopRightIcon className="w-6 me-2"/> Share on Farcaster
+                                        <ArrowTopRightIcon className="w-6 me-2" /> Share on Farcaster
                                     </ShareButton>
                                 </div>
                             </div>

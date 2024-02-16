@@ -6,8 +6,8 @@ import { Label } from "./ui/label";
 import { ArrowTopRightIcon, CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { Cast } from "@/lib/types/cast.interface";
 import { storeCast } from "@/lib/supabase/functions/storeCast";
-import { generateImage } from "@/lib/actions/generateImage";
 import { lockLayer } from "@/lib/supabase/functions/lockLayer";
+import { handleGenerateImage } from "@/lib/functions/handleGenerateImage";
 
 export function RemixBox({ cast }: { cast: Cast }) {
     const [castUrl, setCastUrl] = useState('');
@@ -50,7 +50,7 @@ export function RemixBox({ cast }: { cast: Cast }) {
             newCastInfo.layer_1_cast_id
         );
         let pastPrompts: string[] = cast.version_history.map(ele => ele.prompt_input as string).filter(ele => !!ele).concat(inputPrompt);
-        await generateImage(cast.name, pastPrompts, createdArtcastId as number, username);
+        await handleGenerateImage(cast.name, pastPrompts, createdArtcastId as number, username);
         if (newCastInfo.branch_num == 10) {
             await lockLayer(newCastInfo.layer_1_cast_id as number);
         }
