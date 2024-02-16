@@ -28,35 +28,6 @@ export function HomepageForm() {
         setCopied(true);
     }
 
-    const handleFileChange = (event: any) => {
-        setError('');
-        const fileInput = event.target;
-        const file = fileInput.files[0];
-
-        if (file) {
-            const img = new Image();
-            img.src = URL.createObjectURL(file);
-
-            img.onload = () => {
-                const width = img.width;
-                const height = img.height;
-
-                if (width / height != 1) {
-                    // You can reset the input or show an error message here
-                    fileInput.value = ''; // Reset the input to clear the selected file
-                    setError('Please upload a square image (preferably 1024x1024).')
-                }
-
-                const fileSizeInKB = file.size / 1024;
-                if (fileSizeInKB > 100) {
-                    // You can reset the input or show an error message here
-                    fileInput.value = ''; // Reset the input to clear the selected file
-                    setError('Please upload an image less than 100 KB.')
-                }
-            };
-        }
-    };
-
     return (
         <form onSubmit={submit} className="space-y-6 p-10 pb-16">
             <div className="space-y-0.5">
@@ -79,13 +50,11 @@ export function HomepageForm() {
                 </p>
             </div>
             <div className="space-y-2">
-                <div className="grid w-full max-w-sm items-center gap-1.5">
-                    <Label htmlFor="image">Art</Label>
-                    <Input id="image" name="image" type="file" accept="image/png, image/jpeg" onChange={handleFileChange} />
-                    <p id=":r4:-form-item-description" className="text-[0.8rem] text-muted-foreground">
-                        {error ? <span className="text-red-400">{error}</span> : 'A square image (preferred: 1024x1024) less than 100 KB.'}
-                    </p>
-                </div>
+                <Label htmlFor="prompt">Prompt</Label>
+                <Input id="prompt" name="prompt" type="text" placeholder="A yellow lizard..." />
+                <p id=":r4:-form-item-description" className="text-[0.8rem] text-muted-foreground">
+                    Your prompt.
+                </p>
             </div>
 
             {createdStatus === 'finished'

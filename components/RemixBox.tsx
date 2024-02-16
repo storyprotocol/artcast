@@ -1,4 +1,3 @@
-//@ts-nocheck
 'use client';
 import { useState } from "react";
 import { Button } from "./ui/button";
@@ -21,8 +20,8 @@ export function RemixBox({ cast }: { cast: Cast }) {
 
         // Create a FormData object
         const formData = new FormData(event.currentTarget);
-        let username = formData.get('username');
-        let inputPrompt = formData.get('prompt');
+        let username = formData.get('username') as string;
+        let inputPrompt = formData.get('prompt') as string;
 
         let newBranchNum = cast.branch_num + 1
         //@ts-ignore
@@ -50,7 +49,8 @@ export function RemixBox({ cast }: { cast: Cast }) {
             newCastInfo.prompt_input,
             newCastInfo.layer_1_cast_id
         );
-        await generateImage(cast.name, cast.image_path as string, inputPrompt, createdArtcastId as number, username);
+        let pastPrompts: string[] = cast.version_history.map(ele => ele.prompt_input as string).filter(ele => !!ele).concat(inputPrompt);
+        await generateImage(cast.name, pastPrompts, createdArtcastId as number, username);
         if (newCastInfo.branch_num == 10) {
             await lockLayer(newCastInfo.layer_1_cast_id as number);
         }
