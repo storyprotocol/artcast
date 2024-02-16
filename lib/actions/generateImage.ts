@@ -1,5 +1,4 @@
 'use server';
-export const maxDuration = 30; // This function can run for a maximum of 5 seconds
 import fetch from 'node-fetch';
 import FormData from 'form-data';
 import { supabaseClient } from '../supabase/supabaseClient';
