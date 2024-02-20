@@ -1,7 +1,7 @@
 import { Cast } from "@/lib/types/cast.interface";
 
 // @ts-nocheck
-export default function TestFrame({ castId, castImage }: { castId: number, castImage: string }) {
+export default function TestFrame({ castId }: { castId: number }) {
     return (
         <div
             style={{
@@ -125,7 +125,7 @@ export default function TestFrame({ castId, castImage }: { castId: number, castI
                 display: 'flex',
                 gap: '20px'
             }}>
-                <img src={castImage} width="325px" />
+                {/* <img src={castImage} width="325px" /> */}
                 <div style={{
                     display: 'flex',
                     flexDirection: 'column',

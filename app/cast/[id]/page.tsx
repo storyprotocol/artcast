@@ -123,7 +123,7 @@ export default async function Home({ params, searchParams, children }: any) {
                     {/* <FrameImage src={data.publicUrl} /> */}
                     <FrameImage>
                         <RootFrame imageSrc={castImage} castInfo={cast} type='start' />
-                        {/* <TestFrame castId={params.id} castImage={castImage} /> */}
+                        {/* <TestFrame castId={params.id} /> */}
                         {/* <div style={{ display: 'flex' }}>Hello there test. Cast #{params.id}</div> */}
                     </FrameImage>
                     <FrameButton>Join</FrameButton>
@@ -163,7 +163,6 @@ export default async function Home({ params, searchParams, children }: any) {
             newCastInfo.prompt_input,
             newCastInfo.layer_1_cast_id
         );
-        //@ts
         let pastPrompts: string[] = cast.version_history.map(ele => ele.prompt_input as string).filter(ele => !!ele).concat(state.inputText);
         handleGenerateImage(cast.name, pastPrompts, createdArtcastId as number, farcaster_name);
         state.currentCastId = createdArtcastId as number;
