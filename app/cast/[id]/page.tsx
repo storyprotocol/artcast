@@ -1,3 +1,4 @@
+//@ts-nocheck
 import CastPage from "@/components/CastPage";
 import { getArtcastImage } from "@/lib/actions/getArtcastImage";
 import ErrorFrame from "@/lib/components/frames/ErrorFrame";
@@ -107,28 +108,28 @@ export default async function Home({ params, searchParams, children }: any) {
     }
 
     //@ts-ignore
-    const { cast, castImage }: { cast: Cast, castImage: string } = await handleFetchCast(params.id);
+    // const { cast, castImage }: { cast: Cast, castImage: string } = await handleFetchCast(params.id);
 
-    if (state.stage == 'start') {
-        return (
-            <div>
-                <FrameContainer
-                    pathname={pathname}
-                    postUrl={'/frames'}
-                    state={state}
-                    previousFrame={previousFrame}
-                >
-                    {/* <FrameImage src={data.publicUrl} /> */}
-                    <FrameImage>
-                        <RootFrame imageSrc={castImage} castInfo={cast} type='start' />
-                        {/* <div style={{ display: 'flex' }}>Hello there test. Cast #{params.id}</div> */}
-                    </FrameImage>
-                    <FrameButton>Join</FrameButton>
-                </FrameContainer>
-                {/* <CastPage castId={params.id} /> */}
-            </div>
-        )
-    }
+    // if (state.stage == 'start') {
+    return (
+        <div>
+            <FrameContainer
+                pathname={pathname}
+                postUrl={'/frames'}
+                state={state}
+                previousFrame={previousFrame}
+            >
+                {/* <FrameImage src={data.publicUrl} /> */}
+                <FrameImage>
+                    {/* <RootFrame imageSrc={castImage} castInfo={cast} type='start' /> */}
+                    <div style={{ display: 'flex' }}>Hello there test. Cast #{params.id}</div>
+                </FrameImage>
+                <FrameButton>Join</FrameButton>
+            </FrameContainer>
+            {/* <CastPage castId={params.id} /> */}
+        </div>
+    )
+    // }
 
     if (state.stage == 'generate') {
         const response = await fetch(`https://fnames.farcaster.xyz/transfers?fid=${state.userFid}`);
