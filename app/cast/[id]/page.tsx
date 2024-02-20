@@ -109,7 +109,7 @@ export default async function Home({ params, searchParams, children }: any) {
     }
 
     //@ts-ignore
-    const { cast, castImage }: { cast: Cast, castImage: string } = await handleFetchCast(state.currentCastId);
+    // const { cast, castImage }: { cast: Cast, castImage: string } = await handleFetchCast(state.currentCastId);
 
     if (state.stage == 'start') {
         return (
@@ -122,8 +122,8 @@ export default async function Home({ params, searchParams, children }: any) {
                 >
                     {/* <FrameImage src={data.publicUrl} /> */}
                     <FrameImage>
-                        <RootFrame imageSrc={castImage} castInfo={cast} type='start' />
-                        {/* <TestFrame castId={params.id} castImage={castImage} /> */}
+                        {/* <RootFrame imageSrc={castImage} castInfo={cast} type='start' /> */}
+                        <TestFrame castId={params.id} />
                         {/* <div style={{ display: 'flex' }}>Hello there test. Cast #{params.id}</div> */}
                     </FrameImage>
                     <FrameButton>Join</FrameButton>
