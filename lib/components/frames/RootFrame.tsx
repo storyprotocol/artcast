@@ -125,7 +125,11 @@ export default function RootFrame({ castInfo, imageSrc, type }: { castInfo: Cast
                 display: 'flex',
                 gap: '20px'
             }}>
-                {/* <img src={imageSrc} width="325px" /> */}
+                {type != 'start' ? <img src={imageSrc} width="325px" />
+                    : <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '325px', height: '325px', border: '1px solid grey' }}>
+                        <span>Click 'Join' to</span>
+                        <span>see the image!</span>
+                    </div>}
                 <div style={{
                     display: 'flex',
                     flexDirection: 'column',
