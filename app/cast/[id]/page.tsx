@@ -122,8 +122,8 @@ export default async function Home({ params, searchParams, children }: any) {
                 >
                     {/* <FrameImage src={data.publicUrl} /> */}
                     <FrameImage>
-                        {/* <RootFrame imageSrc={castImage} castInfo={cast} type='start' /> */}
-                        <TestFrame castId={params.id} />
+                        <RootFrame imageSrc={castImage} castInfo={cast} type='start' />
+                        {/* <TestFrame castId={params.id} /> */}
                         {/* <div style={{ display: 'flex' }}>Hello there test. Cast #{params.id}</div> */}
                     </FrameImage>
                     <FrameButton>Join</FrameButton>

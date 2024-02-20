@@ -125,7 +125,7 @@ export default function RootFrame({ castInfo, imageSrc, type }: { castInfo: Cast
                 display: 'flex',
                 gap: '20px'
             }}>
-                <img src={imageSrc} width="325px" />
+                {/* <img src={imageSrc} width="325px" /> */}
                 <div style={{
                     display: 'flex',
                     flexDirection: 'column',
