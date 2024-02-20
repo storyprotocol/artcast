@@ -107,7 +107,7 @@ export default async function Home({ params, searchParams, children }: any) {
     }
 
     //@ts-ignore
-    const { cast, castImage } = await handleFetchCast(castId);
+    const { cast, castImage }: { cast: Cast, castImage: string } = await handleFetchCast(castId);
 
     if (state.stage == 'start') {
         return (
@@ -160,6 +160,7 @@ export default async function Home({ params, searchParams, children }: any) {
             newCastInfo.prompt_input,
             newCastInfo.layer_1_cast_id
         );
+        //@ts
         let pastPrompts: string[] = cast.version_history.map(ele => ele.prompt_input as string).filter(ele => !!ele).concat(state.inputText);
         handleGenerateImage(cast.name, pastPrompts, createdArtcastId as number, farcaster_name);
         state.currentCastId = createdArtcastId as number;
