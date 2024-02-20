@@ -1,8 +1,11 @@
+//@ts-nocheck
 import CastPage from "@/components/CastPage";
 import { getArtcastImage } from "@/lib/actions/getArtcastImage";
 import ErrorFrame from "@/lib/components/frames/ErrorFrame";
 import GeneratingFrame from "@/lib/components/frames/GeneratingFrame";
 import RootFrame from "@/lib/components/frames/RootFrame";
+import TestFrame from "@/lib/components/frames/TestFrame";
+import { handleFetchCast } from "@/lib/functions/handleFetchCast";
 import { handleGenerateImage } from "@/lib/functions/handleGenerateImage";
 import { fetchCast } from "@/lib/supabase/functions/fetchCast";
 import { lockLayer } from "@/lib/supabase/functions/lockLayer";
@@ -106,11 +109,29 @@ export default async function Home({ params, searchParams, children }: any) {
     }
 
     //@ts-ignore
-    const cast = await fetchCast(state.currentCastId, state.stage);
-    if (!cast) {
-        throw new Error('Could not find Cast.')
-    }
-    let castImage = await getArtcastImage(cast.image_path as string);
+    const { cast, castImage }: { cast: Cast, castImage: string } = await handleFetchCast(params.id);
+
+    // if (state.stage == 'start') {
+    return (
+        <div>
+            <FrameContainer
+                pathname={pathname}
+                postUrl={'/frames'}
+                state={state}
+                previousFrame={previousFrame}
+            >
+                {/* <FrameImage src={data.publicUrl} /> */}
+                <FrameImage>
+                    <RootFrame imageSrc={castImage} castInfo={cast} type='start' />
+                    {/* <TestFrame castId={params.id} castImage={castImage} /> */}
+                    {/* <div style={{ display: 'flex' }}>Hello there test. Cast #{params.id}</div> */}
+                </FrameImage>
+                <FrameButton>Join</FrameButton>
+            </FrameContainer>
+            <CastPage castId={params.id} />
+        </div>
+    )
+    // }
 
     if (state.stage == 'generate') {
         const response = await fetch(`https://fnames.farcaster.xyz/transfers?fid=${state.userFid}`);
@@ -142,6 +163,7 @@ export default async function Home({ params, searchParams, children }: any) {
             newCastInfo.prompt_input,
             newCastInfo.layer_1_cast_id
         );
+        //@ts
         let pastPrompts: string[] = cast.version_history.map(ele => ele.prompt_input as string).filter(ele => !!ele).concat(state.inputText);
         handleGenerateImage(cast.name, pastPrompts, createdArtcastId as number, farcaster_name);
         state.currentCastId = createdArtcastId as number;
@@ -213,25 +235,5 @@ export default async function Home({ params, searchParams, children }: any) {
                 </FrameContainer>
             )
         }
-    }
-
-    if (state.stage == 'start') {
-        return (
-            <div>
-                <FrameContainer
-                    pathname={pathname}
-                    postUrl={'/frames'}
-                    state={state}
-                    previousFrame={previousFrame}
-                >
-                    {/* <FrameImage src={data.publicUrl} /> */}
-                    <FrameImage>
-                        <RootFrame imageSrc={castImage} castInfo={cast} type='start' />
-                    </FrameImage>
-                    <FrameButton>Join</FrameButton>
-                </FrameContainer>
-                <CastPage castId={params.id} />
-            </div>
-        )
     }
 }

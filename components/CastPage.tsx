@@ -6,6 +6,7 @@ import { RegisteredOnStory } from "@/components/RegisteredOnStory";
 import { RemixBox } from "@/components/RemixBox";
 import { ShareButton } from "@/components/ShareButton";
 import { TypographyH2, TypographyH3 } from "@/components/ui/typography";
+import { handleFetchCast } from "@/lib/functions/handleFetchCast";
 import { Cast } from "@/lib/types/cast.interface";
 import { convertSupabaseDateToHumanReadable } from "@/lib/utils";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
@@ -16,8 +17,7 @@ export default function CastPage({ castId }: any) {
     const [castImage, setCastImage] = useState('');
 
     async function loadData(castId: number) {
-        const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/api/casts/` + castId);
-        const result = await response.json();
+        const result = await handleFetchCast(castId);
         setCast(result.cast);
         setCastImage(result.castImage)
     }
