@@ -89,6 +89,26 @@ export default async function Home({ params, searchParams, children }: any) {
     const [state, dispatch] = useFramesReducer<State>(reducer, { currentCastId: params.id, stage: 'start', inputText: '' }, previousFrame);
 
     console.log(state)
+    if (state.stage == 'start') {
+        return (
+            <div>
+                <FrameContainer
+                    pathname={pathname}
+                    postUrl={'/frames'}
+                    state={state}
+                    previousFrame={previousFrame}
+                >
+                    {/* <FrameImage src={data.publicUrl} /> */}
+                    <FrameImage>
+                        {/* <RootFrame imageSrc={castImage} castInfo={cast} type='start' /> */}
+                        <div style={{ display: 'flex' }}>Hello there test</div>
+                    </FrameImage>
+                    <FrameButton>Join</FrameButton>
+                </FrameContainer>
+                {/* <CastPage castId={params.id} /> */}
+            </div>
+        )
+    }
     if (state.stage == 'error') {
         return (
             <FrameContainer
@@ -213,25 +233,5 @@ export default async function Home({ params, searchParams, children }: any) {
                 </FrameContainer>
             )
         }
-    }
-
-    if (state.stage == 'start') {
-        return (
-            <div>
-                <FrameContainer
-                    pathname={pathname}
-                    postUrl={'/frames'}
-                    state={state}
-                    previousFrame={previousFrame}
-                >
-                    {/* <FrameImage src={data.publicUrl} /> */}
-                    <FrameImage>
-                        <RootFrame imageSrc={castImage} castInfo={cast} type='start' />
-                    </FrameImage>
-                    <FrameButton>Join</FrameButton>
-                </FrameContainer>
-                <CastPage castId={params.id} />
-            </div>
-        )
     }
 }
