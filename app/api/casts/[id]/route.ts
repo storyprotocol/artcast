@@ -9,7 +9,9 @@ export async function GET(request: Request, { params }: { params: { id: number }
     let [{ data }, { data: td }] = await Promise.all([castCall, countsCall]);
 
     if (!data || !data.length || !td || !td.length) {
-        return null;
+        return Response.json({ error: 'No cast' }, {
+            status: 400
+        });
     }
 
     let ans = {
