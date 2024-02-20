@@ -4,6 +4,7 @@ import { getArtcastImage } from "@/lib/actions/getArtcastImage";
 import ErrorFrame from "@/lib/components/frames/ErrorFrame";
 import GeneratingFrame from "@/lib/components/frames/GeneratingFrame";
 import RootFrame from "@/lib/components/frames/RootFrame";
+import TestFrame from "@/lib/components/frames/TestFrame";
 import { handleFetchCast } from "@/lib/functions/handleFetchCast";
 import { handleGenerateImage } from "@/lib/functions/handleGenerateImage";
 import { fetchCast } from "@/lib/supabase/functions/fetchCast";
@@ -122,7 +123,8 @@ export default async function Home({ params, searchParams, children }: any) {
                 {/* <FrameImage src={data.publicUrl} /> */}
                 <FrameImage>
                     {/* <RootFrame imageSrc={castImage} castInfo={cast} type='start' /> */}
-                    <div style={{ display: 'flex' }}>Hello there test. Cast #{params.id}</div>
+                    <TestFrame castId={params.id} />
+                    {/* <div style={{ display: 'flex' }}>Hello there test. Cast #{params.id}</div> */}
                 </FrameImage>
                 <FrameButton>Join</FrameButton>
             </FrameContainer>
