@@ -3,6 +3,7 @@ import { getArtcastImage } from "@/lib/actions/getArtcastImage";
 import ErrorFrame from "@/lib/components/frames/ErrorFrame";
 import GeneratingFrame from "@/lib/components/frames/GeneratingFrame";
 import RootFrame from "@/lib/components/frames/RootFrame";
+import { handleFetchCast } from "@/lib/functions/handleFetchCast";
 import { handleGenerateImage } from "@/lib/functions/handleGenerateImage";
 import { fetchCast } from "@/lib/supabase/functions/fetchCast";
 import { lockLayer } from "@/lib/supabase/functions/lockLayer";
@@ -106,11 +107,8 @@ export default async function Home({ params, searchParams, children }: any) {
     }
 
     //@ts-ignore
-    const cast = await fetchCast(state.currentCastId, state.stage);
-    if (!cast) {
-        throw new Error('Could not find Cast.')
-    }
-    let castImage = await getArtcastImage(cast.image_path as string);
+    const { cast, castImage } = await handleFetchCast(castId);
+
     if (state.stage == 'start') {
         return (
             <div>
