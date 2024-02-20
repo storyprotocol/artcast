@@ -28,11 +28,6 @@ export async function GET(request: Request, { params }: { params: { id: number }
 
     const castImage = await getArtcastImage(ans.image_path as string);
     return Response.json({ cast: ans, castImage }, {
-        status: 200,
-        headers: {
-            'Cache-Control': 'public, s-maxage=100',
-            'CDN-Cache-Control': 'public, s-maxage=100',
-            'Vercel-CDN-Cache-Control': 'public, s-maxage=100',
-        },
+        status: 200
     })
 }
