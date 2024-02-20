@@ -107,7 +107,7 @@ export default async function Home({ params, searchParams, children }: any) {
     }
 
     //@ts-ignore
-    const { cast, castImage }: { cast: Cast, castImage: string } = await handleFetchCast(castId);
+    const { cast, castImage }: { cast: Cast, castImage: string } = await handleFetchCast(params.id);
 
     if (state.stage == 'start') {
         return (
