@@ -128,7 +128,7 @@ export default async function Home({ params, searchParams, children }: any) {
                     </FrameImage>
                     <FrameButton>Join</FrameButton>
                 </FrameContainer>
-                {/* <CastPage castId={params.id} /> */}
+                <CastPage castId={params.id} />
             </div>
         )
     }
