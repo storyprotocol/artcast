@@ -21,7 +21,7 @@ export async function GET(request: Request, { params }: { params: { id: number }
     }
     ans.locked = (ans.branch_num == 1 && ans.locked == true) || (ans.branch_num >= 2 && ans.layer_1_cast.locked == true);
     // let lpCall = supabaseClient.from('cast_datas').select('*').eq('parent_id', params.id).order('id', { ascending: false }).limit(10);
-    let versionHistory = await supabaseClient.rpc('fetchbranch', { leaf_id: params.id });
+    let { data: versionHistory } = await supabaseClient.rpc('fetchbranch', { leaf_id: params.id });
     // let [{ data: latest_prompts }, { data: version_history }] = await Promise.all([lpCall, vhCall]);
     // ans['latest_prompts'] = latest_prompts;
     ans['version_history'] = versionHistory;
