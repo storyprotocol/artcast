@@ -16,6 +16,7 @@
     "@supabase/supabase-js": "^2.39.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "echarts": "^5.5.0",
     "form-data": "^4.0.0",
     "formidable": "^3.5.1",
     "frames.js": "^0.5.0",
