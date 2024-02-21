@@ -22,7 +22,7 @@ export default function CastPage({ castId }: any) {
     async function loadData(castId: number) {
         let { cast, castImage } = await handleFetchCast(castId);
         setCastImage(castImage)
-        let latestPrompts = await publicSupabaseClient.from('cast_datas').select('*').eq('parent_id', castId).order('id', { ascending: false }).limit(10);
+        let { data: latestPrompts } = await publicSupabaseClient.from('cast_datas').select('*').eq('parent_id', castId).order('id', { ascending: false }).limit(10);
         cast['latest_prompts'] = latestPrompts;
         setCast(cast);
         let { data: tree } = await publicSupabaseClient.rpc('fetchtree', { starting_id: cast.version_history[cast.version_history.length - 1].id });
