@@ -7,7 +7,8 @@ export async function GET() {
         .neq('nft_token_id', null)
         .neq('license_id', null)
         .eq('ip_id', null)
-        .neq('parent_id', null);
+        .neq('parent_id', null)
+        .eq('version', 'beta');
 
     if (!data || !data.length) {
         return Response.json({})
