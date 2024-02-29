@@ -31,7 +31,7 @@ function Version({ cast, index, latest }: { cast: Cast, index: number, latest: b
                 }
             </h3></a>
             <p className="block text-sm font-normal leading-none text-gray-400 dark:text-gray-500">by <AuthorLink farcasterId={cast.farcaster_id} /> <time className="text-xs font-normal leading-none text-gray-400 dark:text-gray-500">on {convertSupabaseDateToHumanReadable(cast.created_at)}</time> </p>
-            <RegisteredOnStory storyExplorerUrl={cast.story_explorer_url} />
+            <RegisteredOnStory storyExplorerUrl={cast.version == 'alpha' ? cast.story_explorer_url : cast.ip_id ? `https://explorer.storyprotocol.xyz/ipa/${cast.ip_id}` : null} />
             <div className="flex items-center gap-5">
                 {image ? <img className="w-[25%] max-w-[200px] h-auto rounded-md" src={image} alt={`cast ${cast.name}`} /> : null}
                 {

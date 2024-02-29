@@ -47,7 +47,7 @@ export default function CastPage({ castId }: any) {
                                     <p className="text-sm text-muted-foreground">Artcast #{cast.id} by <AuthorLink farcasterId={cast.farcaster_id} /></p>
                                     <p className="text-sm text-muted-foreground">Created on {convertSupabaseDateToHumanReadable(cast.created_at)}</p>
 
-                                    <RegisteredOnStory storyExplorerUrl={cast.story_explorer_url} />
+                                    <RegisteredOnStory storyExplorerUrl={cast.version == 'alpha' ? cast.story_explorer_url : cast.ip_id ? `https://explorer.storyprotocol.xyz/ipa/${cast.ip_id}` : null} />
 
                                     <br />
 

@@ -5,10 +5,11 @@ export const maxDuration = 30; // This function can run for a maximum of 5 secon
 export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
+    // prompts is in order from old -> new
     const { castName, prompts, createdArtcastId, farcasterName } = await request.json();
 
     try {
-        // Call your generateImage function
+        // generate the image
         await generateImage(castName, prompts, createdArtcastId, farcasterName);
 
         // Send a success response

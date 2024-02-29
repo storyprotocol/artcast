@@ -84,14 +84,16 @@ const reducer: FrameReducer<State> = (state, action) => {
 }
 
 export default async function Home({ params, searchParams, children }: any) {
+    console.log('Starting...')
     const previousFrame = getPreviousFrame<State>(searchParams);
+    console.log('Got previous frame...')
 
     //@ts-ignore
     let pathname = `/cast/${params.id}`;
     //@ts-ignore
     const [state, dispatch] = useFramesReducer<State>(reducer, { currentCastId: params.id, stage: 'start', inputText: '' }, previousFrame);
+    console.log('Did reducer thing...')
 
-    console.log(state)
     if (state.stage == 'error') {
         return (
             <FrameContainer
@@ -110,6 +112,7 @@ export default async function Home({ params, searchParams, children }: any) {
 
     //@ts-ignore
     const { cast, castImage }: { cast: Cast, castImage: string } = await handleFetchCast(state.currentCastId);
+    console.log('Fetched cast from API...')
 
     if (state.stage == 'start') {
         return (
@@ -168,9 +171,9 @@ export default async function Home({ params, searchParams, children }: any) {
         handleGenerateImage(cast.name, pastPrompts, createdArtcastId as number, farcaster_name);
         state.currentCastId = createdArtcastId as number;
         newCastInfo.id = createdArtcastId as number;
-        if (newCastInfo.branch_num == 10) {
-            lockLayer(newCastInfo.layer_1_cast_id as number);
-        }
+        // if (newCastInfo.branch_num == 10) {
+        //     lockLayer(newCastInfo.layer_1_cast_id as number);
+        // }
 
         return (
             <FrameContainer

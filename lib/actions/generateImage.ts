@@ -156,6 +156,6 @@ export async function generateImage(castName: string, prompts: string[], created
         image_path
     }).eq('id', createdArtcastId)
 
-    const imageUrl = await getArtcastImage(image_path);
-    await registerOnStory(farcasterName, castName, prompts.join(';'), createdArtcastId, imageUrl);
+    // const imageUrl = await getArtcastImage(image_path);
+    // await registerOnStory(farcasterName, castName, prompts.join(';'), createdArtcastId, imageUrl);
 }

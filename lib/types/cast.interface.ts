@@ -16,4 +16,6 @@ export interface Cast {
     latest_prompts: Cast[];
     version_history: Cast[];
     story_explorer_url: string | null;
+    ip_id: string | null;
+    version: 'alpha' | 'beta';
 }

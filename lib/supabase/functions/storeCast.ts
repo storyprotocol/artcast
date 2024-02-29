@@ -18,7 +18,8 @@ export async function storeCast(
         parent_id,
         branch_num,
         prompt_input,
-        layer_1_cast_id
+        layer_1_cast_id,
+        version: 'beta'
     }).select();
 
     if (!data || !data.length) {
