@@ -24,7 +24,7 @@ export function HomepageForm() {
         let farcaster_id = formData.get('username') as string;
         let prompt = formData.get('prompt') as string;
         let walletAddress = formData.get('wallet_address') as string;
-        let createdArtcastId = await storeCast(name, farcaster_id, null, null, 0, prompt, null) as number;
+        let createdArtcastId = await storeCast(name, farcaster_id, null, null, 0, prompt, null, 'beta') as number;
         setMessage('Generating your image...')
         await handleGenerateImage(name, [prompt], createdArtcastId, farcaster_id);
         // let createdArtcastId = 637

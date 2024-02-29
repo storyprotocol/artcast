@@ -164,7 +164,8 @@ export default async function Home({ params, searchParams, children }: any) {
             newCastInfo.parent_id,
             newCastInfo.branch_num,
             newCastInfo.prompt_input,
-            newCastInfo.layer_1_cast_id
+            newCastInfo.layer_1_cast_id,
+            cast.version
         );
         //@ts
         let pastPrompts: string[] = cast.version_history.map(ele => ele.prompt_input as string).filter(ele => !!ele).concat(state.inputText);

@@ -8,7 +8,8 @@ export async function storeCast(
     parent_id: number | null,
     branch_num: number,
     prompt_input: string | null,
-    layer_1_cast_id: number | null
+    layer_1_cast_id: number | null,
+    version: 'beta' | 'alpha'
 ): Promise<number | null> {
     // upload to user row
     const { data } = await supabaseClient.from('cast_datas').insert({
@@ -19,7 +20,7 @@ export async function storeCast(
         branch_num,
         prompt_input,
         layer_1_cast_id,
-        version: 'beta'
+        version
     }).select();
 
     if (!data || !data.length) {
