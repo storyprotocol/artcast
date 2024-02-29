@@ -1,24 +1,30 @@
-'use server';
-
-import { getArtcastImage } from "../actions/getArtcastImage";
-import { uploadJSONToIPFS } from "../pinata/functions/uploadJSONToIPFS";
-import { mintLicense } from "../story-beta/functions/mintLicense";
-import { mintNFT } from "../story-beta/functions/mintNFT";
-import { supabaseClient } from "../supabase/supabaseClient";
-
 // Your component or event handler
 export async function handleRegisterDerivativeIP(castName: string, prompt: string, imagePath: string, castId: number, walletAddress: string, originIpId: string) {
-    const imageURL = await getArtcastImage(imagePath);
-    // store on ipfs
-    const ipfsUri = await uploadJSONToIPFS(castName, prompt, imageURL);
-    // create nft
-    const mintedNFTTokenId = await mintNFT(walletAddress, ipfsUri);
-    // register on story protocol beta
-    const licenseId = await mintLicense('1', originIpId, walletAddress);
-    // save it to supabase
-    const { data, error } = await supabaseClient.from('cast_datas').update({
-        license_id: licenseId,
-        nft_token_id: mintedNFTTokenId
-    }).eq('id', castId)
-    console.log(error)
+    const data = {
+        castName,
+        prompt,
+        castId,
+        walletAddress,
+        imagePath,
+        originIpId
+    };
+
+    try {
+        const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/register-derivative-ip', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result);
+        } else {
+            console.error('Failed to register ip:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error during API call:', error);
+    }
 };

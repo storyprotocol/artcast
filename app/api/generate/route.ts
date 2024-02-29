@@ -2,7 +2,6 @@ import { generateImage } from '@/lib/actions/generateImage';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const maxDuration = 30; // This function can run for a maximum of 5 seconds
-export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
     // prompts is in order from old -> new
