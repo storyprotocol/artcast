@@ -6,6 +6,8 @@ import { mintNFT } from "../story-beta/functions/mintNFT";
 import { registerRootIP } from "../story-beta/functions/registerRootIP";
 import { supabaseClient } from "../supabase/supabaseClient";
 
+export const maxDuration = 30;
+
 // Your component or event handler
 export async function handleRegisterIP(castName: string, prompt: string, imagePath: string, castId: number, walletAddress: string) {
     const imageURL = await getArtcastImage(imagePath);
