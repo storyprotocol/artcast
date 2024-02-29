@@ -5,7 +5,7 @@ import { registerRootIP } from '@/lib/story-beta/functions/registerRootIP';
 import { supabaseClient } from '@/lib/supabase/supabaseClient';
 import { NextRequest, NextResponse } from 'next/server';
 
-export const maxDuration = 30; // This function can run for a maximum of 5 seconds
+export const maxDuration = 60; // This function can run for a maximum of 5 seconds
 
 export async function POST(request: NextRequest) {
     // prompts is in order from old -> new
