@@ -8,7 +8,7 @@ function Version({ cast }: { cast: Cast }) {
     const [image, setImage] = useState('');
 
     async function loadData(imagePath: string) {
-        let url = await getArtcastImage(cast.image_path as string);
+        let url = await getArtcastImage(imagePath as string);
         setImage(url);
     }
 

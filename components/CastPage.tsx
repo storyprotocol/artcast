@@ -11,15 +11,22 @@ import { Cast } from "@/lib/types/cast.interface";
 import { convertSupabaseDateToHumanReadable } from "@/lib/utils";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
+import NodeGraph from "./NodeGraph";
+import { publicSupabaseClient } from "@/lib/supabase/publicSupabaseClient";
 
 export default function CastPage({ castId }: any) {
     const [cast, setCast] = useState<Cast | null>(null)
     const [castImage, setCastImage] = useState('');
+    const [nodes, setNodes] = useState([]);
 
     async function loadData(castId: number) {
-        const result = await handleFetchCast(castId);
-        setCast(result.cast);
-        setCastImage(result.castImage)
+        let { cast, castImage } = await handleFetchCast(castId);
+        setCastImage(castImage)
+        let { data: latestPrompts } = await publicSupabaseClient.from('cast_datas').select('*').eq('parent_id', castId).order('id', { ascending: false }).limit(10);
+        cast['latest_prompts'] = latestPrompts;
+        setCast(cast);
+        let { data: tree } = await publicSupabaseClient.rpc('fetchtree', { starting_id: cast.version_history[cast.version_history.length - 1].id });
+        setNodes(tree)
     }
 
     useEffect(() => {
@@ -92,6 +99,9 @@ export default function CastPage({ castId }: any) {
                             <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                                 <RemixBox cast={cast} />
                                 <img src="/helpful-diagram.png" alt="helpful diagram" />
+                            </div>
+                            <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1 rounded-xl border bg-card text-card-foreground shadow p-10">
+                                <NodeGraph nodes={nodes} currentId={cast.id} />
                             </div>
                         </div>
                     </div>
