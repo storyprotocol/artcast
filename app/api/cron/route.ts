@@ -1,6 +1,8 @@
 import { registerDerivativeIP } from "@/lib/story-beta/functions/registerDeriviativeIP";
 import { supabaseClient } from "@/lib/supabase/supabaseClient";
 
+export const revalidate = 0
+
 export async function GET() {
     console.log('initiating cron job')
     const { data } = await supabaseClient.from('cast_datas')
