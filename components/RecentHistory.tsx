@@ -55,7 +55,7 @@ export function RecentHistory({ versions }: { versions: Cast[] }) {
                 <p className="text-sm text-muted-foreground">Below are all the direct remixes of this Artcast up to this point.</p>
             </div>
             <ol className="relative border-s border-gray-200 dark:border-gray-700">
-                {versions.reverse().map((version, index) => <Version key={index} index={index} cast={version} latest={index == versions.length - 1}></Version>)}
+                {versions.reverse().map((version, index) => <Version key={index} index={index} cast={version} latest={index == 0}></Version>)}
             </ol>
         </div>
     )
