@@ -2,6 +2,7 @@ import { registerDerivativeIP } from "@/lib/story-beta/functions/registerDerivia
 import { supabaseClient } from "@/lib/supabase/supabaseClient";
 
 export async function GET() {
+    console.log('initiating cron job')
     const { data } = await supabaseClient.from('cast_datas')
         .select('*')
         .neq('nft_token_id', null)
