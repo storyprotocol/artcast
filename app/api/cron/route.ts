@@ -2,6 +2,7 @@ import { registerDerivativeIP } from "@/lib/story-beta/functions/registerDerivia
 import { supabaseClient } from "@/lib/supabase/supabaseClient";
 
 export const revalidate = 0
+export const maxDuration = 120;
 
 export async function GET() {
     console.log('initiating cron job')
@@ -22,6 +23,7 @@ export async function GET() {
     }
 
     for (let i = 0; i < data.length; i++) {
+        console.log('registering derivative ' + data[i].prompt_input)
         const derivativeIpId = await registerDerivativeIP(data[i].nft_token_id, data[i].license_id);
         const { error } = await supabaseClient.from('cast_datas').update({
             ip_id: derivativeIpId
