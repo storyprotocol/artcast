@@ -5,7 +5,7 @@ export const revalidate = 0
 
 export async function GET() {
     console.log('initiating cron job')
-    const { data } = await supabaseClient.from('cast_datas')
+    const { data, error } = await supabaseClient.from('cast_datas')
         .select('*')
         .neq('nft_token_id', null)
         .neq('license_id', null)
@@ -13,7 +13,9 @@ export async function GET() {
         .neq('parent_id', null)
         .eq('version', 'beta');
 
-    console.log({ data })
+    console.log('after fetch...')
+
+    console.log({ error, data })
 
     if (!data || !data.length) {
         return Response.json({})
