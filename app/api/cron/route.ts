@@ -14,21 +14,22 @@ export async function GET() {
         .not('parent_id', 'is', null)
         .eq('version', 'beta');
 
-    console.log('after fetch...')
-
-    console.log({ error, data })
-
     if (!data || !data.length) {
         return Response.json({})
     }
 
     for (let i = 0; i < data.length; i++) {
-        console.log('registering derivative ' + data[i].prompt_input)
-        const derivativeIpId = await registerDerivativeIP(data[i].nft_token_id, data[i].license_id);
-        const { error } = await supabaseClient.from('cast_datas').update({
-            ip_id: derivativeIpId
-        }).eq('id', data[i].id)
-        console.log('Error updating a derivative with its ipId:', error)
+        try {
+            const derivativeIpId = await registerDerivativeIP(data[i].nft_token_id, data[i].license_id);
+            const { error } = await supabaseClient.from('cast_datas').update({
+                ip_id: derivativeIpId
+            }).eq('id', data[i].id)
+            console.log('Error updating a derivative with its ipId:', error)
+            // only 1 at a time so far
+            break;
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     return Response.json({});
