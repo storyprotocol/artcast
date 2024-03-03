@@ -13,6 +13,8 @@ export async function GET() {
         .neq('parent_id', null)
         .eq('version', 'beta');
 
+    console.log({ data })
+
     if (!data || !data.length) {
         return Response.json({})
     }
