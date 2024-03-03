@@ -7,9 +7,9 @@ export async function GET() {
     console.log('initiating cron job')
     const { data, error } = await supabaseClient.from('cast_datas')
         .select('*')
-        .neq('nft_token_id', null)
-        .neq('license_id', null)
-        .eq('ip_id', null)
+        .not('nft_token_id', 'is', null)
+        .not('license_id', 'is', null)
+        .is('ip_id', null)
         .not('parent_id', 'is', null)
         .eq('version', 'beta');
 
