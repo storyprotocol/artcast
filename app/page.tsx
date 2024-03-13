@@ -1,5 +1,5 @@
 import { FrameButton, FrameContainer, FrameImage, useFramesReducer, FrameReducer, NextServerPageProps, getPreviousFrame } from "frames.js/next/server";
-import HomepageFrame from "@/lib/components/frames/HomepageFrame";
+import HomepageFrame from "@/components/frames/HomepageFrame";
 import { HomepageForm } from "@/components/HomepageForm";
 
 const reducer: FrameReducer = (state, action) => {

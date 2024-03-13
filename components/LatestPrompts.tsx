@@ -1,19 +1,15 @@
 import { Cast } from "@/lib/types/cast.interface"
-import { convertSupabaseDateToHumanReadable } from "@/lib/utils";
-import { AuthorLink } from "./AuthorLink";
-import { getArtcastImage } from "@/lib/actions/getArtcastImage";
+import { AuthorLink } from "./atoms/AuthorLink";
+import { getArtcastImage } from "@/lib/functions/supabase/getArtcastImage";
 import { useEffect, useState } from "react";
+import { convertSupabaseDateToHumanReadable } from "@/lib/utils/convertSupabaseDateToHumanReadable";
 
 function Version({ cast }: { cast: Cast }) {
     const [image, setImage] = useState('');
 
-    async function loadData(imagePath: string) {
-        let url = await getArtcastImage(imagePath as string);
-        setImage(url);
-    }
-
     useEffect(() => {
-        loadData(cast.image_path as string)
+        let url = getArtcastImage(cast.image_path as string);
+        setImage(url);
     }, [])
 
     return (

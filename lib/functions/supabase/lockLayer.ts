@@ -1,5 +1,5 @@
 'use server';
-import { supabaseClient } from "../supabaseClient";
+import { supabaseClient } from "../../client/supabase/supabaseClient";
 
 export async function lockLayer(
     layer_1_cast_id: number

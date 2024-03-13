@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { http } from "viem"
 import { Address, privateKeyToAccount } from "viem/accounts"
 import { StoryClient, StoryConfig } from '@story-protocol/core-sdk'

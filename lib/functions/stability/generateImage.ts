@@ -1,11 +1,10 @@
 'use server';
 import fetch from 'node-fetch';
 import FormData from 'form-data';
-import { supabaseClient } from '../supabase/supabaseClient';
-import { getSupabaseImagePath } from '../utils';
 import sharp from 'sharp';
-import { registerOnStory } from './registerOnStory';
-import { getArtcastImage } from './getArtcastImage';
+import { uploadImage } from '../supabase/uploadImage';
+import { updateImagePathOnCast } from '../supabase/updateImagePathOnCast';
+import { getSupabaseImagePath } from '../../utils/getSupabaseImagePath';
 
 async function blobToBuffer(blob: any) {
     const arrayBuffer = await blob.arrayBuffer();
@@ -136,26 +135,17 @@ async function textToImage(prompts: string[]) {
     return result;
 }
 
-export async function generateImage(castName: string, prompts: string[], createdArtcastId: number, farcasterName: string) {
+export async function generateImage(castName: string, prompts: string[], createdArtcastId: number) {
     const result = await textToImage(prompts);
     //@ts-ignore
-    let imageBlob = base64ToBlob(result.artifacts[0].base64, 'image/jpeg');
+    const imageBlob = base64ToBlob(result.artifacts[0].base64, 'image/jpeg');
     const imageBuffer = await blobToBuffer(imageBlob);
     const consenscedImageBuffer = await sharp(imageBuffer)
         .jpeg({ quality: 10 }) // Adjust the quality value as needed (between 0 and 100)
         .toBuffer();
     const finalBlob = new Blob([consenscedImageBuffer], { type: 'image/jpeg' });
     // upload the image to storage
-    let image_path = getSupabaseImagePath(castName, createdArtcastId);
-    await supabaseClient
-        .storage
-        .from('artcast_images')
-        .upload(image_path, finalBlob);
-    console.log('saving generated image to supabase')
-    await supabaseClient.from('cast_datas').update({
-        image_path
-    }).eq('id', createdArtcastId)
-
-    // const imageUrl = await getArtcastImage(image_path);
-    // await registerOnStory(farcasterName, castName, prompts.join(';'), createdArtcastId, imageUrl);
+    const imagePath = getSupabaseImagePath(castName, createdArtcastId);
+    await uploadImage(imagePath, finalBlob);
+    await updateImagePathOnCast(imagePath, createdArtcastId);
 }

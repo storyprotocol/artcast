@@ -1,15 +1,15 @@
-import { generateImage } from '@/lib/actions/generateImage';
+import { generateImage } from '@/lib/functions/stability/generateImage';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const maxDuration = 30; // This function can run for a maximum of 5 seconds
 
 export async function POST(request: NextRequest) {
     // prompts is in order from old -> new
-    const { castName, prompts, createdArtcastId, farcasterName } = await request.json();
+    const { castName, prompts, createdArtcastId } = await request.json();
 
     try {
         // generate the image
-        await generateImage(castName, prompts, createdArtcastId, farcasterName);
+        await generateImage(castName, prompts, createdArtcastId);
 
         // Send a success response
         return new NextResponse(JSON.stringify({ message: 'Image generation successful' }), {

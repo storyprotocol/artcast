@@ -2,7 +2,7 @@
 import { http, Address, createWalletClient, createPublicClient } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { sepolia } from 'viem/chains'
-import { contractAbi } from './contract-abi';
+import { contractAbi } from '../../utils/contractAbi';
 
 export async function mintNFT(walletAddress: string, uri: string): Promise<string> {
     console.log('Minting a new NFT...')

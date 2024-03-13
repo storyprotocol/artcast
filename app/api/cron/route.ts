@@ -1,5 +1,5 @@
-import { registerDerivativeIP } from "@/lib/story-beta/functions/registerDeriviativeIP";
-import { supabaseClient } from "@/lib/supabase/supabaseClient";
+import { registerDerivativeIP } from "@/lib/functions/story-beta/registerDeriviativeIP";
+import { supabaseClient } from "@/lib/client/supabase/supabaseClient";
 
 export const revalidate = 0
 export const maxDuration = 120;

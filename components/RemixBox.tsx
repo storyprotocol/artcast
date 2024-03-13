@@ -5,12 +5,11 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { Cast } from "@/lib/types/cast.interface";
-import { storeCast } from "@/lib/supabase/functions/storeCast";
-import { lockLayer } from "@/lib/supabase/functions/lockLayer";
-import { handleGenerateImage } from "@/lib/functions/handleGenerateImage";
+import { storeCast } from "@/lib/functions/supabase/storeCast";
+import { handleGenerateImage } from "@/lib/functions/api/handleGenerateImage";
 import { useRouter } from "next/navigation";
-import { getSupabaseImagePath } from "@/lib/utils";
-import { handleRegisterDerivativeIP } from "@/lib/functions/handleRegisterDerivativeIP";
+import { handleRegisterDerivativeIP } from "@/lib/functions/api/handleRegisterDerivativeIP";
+import { getSupabaseImagePath } from "@/lib/utils/getSupabaseImagePath";
 
 export function RemixBox({ cast }: { cast: Cast }) {
     const router = useRouter();
@@ -63,9 +62,6 @@ export function RemixBox({ cast }: { cast: Cast }) {
             setMessage('Registering your Artcast on Story Protocol...')
             await handleRegisterDerivativeIP(newCastInfo.name, inputPrompt, imagePath, createdArtcastId!, walletAddress, cast.ip_id!);
         }
-        // if (newCastInfo.branch_num == 10) {
-        //     await lockLayer(newCastInfo.layer_1_cast_id as number);
-        // }
         setCreatedStatus('finished');
         router.push(`/cast/${createdArtcastId}`);
     }

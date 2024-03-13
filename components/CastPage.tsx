@@ -1,18 +1,18 @@
 'use client';
-import { AuthorLink } from "@/components/AuthorLink";
+import { AuthorLink } from "@/components/atoms/AuthorLink";
 import { LatestPrompts } from "@/components/LatestPrompts";
 import { RecentHistory } from "@/components/RecentHistory";
-import { RegisteredOnStory } from "@/components/RegisteredOnStory";
+import { RegisteredOnStory } from "@/components/atoms/RegisteredOnStory";
 import { RemixBox } from "@/components/RemixBox";
-import { ShareButton } from "@/components/ShareButton";
+import { ShareButton } from "@/components/atoms/ShareButton";
 import { TypographyH2, TypographyH3 } from "@/components/ui/typography";
-import { handleFetchCast } from "@/lib/functions/handleFetchCast";
+import { handleFetchCast } from "@/lib/functions/api/handleFetchCast";
 import { Cast } from "@/lib/types/cast.interface";
-import { convertSupabaseDateToHumanReadable } from "@/lib/utils";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
-import NodeGraph from "./NodeGraph";
-import { publicSupabaseClient } from "@/lib/supabase/publicSupabaseClient";
+import NodeGraph from "./chart/NodeGraph";
+import { publicSupabaseClient } from "@/lib/client/supabase/publicSupabaseClient";
+import { convertSupabaseDateToHumanReadable } from "@/lib/utils/convertSupabaseDateToHumanReadable";
 
 export default function CastPage({ castId }: any) {
     const [cast, setCast] = useState<Cast | null>(null)

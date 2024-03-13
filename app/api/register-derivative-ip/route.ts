@@ -1,8 +1,8 @@
-import { getArtcastImage } from '@/lib/actions/getArtcastImage';
-import { uploadJSONToIPFS } from '@/lib/pinata/functions/uploadJSONToIPFS';
-import { mintLicense } from '@/lib/story-beta/functions/mintLicense';
-import { mintNFT } from '@/lib/story-beta/functions/mintNFT';
-import { supabaseClient } from '@/lib/supabase/supabaseClient';
+import { getArtcastImage } from '@/lib/functions/supabase/getArtcastImage';
+import { uploadJSONToIPFS } from '@/lib/functions/pinata/uploadJSONToIPFS';
+import { mintLicense } from '@/lib/functions/story-beta/mintLicense';
+import { mintNFT } from '@/lib/functions/story-beta/mintNFT';
+import { supabaseClient } from '@/lib/client/supabase/supabaseClient';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const maxDuration = 120; // This function can run for a maximum of 5 seconds
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     const { castId, castName, imagePath, walletAddress, prompt, originIpId } = await request.json();
 
     try {
-        const imageURL = await getArtcastImage(imagePath);
+        const imageURL = getArtcastImage(imagePath);
         // store on ipfs
         const ipfsUri = await uploadJSONToIPFS(castName, prompt, imageURL);
         // create nft

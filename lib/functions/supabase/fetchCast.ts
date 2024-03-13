@@ -1,5 +1,5 @@
 import { Cast } from "@/lib/types/cast.interface";
-import { supabaseClient } from "../supabaseClient";
+import { supabaseClient } from "../../client/supabase/supabaseClient";
 
 export async function fetchCast(castId: number, stage: string): Promise<Cast | null> {
     let castCall = supabaseClient.from('cast_datas').select('*, layer_1_cast:layer_1_cast_id(locked), parent_cast:parent_id(farcaster_id)').eq('id', castId);

@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { handleGenerateImage } from "@/lib/functions/handleGenerateImage";
-import { storeCast } from "@/lib/supabase/functions/storeCast";
+import { handleGenerateImage } from "@/lib/functions/api/handleGenerateImage";
+import { storeCast } from "@/lib/functions/supabase/storeCast";
 import { useRouter } from 'next/navigation';
-import { handleRegisterIP } from "@/lib/functions/handleRegisterIP";
-import { getSupabaseImagePath } from "@/lib/utils";
+import { handleRegisterIP } from "@/lib/functions/api/handleRegisterIP";
+import { getSupabaseImagePath } from "@/lib/utils/getSupabaseImagePath";
 
 export function HomepageForm() {
     const router = useRouter();

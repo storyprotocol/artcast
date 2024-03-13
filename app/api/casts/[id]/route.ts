@@ -1,5 +1,5 @@
-import { getArtcastImage } from '@/lib/actions/getArtcastImage';
-import { supabaseClient } from '@/lib/supabase/supabaseClient';
+import { getArtcastImage } from '@/lib/functions/supabase/getArtcastImage';
+import { supabaseClient } from '@/lib/client/supabase/supabaseClient';
 
 export const runtime = 'edge';
 
@@ -28,7 +28,7 @@ export async function GET(request: Request, { params }: { params: { id: number }
     // let { data: tree } = await supabaseClient.rpc('fetchtree', { starting_id: version_history[version_history.length - 1].id });
     // ans['tree'] = tree
 
-    const castImage = await getArtcastImage(ans.image_path as string);
+    const castImage = getArtcastImage(ans.image_path as string);
     return Response.json({ cast: ans, castImage }, {
         status: 200
     })

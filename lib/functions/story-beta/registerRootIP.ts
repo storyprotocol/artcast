@@ -1,7 +1,7 @@
 'use server';
 
 import { Address } from "viem";
-import { client } from "../client";
+import { client } from "../../client/story-beta/client";
 
 export async function registerRootIP(tokenId: string, policyId: string): Promise<string> {
     const registeredIpAsset = await client.ipAsset.registerRootIp({

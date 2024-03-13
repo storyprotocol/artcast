@@ -1,6 +1,6 @@
 'use server';
 
-import { client } from "../client";
+import { client } from "../../client/story-beta/client";
 
 export async function mintLicense(
     policyId: string,
