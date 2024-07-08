@@ -99,7 +99,14 @@ export function RemixBox({ cast }: { cast: Cast }) {
           Your additional prompt.
         </p>
       </div>
-      {createdStatus === "finished" ? (
+      {!wallet ? (
+        <div>
+          <Button disabled>Create</Button>
+          <p className="text-[0.8rem] text-muted-foreground text-yellow-400">
+            Please log in to create an Artcast.
+          </p>
+        </div>
+      ) : createdStatus === "finished" ? (
         <div className="flex gap-2 items-center">
           <Button disabled>
             <CheckIcon className="mr-2 h-4 w-4" />
