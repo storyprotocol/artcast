@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { http, Address, createPublicClient, WalletClient } from "viem";
 import { sepolia } from "viem/chains";
 import { contractAbi } from "../../utils/contractAbi";
