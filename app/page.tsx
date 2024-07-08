@@ -102,7 +102,7 @@ export default function HomepageForm() {
       {!wallet ? (
         <div>
           <Button disabled>Create</Button>
-          <p className="text-[0.8rem] text-muted-foreground text-yellow-400">
+          <p className="text-[0.8rem] text-muted-foreground text-yellow-100">
             Please log in to create an Artcast.
           </p>
         </div>
