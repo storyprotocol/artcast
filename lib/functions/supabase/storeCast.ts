@@ -1,32 +1,33 @@
-'use server';
+"use server";
 import { supabaseClient } from "../../client/supabase/supabaseClient";
 
 export async function storeCast(
-    name: string,
-    farcaster_id: string,
-    image_path: string | null,
-    parent_id: number | null,
-    branch_num: number,
-    prompt_input: string | null,
-    layer_1_cast_id: number | null,
-    version: 'beta' | 'alpha'
+  name: string,
+  image_path: string | null,
+  parent_id: number | null,
+  branch_num: number,
+  prompt_input: string | null,
+  wallet_address: string
 ): Promise<number | null> {
-    // upload to user row
-    const { data } = await supabaseClient.from('cast_datas').insert({
-        name,
-        farcaster_id,
-        image_path,
-        parent_id,
-        branch_num,
-        prompt_input,
-        layer_1_cast_id,
-        version
-    }).select();
+  // upload to user row
+  console.log("STORING CAST");
+  const { data, error } = await supabaseClient
+    .from("cast_datas_v2")
+    .insert({
+      name,
+      image_path,
+      parent_id,
+      branch_num,
+      prompt_input,
+      wallet_address,
+    })
+    .select();
+  console.log(data, error);
 
-    if (!data || !data.length) {
-        return null;
-    }
+  if (!data || !data.length) {
+    return null;
+  }
 
-    let createdCastId = data[0].id;
-    return createdCastId;
+  let createdCastId = data[0].id;
+  return createdCastId;
 }

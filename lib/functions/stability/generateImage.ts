@@ -1,151 +1,154 @@
-'use server';
-import fetch from 'node-fetch';
-import FormData from 'form-data';
-import sharp from 'sharp';
-import { uploadImage } from '../supabase/uploadImage';
-import { updateImagePathOnCast } from '../supabase/updateImagePathOnCast';
-import { getSupabaseImagePath } from '../../utils/getSupabaseImagePath';
+"use server";
+import fetch from "node-fetch";
+import FormData from "form-data";
+import sharp from "sharp";
+import { uploadImage } from "../supabase/uploadImage";
+import { updateImagePathOnCast } from "../supabase/updateImagePathOnCast";
+import { getSupabaseImagePath } from "../../utils/getSupabaseImagePath";
+import { uploadFileToIpfs } from "../pinata/uploadFileToIPFS";
 
 async function blobToBuffer(blob: any) {
-    const arrayBuffer = await blob.arrayBuffer();
-    return Buffer.from(arrayBuffer);
+  const arrayBuffer = await blob.arrayBuffer();
+  return Buffer.from(arrayBuffer);
 }
 
 function base64ToBlob(base64: any, mimeType: any) {
-    // Decode Base64 string
-    const byteCharacters = atob(base64);
+  // Decode Base64 string
+  const byteCharacters = atob(base64);
 
-    // Create an array of byte values
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
+  // Create an array of byte values
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
 
-    // Convert to a binary representation
-    const byteArray = new Uint8Array(byteNumbers);
+  // Convert to a binary representation
+  const byteArray = new Uint8Array(byteNumbers);
 
-    // Create and return a Blob with the binary data and MIME type
-    return new Blob([byteArray], { type: mimeType });
+  // Create and return a Blob with the binary data and MIME type
+  return new Blob([byteArray], { type: mimeType });
 }
 
 async function modifyImage(downloadedImageBuffer: any, prompt: any) {
-    // NOTE: This example is using a NodeJS FormData library.
-    // Browsers should use their native FormData class.
-    // React Native apps should also use their native FormData class.
-    const formData = new FormData();
-    formData.append('init_image', downloadedImageBuffer);
-    formData.append('init_image_mode', "IMAGE_STRENGTH");
-    formData.append('image_strength', 0.35);
-    formData.append('steps', 30);
-    formData.append('seed', 0);
-    formData.append('cfg_scale', 30);
-    formData.append('samples', 1);
-    formData.append('text_prompts[0][text]', prompt)
-    formData.append('text_prompts[0][weight]', 1);
-    formData.append('text_prompts[1][text]', 'blurry, bad')
-    formData.append('text_prompts[1][weight]', -1);
+  // NOTE: This example is using a NodeJS FormData library.
+  // Browsers should use their native FormData class.
+  // React Native apps should also use their native FormData class.
+  const formData = new FormData();
+  formData.append("init_image", downloadedImageBuffer);
+  formData.append("init_image_mode", "IMAGE_STRENGTH");
+  formData.append("image_strength", 0.35);
+  formData.append("steps", 30);
+  formData.append("seed", 0);
+  formData.append("cfg_scale", 30);
+  formData.append("samples", 1);
+  formData.append("text_prompts[0][text]", prompt);
+  formData.append("text_prompts[0][weight]", 1);
+  formData.append("text_prompts[1][text]", "blurry, bad");
+  formData.append("text_prompts[1][weight]", -1);
 
-    const response = await fetch(
-        "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/image-to-image",
-        {
-            method: 'POST',
-            headers: {
-                ...formData.getHeaders(),
-                Accept: 'application/json',
-                Authorization: `Bearer ${process.env.STABILITY_API_KEY}`,
-            },
-            body: formData,
-        }
-    );
+  const response = await fetch(
+    "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/image-to-image",
+    {
+      method: "POST",
+      headers: {
+        ...formData.getHeaders(),
+        Accept: "application/json",
+        Authorization: `Bearer ${process.env.STABILITY_API_KEY}`,
+      },
+      body: formData,
+    }
+  );
 
-    const result = await response.json();
-    return result;
+  const result = await response.json();
+  return result;
 }
 
 async function maskImage(downloadedImageBuffer: any, prompt: any) {
-    // NOTE: This example is using a NodeJS FormData library.
-    // Browsers should use their native FormData class.
-    // React Native apps should also use their native FormData class.
-    const formData = new FormData();
-    formData.append('init_image', downloadedImageBuffer);
-    formData.append('mask_source', 'MASK_IMAGE_BLACK')
-    formData.append('mask_image', downloadedImageBuffer)
-    formData.append('steps', 40);
-    formData.append('seed', 0);
-    formData.append('cfg_scale', 30);
-    formData.append('samples', 1);
-    formData.append('text_prompts[0][text]', prompt)
-    formData.append('text_prompts[0][weight]', 1);
-    formData.append('text_prompts[1][text]', 'blurry, bad')
-    formData.append('text_prompts[1][weight]', -1);
+  // NOTE: This example is using a NodeJS FormData library.
+  // Browsers should use their native FormData class.
+  // React Native apps should also use their native FormData class.
+  const formData = new FormData();
+  formData.append("init_image", downloadedImageBuffer);
+  formData.append("mask_source", "MASK_IMAGE_BLACK");
+  formData.append("mask_image", downloadedImageBuffer);
+  formData.append("steps", 40);
+  formData.append("seed", 0);
+  formData.append("cfg_scale", 30);
+  formData.append("samples", 1);
+  formData.append("text_prompts[0][text]", prompt);
+  formData.append("text_prompts[0][weight]", 1);
+  formData.append("text_prompts[1][text]", "blurry, bad");
+  formData.append("text_prompts[1][weight]", -1);
 
-    const response = await fetch(
-        "https://api.stability.ai/v1/generation/stable-diffusion-v1-6/image-to-image/masking",
-        {
-            method: 'POST',
-            headers: {
-                ...formData.getHeaders(),
-                Accept: 'application/json',
-                Authorization: `Bearer ${process.env.STABILITY_API_KEY}`,
-            },
-            body: formData,
-        }
-    );
-
-    if (!response.ok) {
-        throw new Error(`Non-200 response: ${await response.text()}`)
+  const response = await fetch(
+    "https://api.stability.ai/v1/generation/stable-diffusion-v1-6/image-to-image/masking",
+    {
+      method: "POST",
+      headers: {
+        ...formData.getHeaders(),
+        Accept: "application/json",
+        Authorization: `Bearer ${process.env.STABILITY_API_KEY}`,
+      },
+      body: formData,
     }
+  );
 
-    const result = await response.json();
-    return result;
+  if (!response.ok) {
+    throw new Error(`Non-200 response: ${await response.text()}`);
+  }
+
+  const result = await response.json();
+  return result;
 }
 
 async function textToImage(prompts: string[]) {
-    let text_prompts = prompts.map((ele, index) => {
-        return { "text": ele, "weight": 1 }
-    })
-    const body = {
-        steps: 40,
-        width: 1024,
-        height: 1024,
-        seed: 0,
-        cfg_scale: 35,
-        samples: 1,
-        text_prompts
-    };
+  let text_prompts = prompts.map((ele, index) => {
+    return { text: ele, weight: 1 };
+  });
+  const body = {
+    steps: 40,
+    width: 1024,
+    height: 1024,
+    seed: 0,
+    cfg_scale: 35,
+    samples: 1,
+    text_prompts,
+  };
 
-    const response = await fetch(
-        "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image",
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                Authorization: `Bearer ${process.env.STABILITY_API_KEY}`,
-            },
-            method: "POST",
-            body: JSON.stringify(body),
-        }
-    );
-
-    if (!response.ok) {
-        throw new Error(`Non-200 response: ${await response.text()}`)
+  const response = await fetch(
+    "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image",
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${process.env.STABILITY_API_KEY}`,
+      },
+      method: "POST",
+      body: JSON.stringify(body),
     }
+  );
 
-    const result = await response.json();
-    return result;
+  if (!response.ok) {
+    throw new Error(`Non-200 response: ${await response.text()}`);
+  }
+
+  const result = await response.json();
+  return result;
 }
 
-export async function generateImage(castName: string, prompts: string[], createdArtcastId: number) {
-    const result = await textToImage(prompts);
-    //@ts-ignore
-    const imageBlob = base64ToBlob(result.artifacts[0].base64, 'image/jpeg');
-    const imageBuffer = await blobToBuffer(imageBlob);
-    const consenscedImageBuffer = await sharp(imageBuffer)
-        .jpeg({ quality: 10 }) // Adjust the quality value as needed (between 0 and 100)
-        .toBuffer();
-    const finalBlob = new Blob([consenscedImageBuffer], { type: 'image/jpeg' });
-    // upload the image to storage
-    const imagePath = getSupabaseImagePath(castName, createdArtcastId);
-    await uploadImage(imagePath, finalBlob);
-    await updateImagePathOnCast(imagePath, createdArtcastId);
+export async function generateImage(
+  prompts: string[],
+  createdArtcastId: number
+) {
+  const result = await textToImage(prompts);
+  //@ts-ignore
+  const imageBlob = base64ToBlob(result.artifacts[0].base64, "image/jpeg");
+  const imageBuffer = await blobToBuffer(imageBlob);
+  const consenscedImageBuffer = await sharp(imageBuffer)
+    .jpeg({ quality: 10 }) // Adjust the quality value as needed (between 0 and 100)
+    .toBuffer();
+  const finalBlob = new Blob([consenscedImageBuffer], { type: "image/jpeg" });
+  const imageIPFSHash = await uploadFileToIpfs(finalBlob);
+  await updateImagePathOnCast(imageIPFSHash, createdArtcastId);
+  return imageIPFSHash;
 }

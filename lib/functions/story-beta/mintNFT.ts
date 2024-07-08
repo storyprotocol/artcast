@@ -1,37 +1,30 @@
-'use server';
-import { http, Address, createWalletClient, createPublicClient } from 'viem'
-import { privateKeyToAccount } from 'viem/accounts'
-import { sepolia } from 'viem/chains'
-import { contractAbi } from '../../utils/contractAbi';
+import { http, Address, createPublicClient, WalletClient } from "viem";
+import { sepolia } from "viem/chains";
+import { contractAbi } from "../../utils/contractAbi";
 
-export async function mintNFT(walletAddress: string, uri: string): Promise<string> {
-    console.log('Minting a new NFT...')
-    const account = privateKeyToAccount(process.env.WALLET_PRIVATE_KEY as Address)
-    const walletClient = createWalletClient({
-        account,
-        chain: sepolia,
-        transport: http(),
-    })
-    const publicClient = createPublicClient({
-        chain: sepolia,
-        transport: http()
-    })
+export async function mintNFT(
+  wallet: WalletClient,
+  uri: string
+): Promise<string> {
+  console.log("Minting a new NFT...");
+  const publicClient = createPublicClient({
+    chain: sepolia,
+    transport: http(process.env.NEXT_PUBLIC_RPC_PROVIDER_URL),
+  });
 
-    // 3. Mint an NFT to your account
-    const { request, result } = await publicClient.simulateContract({
-        address: process.env.NFT_CONTRACT_ADDRESS as Address,
-        functionName: 'mint',
-        args: [walletAddress, uri],
-        abi: contractAbi
-    })
-    const hash = await walletClient.writeContract(request);
+  // 3. Mint an NFT to your account
+  const { request } = await publicClient.simulateContract({
+    address: process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as Address,
+    functionName: "mint",
+    args: [wallet.account?.address, uri],
+    abi: contractAbi,
+  });
+  const hash = await wallet.writeContract(request);
+  console.log(`Minted NFT successful with hash: ${hash}`);
 
-    let tokenId = result!.toString();
+  const receipt = await publicClient.waitForTransactionReceipt({ hash });
+  const tokenId = Number(receipt.logs[0].topics[3]).toString();
+  console.log(`Minted NFT tokenId: ${tokenId}`);
 
-    console.log(`Minted NFT successful with hash: ${hash}`);
-    console.log(`Minted NFT tokenId: ${tokenId}`);
-
-    await publicClient.waitForTransactionReceipt({ hash });
-
-    return tokenId;
+  return tokenId;
 }

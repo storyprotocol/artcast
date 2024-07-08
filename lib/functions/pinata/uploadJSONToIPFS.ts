@@ -1,16 +1,21 @@
-'use server';
-const pinataSDK = require('@pinata/sdk');
+"use server";
 
-export async function uploadJSONToIPFS(name: string, prompt: string, imageURL: string) {
-    const pinata = new pinataSDK({ pinataJWTKey: process.env.PINATA_JWT });
+const pinataSDK = require("@pinata/sdk");
 
-    const json = {
-        name,
-        description: 'Prompt: ' + prompt,
-        image: imageURL
-    }
+export async function uploadJSONToIPFS(
+  name: string,
+  prompt: string,
+  imageIpfsHash: string
+) {
+  const pinata = new pinataSDK({ pinataJWTKey: process.env.PINATA_JWT });
 
-    const res = await pinata.pinJSONToIPFS(json);
-    console.log({ res })
-    return `ipfs://${res.IpfsHash}`;
+  const json = {
+    name,
+    description: "Prompt: " + prompt,
+    image: imageIpfsHash,
+  };
+
+  const res = await pinata.pinJSONToIPFS(json);
+  console.log({ res });
+  return `ipfs://${res.IpfsHash}`;
 }
