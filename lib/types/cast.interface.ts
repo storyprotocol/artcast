@@ -13,4 +13,5 @@ export interface Cast {
   version_history: Cast[];
   story_explorer_url: string | null;
   ip_id: string | null;
+  using_ai: boolean;
 }

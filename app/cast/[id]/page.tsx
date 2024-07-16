@@ -53,7 +53,12 @@ export default function CastPage({ params }: any) {
                     Created on{" "}
                     {convertSupabaseDateToHumanReadable(cast.created_at)}
                   </p>
-
+                  {cast.using_ai ? (
+                    <p className="text-sm text-muted-foreground">
+                      Generated using{" "}
+                      <span className="text-[#988cfc]">Stability AI</span>.
+                    </p>
+                  ) : null}
                   <RegisteredOnStory
                     storyExplorerUrl={`https://explorer.storyprotocol.xyz/ipa/${cast.ip_id}`}
                   />

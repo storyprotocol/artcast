@@ -7,7 +7,8 @@ export async function storeCast(
   parent_id: number | null,
   branch_num: number,
   prompt_input: string | null,
-  wallet_address: string
+  wallet_address: string,
+  using_ai: boolean
 ): Promise<number | null> {
   // upload to user row
   console.log("STORING CAST");
@@ -20,6 +21,7 @@ export async function storeCast(
       branch_num,
       prompt_input,
       wallet_address,
+      using_ai,
     })
     .select();
   console.log(data, error);

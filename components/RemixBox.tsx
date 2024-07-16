@@ -34,7 +34,8 @@ export function RemixBox({ cast }: { cast: Cast }) {
       cast.id,
       cast.branch_num + 1,
       prompt,
-      wallet?.account.address as Address
+      wallet?.account.address as Address,
+      true
     )) as number;
 
     let builtPrompts: string[] = cast.version_history
@@ -102,7 +103,7 @@ export function RemixBox({ cast }: { cast: Cast }) {
       {!wallet ? (
         <div>
           <Button disabled>Create</Button>
-          <p className="text-[0.8rem] text-muted-foreground text-yellow-100">
+          <p className="text-[0.8rem] text-muted-foreground text-yellow-400">
             Please log in to create an Artcast.
           </p>
         </div>
