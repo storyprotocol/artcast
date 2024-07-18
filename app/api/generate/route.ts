@@ -5,11 +5,11 @@ export const maxDuration = 30; // This function can run for a maximum of 5 secon
 
 export async function POST(request: NextRequest) {
   // prompts is in order from old -> new
-  const { prompts, createdArtcastId } = await request.json();
+  const { prompt, createdArtcastId } = await request.json();
 
   try {
     // generate the image
-    const imageIpfsHash = await generateImage(prompts, createdArtcastId);
+    const imageIpfsHash = await generateImage(prompt, createdArtcastId);
 
     // Send a success response
     return new NextResponse(

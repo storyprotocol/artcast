@@ -14,6 +14,7 @@ import { uploadJSONToIPFS } from "@/lib/functions/pinata/uploadJSONToIPFS";
 import { mintNFT } from "@/lib/functions/story-beta/mintNFT";
 import { updateCastWithNftId } from "@/lib/functions/supabase/updateCastWithNftId";
 import { useIpAsset } from "react-sdk57";
+import { handleModifyImage } from "@/lib/functions/api/handleModifyImage";
 
 export function RemixBox({ cast }: { cast: Cast }) {
   const router = useRouter();
@@ -37,14 +38,10 @@ export function RemixBox({ cast }: { cast: Cast }) {
       wallet?.account.address as Address,
       true
     )) as number;
-
-    let builtPrompts: string[] = cast.version_history
-      .map((ele) => ele.prompt_input as string)
-      .filter((ele) => !!ele)
-      .concat(prompt);
-    setMessage("Generating your image...");
-    const imageIpfsHash = await handleGenerateImage(
-      builtPrompts,
+    setMessage("Modifying the image...");
+    const imageIpfsHash = await handleModifyImage(
+      (cast.image_path as string).replace("ipfs://", ""),
+      prompt,
       createdArtcastId
     );
     setMessage("Minting your image as an NFT...");

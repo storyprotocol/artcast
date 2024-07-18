@@ -1,26 +1,35 @@
 "use server";
-import { base64ToBlob } from "@/lib/utils/base64ToBlob";
 import axios from "axios";
 import { uploadFileToIpfs } from "../pinata/uploadFileToIPFS";
 import { updateImagePathOnCast } from "../supabase/updateImagePathOnCast";
+import { blobToBuffer } from "@/lib/utils/blobToBuffer";
+import { base64ToBlob } from "@/lib/utils/base64ToBlob";
 
-export async function handleGenerateImage(
+export async function handleModifyImage(
+  cid: string,
   prompt: string,
   createdArtcastId: number
 ) {
+  const imageResponse = await fetch(`https://ipfs.io/ipfs/${cid}`);
+  const buffer = await blobToBuffer(imageResponse);
+  console.log({ buffer });
+
   const payload = {
+    image: buffer,
     prompt,
+    strength: 0.8,
     output_format: "png",
+    mode: "image-to-image",
   };
 
   const response = await axios.postForm(
-    `https://api.stability.ai/v2beta/stable-image/generate/core`,
+    `https://api.stability.ai/v2beta/stable-image/generate/sd3`,
     axios.toFormData(payload, new FormData()),
     {
       headers: {
         // "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${process.env.STABILITY_API_KEY}`,
+        Authorization: `Bearer sk-L5KE8cHBm2cYgNb5HfvCp50OxPMoQ9M0UnbxgBiwT8nKohah`,
       },
       method: "POST",
     }
@@ -38,6 +47,8 @@ export async function handleGenerateImage(
   //   .toBuffer();
   // imageBlob = new Blob([consenscedImageBuffer], { type: "image/jpeg" });
   const imageIPFSHash = await uploadFileToIpfs(imageBlob);
+  console.log({ imageIPFSHash });
+  console.log({ createdArtcastId });
   await updateImagePathOnCast(imageIPFSHash, createdArtcastId);
   return imageIPFSHash;
 }

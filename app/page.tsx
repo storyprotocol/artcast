@@ -47,7 +47,7 @@ export default function HomepageForm() {
       true
     )) as number;
     setMessage("Generating your image...");
-    const imageIpfsHash = await handleGenerateImage([prompt], createdArtcastId);
+    const imageIpfsHash = await handleGenerateImage(prompt, createdArtcastId);
     setMessage("Minting your image as an NFT...");
     const ipfsUri = await uploadJSONToIPFS(name, prompt, imageIpfsHash);
     const mintedNFTTokenId = await mintNFT(wallet as WalletClient, ipfsUri);
