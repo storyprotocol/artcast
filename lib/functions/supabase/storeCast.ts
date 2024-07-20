@@ -24,7 +24,6 @@ export async function storeCast(
       using_ai,
     })
     .select();
-  console.log(data, error);
 
   if (!data || !data.length) {
     return null;

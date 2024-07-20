@@ -54,14 +54,12 @@ async function textToImage(prompt: string) {
   }
 
   const result = await response.data;
-  console.log(result);
   return result;
 }
 
 async function imageToImage(cid: string, prompt: string) {
   const imageResponse = await fetch(`https://ipfs.io/ipfs/${cid}`);
   const buffer = await blobToBuffer(imageResponse);
-  console.log({ buffer });
 
   const payload = {
     image: buffer,
@@ -89,7 +87,6 @@ async function imageToImage(cid: string, prompt: string) {
   }
 
   const result = await response.data;
-  console.log({ result });
   return result;
 }
 
@@ -112,9 +109,7 @@ export async function modifyImage(
   prompt: string,
   createdArtcastId: number
 ) {
-  console.log("Calling image...");
   const result = await imageToImage(cid, prompt);
-  console.log("Result has been finalized...");
   //@ts-ignore
   let imageBlob = base64ToBlob(result.image, "image/jpeg");
   // const imageBuffer = await blobToBuffer(imageBlob);
@@ -123,7 +118,6 @@ export async function modifyImage(
   //   .toBuffer();
   // imageBlob = new Blob([consenscedImageBuffer], { type: "image/jpeg" });
   const imageIPFSHash = await uploadFileToIpfs(imageBlob);
-  console.log({ imageIPFSHash });
   return;
   await updateImagePathOnCast(imageIPFSHash, createdArtcastId);
   return imageIPFSHash;

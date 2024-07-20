@@ -22,6 +22,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import HomepageList from "@/components/HomepageList";
 
 export default function HomepageForm() {
   const router = useRouter();
@@ -114,7 +115,7 @@ export default function HomepageForm() {
   }
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex flex-col justify-center items-center gap-[100px]">
       <Tabs defaultValue="ai" className="w-[400px] mt-[50px]">
         <TabsList>
           <TabsTrigger value="ai">Using AI</TabsTrigger>
@@ -293,6 +294,7 @@ export default function HomepageForm() {
           </Card>
         </TabsContent>
       </Tabs>
+      <HomepageList />
     </div>
   );
 }

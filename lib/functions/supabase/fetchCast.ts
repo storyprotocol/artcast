@@ -14,8 +14,6 @@ export async function fetchCast(castId: number) {
       .eq("id", castId);
     let [{ data }, { data: td }] = await Promise.all([castCall, countsCall]);
 
-    console.log(data, td);
-
     if (!data || !data.length || !td || !td.length) {
       return { error: "No cast" };
     }
@@ -37,8 +35,6 @@ export async function fetchCast(castId: number) {
     });
     let [{ data: latest_prompts }, { data: version_history }] =
       await Promise.all([lpCall, vhCall]);
-
-    console.log(latest_prompts, version_history);
     ans["latest_prompts"] = latest_prompts;
     ans["version_history"] = version_history;
     let { data: tree } = await supabaseClient.rpc("fetchtreev2", {

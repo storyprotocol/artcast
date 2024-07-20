@@ -16,6 +16,5 @@ export async function uploadJSONToIPFS(
   };
 
   const res = await pinata.pinJSONToIPFS(json);
-  console.log({ res });
   return `ipfs://${res.IpfsHash}`;
 }

@@ -76,7 +76,6 @@ function Version({
 }
 
 export function RecentHistory({ versions }: { versions: Cast[] }) {
-  console.log(versions);
   return (
     <div className="rounded-xl border bg-card text-card-foreground shadow p-6">
       <div className="flex flex-col space-y-1.5 mb-5">

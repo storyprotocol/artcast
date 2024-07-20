@@ -12,7 +12,6 @@ export async function handleModifyImage(
 ) {
   const imageResponse = await fetch(`https://ipfs.io/ipfs/${cid}`);
   const buffer = await blobToBuffer(imageResponse);
-  console.log({ buffer });
 
   const payload = {
     image: buffer,
@@ -47,8 +46,6 @@ export async function handleModifyImage(
   //   .toBuffer();
   // imageBlob = new Blob([consenscedImageBuffer], { type: "image/jpeg" });
   const imageIPFSHash = await uploadFileToIpfs(imageBlob);
-  console.log({ imageIPFSHash });
-  console.log({ createdArtcastId });
   await updateImagePathOnCast(imageIPFSHash, createdArtcastId);
   return imageIPFSHash;
 }

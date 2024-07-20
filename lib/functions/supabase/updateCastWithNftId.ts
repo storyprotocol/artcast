@@ -14,5 +14,4 @@ export async function updateCastWithNftId(
       nft_token_id: tokenId,
     })
     .eq("id", castId);
-  console.log(error);
 }

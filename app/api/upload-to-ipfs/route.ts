@@ -20,7 +20,6 @@ export async function POST(request: NextRequest) {
       .jpeg({ quality: 10 }) // Adjust the quality value as needed (between 0 and 100)
       .toBuffer();
     const finalBlob = new Blob([consenscedImageBuffer], { type: "image/jpeg" });
-    console.log(finalBlob);
 
     const imageIPFSHash = await uploadFileToIpfs(finalBlob);
 
