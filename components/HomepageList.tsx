@@ -19,7 +19,7 @@ export default function HomepageList() {
   }
 
   useEffect(() => {
-    // getLatestCasts();
+    getLatestCasts();
   }, []);
 
   return (
