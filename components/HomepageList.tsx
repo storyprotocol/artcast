@@ -1,7 +1,7 @@
 import { fetchLatestCasts } from "@/lib/functions/supabase/fetchLatestCasts";
 import { getIpfsImage } from "@/lib/utils/getIpfsImage";
 import { TypographyH2, TypographyH3 } from "./ui/typography";
-import { convertSupabaseDateToHumanReadable } from "@/lib/utils/convertSupabaseDateToHumanReadable";
+import { convertSupabaseDateToShortHumanReadable } from "@/lib/utils/convertSupabaseDateToHumanReadable";
 import { RegisteredOnStory } from "./atoms/RegisteredOnStory";
 import { useEffect, useState } from "react";
 import { Cast } from "@/lib/types/cast.interface";
@@ -59,7 +59,7 @@ export default function HomepageList() {
                 </p>
                 <p className="text-sm text-muted-foreground">
                   Created on{" "}
-                  {convertSupabaseDateToHumanReadable(cast.created_at)}
+                  {convertSupabaseDateToShortHumanReadable(cast.created_at)}
                 </p>
                 {cast.using_ai ? (
                   <p className="text-sm text-muted-foreground">

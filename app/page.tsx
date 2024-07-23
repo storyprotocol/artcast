@@ -116,7 +116,7 @@ export default function HomepageForm() {
 
   return (
     <div className="flex flex-col justify-center items-center gap-[100px]">
-      <Tabs defaultValue="ai" className="w-[400px] mt-[50px]">
+      <Tabs defaultValue="ai" className="w-[300px] md:w-[400px] mt-[50px]">
         <TabsList>
           <TabsTrigger value="ai">Using AI</TabsTrigger>
           <TabsTrigger value="no-ai">Upload</TabsTrigger>
