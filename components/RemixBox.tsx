@@ -44,27 +44,27 @@ export function RemixBox({ cast }: { cast: Cast }) {
       prompt,
       createdArtcastId
     );
-    setMessage("Minting your image as an NFT...");
-    const ipfsUri = await uploadJSONToIPFS(cast.name, prompt, imageIpfsHash);
-    const mintedNFTTokenId = await mintNFT(wallet as WalletClient, ipfsUri);
-    setMessage("Registering your Artcast on Story Protocol...");
-    const registeredIpAsset = await registerDerivativeIp({
-      nftContract: process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as Address,
-      tokenId: mintedNFTTokenId,
-      derivData: {
-        parentIpIds: [cast.ip_id as Address],
-        licenseTermsIds: ["2"],
-      },
-      txOptions: { waitForTransaction: true },
-    });
-    console.log(
-      `Completed at transaction hash ${registeredIpAsset.txHash}, IPA ID: ${registeredIpAsset.ipId}`
-    );
-    await updateCastWithNftId(
-      registeredIpAsset.ipId as Address,
-      mintedNFTTokenId,
-      createdArtcastId
-    );
+    // setMessage("Minting your image as an NFT...");
+    // const ipfsUri = await uploadJSONToIPFS(cast.name, prompt, imageIpfsHash);
+    // const mintedNFTTokenId = await mintNFT(wallet as WalletClient, ipfsUri);
+    // setMessage("Registering your Artcast on Story Protocol...");
+    // const registeredIpAsset = await registerDerivativeIp({
+    //   nftContract: process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as Address,
+    //   tokenId: mintedNFTTokenId,
+    //   derivData: {
+    //     parentIpIds: [cast.ip_id as Address],
+    //     licenseTermsIds: ["2"],
+    //   },
+    //   txOptions: { waitForTransaction: true },
+    // });
+    // console.log(
+    //   `Completed at transaction hash ${registeredIpAsset.txHash}, IPA ID: ${registeredIpAsset.ipId}`
+    // );
+    // await updateCastWithNftId(
+    //   registeredIpAsset.ipId as Address,
+    //   mintedNFTTokenId,
+    //   createdArtcastId
+    // );
     setCreatedStatus("finished");
     router.push(`/cast/${createdArtcastId}`);
   }
