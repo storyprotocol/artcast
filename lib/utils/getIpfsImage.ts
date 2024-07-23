@@ -1,3 +1,6 @@
 export function getIpfsImage(ipfsUri: string) {
-  return "https://ipfs.io/ipfs/" + ipfsUri.replace("ipfs://", "");
+  return (
+    "https://emerald-changing-scallop-171.mypinata.cloud/ipfs/" +
+    ipfsUri.replace("ipfs://", "")
+  );
 }
