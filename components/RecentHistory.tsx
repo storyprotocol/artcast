@@ -1,6 +1,4 @@
 import { Cast } from "@/lib/types/cast.interface";
-import { ShareButton } from "./atoms/ShareButton";
-import { AuthorLink } from "./atoms/AuthorLink";
 import { RegisteredOnStory } from "./atoms/RegisteredOnStory";
 import { convertSupabaseDateToHumanReadable } from "@/lib/utils/convertSupabaseDateToHumanReadable";
 import { getIpfsImage } from "@/lib/utils/getIpfsImage";
@@ -96,7 +94,7 @@ export function RecentHistory({ versions }: { versions: Cast[] }) {
             key={index}
             index={index}
             cast={version}
-            latest={index == 0}
+            latest={index == versions.length - 1}
           ></Version>
         ))}
       </ol>

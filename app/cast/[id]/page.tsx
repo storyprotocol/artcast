@@ -158,7 +158,9 @@ export default function CastPage({ params }: any) {
                 </div>
               </div>
               <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-                <RecentHistory versions={cast.version_history}></RecentHistory>
+                <RecentHistory
+                  versions={cast.version_history.sort((a, b) => a.id - b.id)}
+                ></RecentHistory>
                 <LatestPrompts versions={cast.latest_prompts}></LatestPrompts>
               </div>
               <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
