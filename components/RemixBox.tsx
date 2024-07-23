@@ -88,7 +88,7 @@ export function RemixBox({ cast }: { cast: Cast }) {
           id="prompt"
           name="prompt"
           type="text"
-          placeholder="A shiba dog..."
+          placeholder="The character has blue eyes..."
         />
         <p
           id=":r4:-form-item-description"
