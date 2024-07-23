@@ -18,6 +18,7 @@ export function convertSupabaseDateToHumanReadable(date: string) {
 export function convertSupabaseDateToShortHumanReadable(date: string) {
   const parsedDate = new Date(date);
   const options = { year: "numeric", month: "numeric", day: "numeric" };
+  // @ts-ignore
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
     parsedDate
   );
