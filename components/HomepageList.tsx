@@ -49,7 +49,12 @@ export default function HomepageList() {
                 alt="cast"
               />
               <div>
-                <TypographyH3>{cast.name}</TypographyH3>
+                <div className="flex items-center gap-[10px]">
+                  <TypographyH3>{cast.name}</TypographyH3>
+                  <span className="flex items-center justify-center w-6 h-6 bg-yellow-100 rounded-full ring-8 ring-white dark:ring-gray-900 dark:bg-yellow-900 text-sm">
+                    {cast.branch_num}
+                  </span>
+                </div>
                 <p className="text-sm text-muted-foreground">
                   Artcast #{cast.id}
                   <span className="hidden md:block">
@@ -67,9 +72,11 @@ export default function HomepageList() {
                     <span className="text-[#988cfc]">Stability AI</span>.
                   </p>
                 ) : null}
-                <RegisteredOnStory
-                  storyExplorerUrl={`https://explorer.storyprotocol.xyz/ipa/${cast.ip_id}`}
-                />
+                {cast.ip_id ? (
+                  <RegisteredOnStory
+                    storyExplorerUrl={`https://explorer.storyprotocol.xyz/ipa/${cast.ip_id}`}
+                  />
+                ) : null}
 
                 <br />
 

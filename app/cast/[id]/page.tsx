@@ -1,13 +1,10 @@
 "use client";
-import { AuthorLink } from "@/components/atoms/AuthorLink";
 import { LatestPrompts } from "@/components/LatestPrompts";
 import { RecentHistory } from "@/components/RecentHistory";
 import { RegisteredOnStory } from "@/components/atoms/RegisteredOnStory";
 import { RemixBox } from "@/components/RemixBox";
-import { ShareButton } from "@/components/atoms/ShareButton";
 import { TypographyH2, TypographyH3 } from "@/components/ui/typography";
 import { Cast } from "@/lib/types/cast.interface";
-import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
 import { convertSupabaseDateToHumanReadable } from "@/lib/utils/convertSupabaseDateToHumanReadable";
 import NodeGraph from "@/components/chart/NodeGraph";
@@ -45,7 +42,13 @@ export default function CastPage({ params }: any) {
                   alt="cast"
                 />
                 <div>
-                  <TypographyH3>{cast.name}</TypographyH3>
+                  <div className="flex items-center gap-[10px]">
+                    <TypographyH3>{cast.name}</TypographyH3>
+                    <span className="flex items-center justify-center w-6 h-6 bg-yellow-100 rounded-full ring-8 ring-white dark:ring-gray-900 dark:bg-yellow-900 text-sm">
+                      {cast.branch_num}
+                    </span>
+                  </div>
+
                   <p className="text-sm text-muted-foreground">
                     Artcast #{cast.id} by {cast.wallet_address}
                   </p>
@@ -59,9 +62,11 @@ export default function CastPage({ params }: any) {
                       <span className="text-[#988cfc]">Stability AI</span>.
                     </p>
                   ) : null}
-                  <RegisteredOnStory
-                    storyExplorerUrl={`https://explorer.storyprotocol.xyz/ipa/${cast.ip_id}`}
-                  />
+                  {cast.ip_id ? (
+                    <RegisteredOnStory
+                      storyExplorerUrl={`https://explorer.storyprotocol.xyz/ipa/${cast.ip_id}`}
+                    />
+                  ) : null}
 
                   <br />
 
