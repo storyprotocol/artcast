@@ -43,7 +43,7 @@ function Version({
           storyExplorerUrl={`https://explorer.storyprotocol.xyz/ipa/${cast.ip_id}`}
         />
       ) : null}
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-5 mt-2">
         <img
           className="w-[25%] max-w-[200px] h-auto rounded-md"
           src={getIpfsImage(cast.image_path as string)}
@@ -89,7 +89,7 @@ export function RecentHistory({ versions }: { versions: Cast[] }) {
         </p>
       </div>
       <ol className="relative border-s border-gray-200 dark:border-gray-700">
-        {versions.reverse().map((version, index) => (
+        {versions.map((version, index) => (
           <Version
             key={index}
             index={index}

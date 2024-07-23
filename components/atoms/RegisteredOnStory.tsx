@@ -14,7 +14,7 @@ export function RegisteredOnStory({
         href={storyExplorerUrl}
         target="_blank"
       >
-        <p className="text-[10px] text-muted-foreground inline-flex gap-1 items-center border py-1 px-2 rounded mb-2">
+        <p className="text-[10px] text-muted-foreground inline-flex gap-1 items-center border py-1 px-2 rounded">
           Registered on{" "}
           <img
             src="/story-protocol.png"
