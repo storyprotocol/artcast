@@ -8,7 +8,8 @@ import { base64ToBlob } from "@/lib/utils/base64ToBlob";
 export async function handleModifyImage(
   cid: string,
   prompt: string,
-  createdArtcastId: number
+  createdArtcastId: number,
+  strength: number
 ) {
   const imageResponse = await fetch(`https://ipfs.io/ipfs/${cid}`);
   const buffer = await blobToBuffer(imageResponse);
@@ -16,7 +17,7 @@ export async function handleModifyImage(
   const payload = {
     image: buffer,
     prompt,
-    strength: 0.8,
+    strength,
     output_format: "png",
     mode: "image-to-image",
   };

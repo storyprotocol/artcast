@@ -15,6 +15,7 @@ import { mintNFT } from "@/lib/functions/story-beta/mintNFT";
 import { updateCastWithNftId } from "@/lib/functions/supabase/updateCastWithNftId";
 import { useIpAsset } from "react-sdk57";
 import { handleModifyImage } from "@/lib/functions/api/handleModifyImage";
+import { Slider } from "./ui/slider";
 
 export function RemixBox({ cast }: { cast: Cast }) {
   const router = useRouter();
@@ -29,6 +30,7 @@ export function RemixBox({ cast }: { cast: Cast }) {
     setMessage("Storing your Artcast information...");
     const formData = new FormData(event.currentTarget);
     let prompt = formData.get("prompt") as string;
+    let strength = formData.get("strength") as string;
     let createdArtcastId = (await storeCast(
       cast.name,
       null,
@@ -42,7 +44,8 @@ export function RemixBox({ cast }: { cast: Cast }) {
     const imageIpfsHash = await handleModifyImage(
       (cast.image_path as string).replace("ipfs://", ""),
       prompt,
-      createdArtcastId
+      createdArtcastId,
+      Number(strength)
     );
     // setMessage("Minting your image as an NFT...");
     // const ipfsUri = await uploadJSONToIPFS(cast.name, prompt, imageIpfsHash);
@@ -95,6 +98,24 @@ export function RemixBox({ cast }: { cast: Cast }) {
           className="text-[0.8rem] text-muted-foreground"
         >
           Your additional prompt.
+        </p>
+      </div>
+      <div className="space-y-2 mb-5">
+        <Label htmlFor="strength">Strength</Label>
+        <Slider
+          defaultValue={[0.7]}
+          max={1}
+          min={0}
+          step={0.1}
+          className="w-[60%]"
+          id="strength"
+          name="strength"
+        />
+        <p
+          id=":r4:-form-item-description"
+          className="text-[0.8rem] text-muted-foreground"
+        >
+          The higher the strength, the more different the next image will be.
         </p>
       </div>
       {!wallet ? (
