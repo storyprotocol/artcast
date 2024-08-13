@@ -29,7 +29,7 @@ export async function handleModifyImage(
       headers: {
         // "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer sk-L5KE8cHBm2cYgNb5HfvCp50OxPMoQ9M0UnbxgBiwT8nKohah`,
+        Authorization: `Bearer ${process.env.STABILITY_API_KEY}`,
       },
       method: "POST",
     }
