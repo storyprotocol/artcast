@@ -64,7 +64,7 @@ export default function CastPage({ params }: any) {
                   ) : null}
                   {cast.ip_id ? (
                     <RegisteredOnStory
-                      storyExplorerUrl={`https://explorer.storyprotocol.xyz/ipa/${cast.ip_id}`}
+                      storyExplorerUrl={`https://explorer.story.foundation/ipa/${cast.ip_id}`}
                     />
                   ) : null}
 

@@ -40,7 +40,7 @@ function Version({
       </p>
       {cast.ip_id ? (
         <RegisteredOnStory
-          storyExplorerUrl={`https://explorer.storyprotocol.xyz/ipa/${cast.ip_id}`}
+          storyExplorerUrl={`https://explorer.story.foundation/ipa/${cast.ip_id}`}
         />
       ) : null}
       <div className="flex items-center gap-5 mt-2">
