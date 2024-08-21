@@ -1,5 +1,6 @@
 "use client";
 import { Icon } from "@iconify/react";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Navbar() {
   return (
@@ -27,7 +28,7 @@ export default function Navbar() {
                 <Icon icon="tabler:brand-github" />
               </div>
             </a>
-            <w3m-button />
+            <ConnectButton />
           </div>
         </div>
       </div>
