@@ -6,10 +6,11 @@ import Web3Providers from "@/components/Web3Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// export const metadata: Metadata = {
-//   title: "Artcast",
-//   description: "AI-powered collaborative art stories, registered on Story Protocol",
-// };
+export const metadata: Metadata = {
+  title: "Artcast",
+  description:
+    "AI-powered collaborative art stories, registered on Story Protocol",
+};
 
 export default function RootLayout({
   children,

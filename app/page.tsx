@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { useWalletClient } from "wagmi";
 import { uploadJSONToIPFS } from "@/lib/functions/pinata/uploadJSONToIPFS";
 import { mintNFT } from "@/lib/functions/story-beta/mintNFT";
-import { useIpAsset } from "react-sdk57";
+import { useIpAsset } from "@story-protocol/react-sdk";
 import { Address, WalletClient } from "viem";
 import { updateCastWithNftId } from "@/lib/functions/supabase/updateCastWithNftId";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

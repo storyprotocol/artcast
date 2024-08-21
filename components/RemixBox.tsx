@@ -13,7 +13,7 @@ import { Address, WalletClient } from "viem";
 import { uploadJSONToIPFS } from "@/lib/functions/pinata/uploadJSONToIPFS";
 import { mintNFT } from "@/lib/functions/story-beta/mintNFT";
 import { updateCastWithNftId } from "@/lib/functions/supabase/updateCastWithNftId";
-import { useIpAsset } from "react-sdk57";
+import { useIpAsset } from "@story-protocol/react-sdk";
 import { handleModifyImage } from "@/lib/functions/api/handleModifyImage";
 import { Slider } from "./ui/slider";
 
