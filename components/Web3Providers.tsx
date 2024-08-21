@@ -1,58 +1,62 @@
 "use client";
-import { http, createConfig, WagmiProvider, useWalletClient } from "wagmi";
+import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
+import { cookieStorage, createStorage, http, useWalletClient } from "wagmi";
+import { mainnet, sepolia } from "wagmi/chains";
+import React, { PropsWithChildren, ReactNode } from "react";
+import { createWeb3Modal } from "@web3modal/wagmi/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { sepolia } from "wagmi/chains";
-import { DynamicContextProvider } from "@dynamic-labs/sdk-react-core";
-import { DynamicWagmiConnector } from "@dynamic-labs/wagmi-connector";
-import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
-import { PropsWithChildren } from "react";
-import { StoryProvider } from "react-sdk57";
+import { State, WagmiProvider } from "wagmi";
+import { StoryProvider } from "@story-protocol/react-sdk";
 
-const config = createConfig({
-  chains: [sepolia],
-  multiInjectedProviderDiscovery: false,
-  transports: {
-    [sepolia.id]: http(),
-  },
+// Get projectId from https://cloud.walletconnect.com
+const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
+
+if (!projectId) throw new Error("Project ID is not defined");
+
+const metadata = {
+  name: "Artcast",
+  description: "Create and remix each others AI-generated images.",
+  url: "https://artcast.ai", // origin must match your domain & subdomain
+  icons: ["https://artcast.ai/logo.png"],
+};
+
+// Create wagmiConfig
+const chains = [mainnet, sepolia] as const;
+const config = defaultWagmiConfig({
+  chains,
+  projectId,
+  metadata,
+  ssr: true,
+  storage: createStorage({
+    storage: cookieStorage,
+  }),
 });
-const queryClient = new QueryClient();
-const evmNetworks = [
-  {
-    blockExplorerUrls: ["https://sepolia.etherscan.io"],
-    chainId: 11155111,
-    iconUrls: ["https://app.dynamic.xyz/assets/networks/sepolia.svg"],
-    name: "Sepolia",
-    nativeCurrency: {
-      decimals: 18,
-      name: "Sepolia Ether",
-      symbol: "ETH",
-    },
-    networkId: 11155111,
-    rpcUrls: [process.env.NEXT_PUBLIC_RPC_PROVIDER_URL as string],
-    vanityName: "Sepolia",
-  },
-];
 
-export default function Web3Providers({ children }: PropsWithChildren) {
+// Setup queryClient
+const queryClient = new QueryClient();
+
+// Create modal
+createWeb3Modal({
+  metadata,
+  //@ts-ignore
+  wagmiConfig: config,
+  projectId,
+  enableAnalytics: true, // Optional - defaults to your Cloud configuration
+});
+
+export default function Web3Providers({
+  children,
+  initialState,
+}: {
+  children: ReactNode;
+  initialState?: State;
+}) {
   return (
-    <DynamicContextProvider
-      settings={{
-        // Find your environment id at https://app.dynamic.xyz/dashboard/developer
-        appName: "Artcast",
-        environmentId: process.env.NEXT_PUBLIC_DYNAMIC_ENV_ID as string,
-        walletConnectors: [EthereumWalletConnectors],
-        overrides: { evmNetworks },
-        networkValidationMode: "always",
-      }}
-    >
-      <WagmiProvider config={config}>
-        <QueryClientProvider client={queryClient}>
-          <DynamicWagmiConnector>
-            <StoryProviderWrapper>{children}</StoryProviderWrapper>
-          </DynamicWagmiConnector>
-        </QueryClientProvider>
-      </WagmiProvider>
-    </DynamicContextProvider>
+    <WagmiProvider config={config} initialState={initialState}>
+      <QueryClientProvider client={queryClient}>
+        <StoryProviderWrapper>{children}</StoryProviderWrapper>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }
 
@@ -63,7 +67,7 @@ function StoryProviderWrapper({ children }: PropsWithChildren) {
 
   // react sdk will throw an error if wallet is
   // undefined, meaning user has not logged in yet
-  // using the DynamicWidget login
+  // using the WalletConnect login
   if (!wallet) {
     return <>{children}</>;
   }
