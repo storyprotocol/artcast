@@ -20,6 +20,7 @@ export async function handleModifyImage(
     strength,
     output_format: "png",
     mode: "image-to-image",
+    model: "sd3-medium",
   };
 
   const response = await axios.postForm(
