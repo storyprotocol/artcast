@@ -6,16 +6,14 @@ import { Label } from "./ui/label";
 import { CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { Cast } from "@/lib/types/cast.interface";
 import { storeCast } from "@/lib/functions/supabase/storeCast";
-import { handleGenerateImage } from "@/lib/functions/api/handleGenerateImage";
 import { useRouter } from "next/navigation";
-import { useWalletClient } from "wagmi";
-import { Address, WalletClient } from "viem";
-import { uploadJSONToIPFS } from "@/lib/functions/pinata/uploadJSONToIPFS";
+import { Address } from "viem";
 import { updateCastWithNftId } from "@/lib/functions/supabase/updateCastWithNftId";
 import { handleModifyImage } from "@/lib/functions/api/handleModifyImage";
 import { Slider } from "./ui/slider";
 import { useApp } from "./AppContext";
 import { generateIpMetadata } from "@/lib/functions/generateIpMetadata";
+import { useWalletClient } from "wagmi";
 
 export function RemixBox({ cast }: { cast: Cast }) {
   const router = useRouter();
@@ -46,7 +44,7 @@ export function RemixBox({ cast }: { cast: Cast }) {
     )) as number;
     setMessage("Modifying the image...");
     const imageIpfsHash = await handleModifyImage(
-      cast.image_path as string,
+      cast.image_path!.replace("https://", "") as string,
       prompt,
       createdArtcastId,
       Number(strength)

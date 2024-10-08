@@ -7,8 +7,7 @@ import { Input } from "@/components/ui/input";
 import { handleGenerateImage } from "@/lib/functions/api/handleGenerateImage";
 import { storeCast } from "@/lib/functions/supabase/storeCast";
 import { useRouter } from "next/navigation";
-import { uploadJSONToIPFS } from "@/lib/functions/pinata/uploadJSONToIPFS";
-import { Address, WalletClient } from "viem";
+import { Address } from "viem";
 import { updateCastWithNftId } from "@/lib/functions/supabase/updateCastWithNftId";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
