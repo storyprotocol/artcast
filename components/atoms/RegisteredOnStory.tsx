@@ -16,11 +16,7 @@ export function RegisteredOnStory({
       >
         <p className="text-[10px] text-muted-foreground inline-flex gap-1 items-center border py-1 px-2 rounded">
           Registered on{" "}
-          <img
-            src="/story-protocol.png"
-            alt="story protocol logo"
-            className="h-[8px]"
-          />
+          <img src="/story.svg" alt="story protocol logo" className="h-[8px]" />
         </p>
       </Link>
     </Button>

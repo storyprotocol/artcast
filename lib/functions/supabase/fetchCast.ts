@@ -35,8 +35,10 @@ export async function fetchCast(castId: number) {
     });
     let [{ data: latest_prompts }, { data: version_history }] =
       await Promise.all([lpCall, vhCall]);
-    ans["latest_prompts"] = latest_prompts;
-    ans["version_history"] = version_history;
+    ans["latest_prompts"] = (latest_prompts || []).filter((p) => p.image_path);
+    ans["version_history"] = (version_history || []).filter(
+      (v) => v.image_path
+    );
     let { data: tree } = await supabaseClient.rpc("fetchtreev2", {
       starting_id: version_history[version_history.length - 1].id,
     });

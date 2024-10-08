@@ -11,21 +11,25 @@ import { useRouter } from "next/navigation";
 import { useWalletClient } from "wagmi";
 import { Address, WalletClient } from "viem";
 import { uploadJSONToIPFS } from "@/lib/functions/pinata/uploadJSONToIPFS";
-import { mintNFT } from "@/lib/functions/story-beta/mintNFT";
 import { updateCastWithNftId } from "@/lib/functions/supabase/updateCastWithNftId";
-import { useIpAsset } from "@story-protocol/react-sdk";
 import { handleModifyImage } from "@/lib/functions/api/handleModifyImage";
 import { Slider } from "./ui/slider";
+import { useApp } from "./AppContext";
+import { generateIpMetadata } from "@/lib/functions/generateIpMetadata";
 
 export function RemixBox({ cast }: { cast: Cast }) {
   const router = useRouter();
   const [createdStatus, setCreatedStatus] = useState("not started");
   const [message, setMessage] = useState("");
+  const { client } = useApp();
   const { data: wallet } = useWalletClient();
-  const { registerDerivativeIp } = useIpAsset();
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!client) {
+      return;
+    }
+
     setCreatedStatus("pending");
     setMessage("Storing your Artcast information...");
     const formData = new FormData(event.currentTarget);
@@ -42,32 +46,36 @@ export function RemixBox({ cast }: { cast: Cast }) {
     )) as number;
     setMessage("Modifying the image...");
     const imageIpfsHash = await handleModifyImage(
-      (cast.image_path as string).replace("ipfs://", ""),
+      cast.image_path as string,
       prompt,
       createdArtcastId,
       Number(strength)
     );
-    // setMessage("Minting your image as an NFT...");
-    // const ipfsUri = await uploadJSONToIPFS(cast.name, prompt, imageIpfsHash);
-    // const mintedNFTTokenId = await mintNFT(wallet as WalletClient, ipfsUri);
-    // setMessage("Registering your Artcast on Story Protocol...");
-    // const registeredIpAsset = await registerDerivativeIp({
-    //   nftContract: process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as Address,
-    //   tokenId: mintedNFTTokenId,
-    //   derivData: {
-    //     parentIpIds: [cast.ip_id as Address],
-    //     licenseTermsIds: ["2"],
-    //   },
-    //   txOptions: { waitForTransaction: true },
-    // });
-    // console.log(
-    //   `Completed at transaction hash ${registeredIpAsset.txHash}, IPA ID: ${registeredIpAsset.ipId}`
-    // );
-    // await updateCastWithNftId(
-    //   registeredIpAsset.ipId as Address,
-    //   mintedNFTTokenId,
-    //   createdArtcastId
-    // );
+    const ipMetadata = await generateIpMetadata(
+      client,
+      imageIpfsHash,
+      cast.name,
+      prompt
+    );
+    setMessage("Registering your Artcast on Story Protocol...");
+    const registeredIpAsset =
+      await client.ipAsset.mintAndRegisterIpAndMakeDerivative({
+        nftContract: process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as Address,
+        derivData: {
+          parentIpIds: [cast.ip_id as Address],
+          licenseTermsIds: ["1"],
+        },
+        ipMetadata,
+        txOptions: { waitForTransaction: true },
+      });
+    console.log(
+      `Completed at transaction hash ${registeredIpAsset.txHash}, IPA ID: ${registeredIpAsset.childIpId}`
+    );
+    await updateCastWithNftId(
+      registeredIpAsset.childIpId as Address,
+      "0",
+      createdArtcastId
+    );
     setCreatedStatus("finished");
     router.push(`/cast/${createdArtcastId}`);
   }

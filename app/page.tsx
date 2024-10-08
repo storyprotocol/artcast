@@ -7,10 +7,7 @@ import { Input } from "@/components/ui/input";
 import { handleGenerateImage } from "@/lib/functions/api/handleGenerateImage";
 import { storeCast } from "@/lib/functions/supabase/storeCast";
 import { useRouter } from "next/navigation";
-import { useWalletClient } from "wagmi";
 import { uploadJSONToIPFS } from "@/lib/functions/pinata/uploadJSONToIPFS";
-import { mintNFT } from "@/lib/functions/story-beta/mintNFT";
-import { useIpAsset } from "@story-protocol/react-sdk";
 import { Address, WalletClient } from "viem";
 import { updateCastWithNftId } from "@/lib/functions/supabase/updateCastWithNftId";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -23,16 +20,24 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import HomepageList from "@/components/HomepageList";
+import { useApp } from "@/components/AppContext";
+import { useWalletClient } from "wagmi";
+import { PIL_TYPE } from "@story-protocol/core-sdk";
+import { generateIpMetadata } from "@/lib/functions/generateIpMetadata";
 
 export default function HomepageForm() {
   const router = useRouter();
   const [createdStatus, setCreatedStatus] = useState("not started");
   const [message, setMessage] = useState("");
+  const { client } = useApp();
   const { data: wallet } = useWalletClient();
-  const { register } = useIpAsset();
 
   async function createWithAi(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!client) {
+      return;
+    }
+
     setCreatedStatus("pending");
     setMessage("Storing your Artcast information...");
     const formData = new FormData(event.currentTarget);
@@ -49,21 +54,27 @@ export default function HomepageForm() {
     )) as number;
     setMessage("Generating your image...");
     const imageIpfsHash = await handleGenerateImage(prompt, createdArtcastId);
-    setMessage("Minting your image as an NFT...");
-    const ipfsUri = await uploadJSONToIPFS(name, prompt, imageIpfsHash);
-    const mintedNFTTokenId = await mintNFT(wallet as WalletClient, ipfsUri);
+    const ipMetadata = await generateIpMetadata(
+      client,
+      imageIpfsHash,
+      name,
+      prompt
+    );
+
     setMessage("Registering your Artcast on Story Protocol...");
-    const registeredIpAsset = await register({
-      nftContract: process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as Address,
-      tokenId: mintedNFTTokenId,
-      txOptions: { waitForTransaction: true },
-    });
+    const registeredIpAsset =
+      await client.ipAsset.mintAndRegisterIpAssetWithPilTerms({
+        nftContract: process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as Address,
+        pilType: PIL_TYPE.NON_COMMERCIAL_REMIX,
+        ipMetadata,
+        txOptions: { waitForTransaction: true },
+      });
     console.log(
       `Root IPA created at transaction hash ${registeredIpAsset.txHash}, IPA ID: ${registeredIpAsset.ipId}`
     );
     await updateCastWithNftId(
       registeredIpAsset.ipId as Address,
-      mintedNFTTokenId,
+      registeredIpAsset.tokenId!.toString(),
       createdArtcastId
     );
     setCreatedStatus("finished");
@@ -72,6 +83,10 @@ export default function HomepageForm() {
 
   async function create(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!client) {
+      return;
+    }
+
     setCreatedStatus("pending");
     setMessage("Storing your Artcast information...");
     const formData = new FormData(event.currentTarget);
@@ -93,21 +108,26 @@ export default function HomepageForm() {
       wallet?.account.address as Address,
       false
     )) as number;
-    setMessage("Minting your image as an NFT...");
-    const ipfsUri = await uploadJSONToIPFS(name, prompt, imageIpfsHash);
-    const mintedNFTTokenId = await mintNFT(wallet as WalletClient, ipfsUri);
+    const ipMetadata = await generateIpMetadata(
+      client,
+      imageIpfsHash,
+      name,
+      prompt
+    );
     setMessage("Registering your Artcast on Story Protocol...");
-    const registeredIpAsset = await register({
-      nftContract: process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as Address,
-      tokenId: mintedNFTTokenId,
-      txOptions: { waitForTransaction: true },
-    });
+    const registeredIpAsset =
+      await client.ipAsset.mintAndRegisterIpAssetWithPilTerms({
+        nftContract: process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as Address,
+        pilType: PIL_TYPE.NON_COMMERCIAL_REMIX,
+        ipMetadata,
+        txOptions: { waitForTransaction: true },
+      });
     console.log(
       `Root IPA created at transaction hash ${registeredIpAsset.txHash}, IPA ID: ${registeredIpAsset.ipId}`
     );
     await updateCastWithNftId(
       registeredIpAsset.ipId as Address,
-      mintedNFTTokenId,
+      registeredIpAsset.tokenId!.toString(),
       createdArtcastId
     );
     setCreatedStatus("finished");

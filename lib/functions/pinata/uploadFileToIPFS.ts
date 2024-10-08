@@ -15,5 +15,5 @@ export async function uploadFileToIpfs(imageBlob: Blob) {
     }
   );
   const { IpfsHash: ImageIpfsHash } = await pinFileRes.json();
-  return `ipfs://${ImageIpfsHash}`;
+  return ImageIpfsHash;
 }
