@@ -20,8 +20,8 @@ export async function fetchCast(castId: number) {
 
     let ans = {
       ...data[0],
-      num_derivatives: td[0].number_of_direct_children,
-      num_total_derivatives: td[0].number_of_children,
+      num_derivatives: td[0].num_of_direct_children,
+      num_total_derivatives: td[0].num_of_children,
     };
 
     let lpCall = supabaseClient
