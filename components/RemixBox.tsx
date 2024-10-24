@@ -58,7 +58,7 @@ export function RemixBox({ cast }: { cast: Cast }) {
     setMessage("Registering your Artcast on Story Protocol...");
     const registeredIpAsset =
       await client.ipAsset.mintAndRegisterIpAndMakeDerivative({
-        nftContract: process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as Address,
+        spgNftContract: process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as Address,
         derivData: {
           parentIpIds: [cast.ip_id as Address],
           licenseTermsIds: ["1"],

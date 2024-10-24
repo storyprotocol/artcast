@@ -63,7 +63,7 @@ export default function HomepageForm() {
     setMessage("Registering your Artcast on Story Protocol...");
     const registeredIpAsset =
       await client.ipAsset.mintAndRegisterIpAssetWithPilTerms({
-        nftContract: process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as Address,
+        spgNftContract: process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as Address,
         pilType: PIL_TYPE.NON_COMMERCIAL_REMIX,
         ipMetadata,
         txOptions: { waitForTransaction: true },
@@ -116,7 +116,7 @@ export default function HomepageForm() {
     setMessage("Registering your Artcast on Story Protocol...");
     const registeredIpAsset =
       await client.ipAsset.mintAndRegisterIpAssetWithPilTerms({
-        nftContract: process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as Address,
+        spgNftContract: process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as Address,
         pilType: PIL_TYPE.NON_COMMERCIAL_REMIX,
         ipMetadata,
         txOptions: { waitForTransaction: true },
